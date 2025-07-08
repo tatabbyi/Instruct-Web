@@ -9,5 +9,54 @@
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     </head>
     <body>
-        
+        <div class="app-container">
+            <header class="header">
+                <div class="header-content">
+                    <h1><i class="fas fa-graduation-cap"></i> INSTRUCT</h1>
+                    <p class="subtitle"> Instructions for life</p>
+                </div>
+            </header>
+
+            <nav class="nav-tabs">
+                <button class="nav-tab active" data-tab="daily-tasks">
+                    <i class="fas fa-tasks"></i>
+                    <span>Daily Goals</span>
+                </button>
+                <button class="nav-tab" data-tab="Energy">
+                    <i class="fas fa-battery-three-quarters"></i>
+                    <span>Energy</span>
+                </button>
+                <button class="nav-tab" data-tab="Emotional-Support">
+                    <i class="fas fa-brain"></i>
+                    <span>Emotional Support</span>
+                </button>
+                <button class="nav-tab" data-tab="career">
+                    <i class="fas fa-briefcase"></i>
+                    <span>Career Goals</span>
+                </button>
+            </nav>
+
+            <main class="main content">
+                <section id="daily-tasks" class="tab-content active">
+                    <div class="section-header">
+                        <h2>Daily Tasks</h2>
+                        <button class="btn btn-primary" id="add-task-btn">
+                            <i class="fas fa-plus"></i> Add Tasks
+                        </button>
+                    </div>
+
+                    <div class="task-templates">
+                        <h3>Task Templates</h3>
+                        <div class="template-grid">
+                            <div class="template-card" data-template="Hygiene">
+                               <i class="fas fa-shower"></i>
+                               <h4>Personal Hygiene</h4>
+                               <p>Brush teeth, shower, skincare and get dressed</p>
+                            </div>
+                            <div class="template-card" data-template="Medication and Supplements">
+                                <i class="fas fa-pills"></i>
+                                <h4>Medication and Supplements</h4>
+                                <p>Take any prescribed medications and/or supplements</p>
+                            </div>
+
     </body>
