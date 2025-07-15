@@ -198,6 +198,27 @@
             </div>
         </div>
 
+        <div class="symptom-tracking">
+            <h3>Symptom Tracker</h3>
+            <div class="symptom-input">
+                <label for="symptom-select">Select Symptom:</label>
+                <select id="symptom-select">
+                    <option value="anxiety">Anxiety</option>
+                    <option value="hopelessness">Hopelessness</option>
+                    <option value="fatigue">Fatigue</option>
+                    <option value="irritability">Irritability</option>
+                    <option value="nausea">Nausea</option>
+                    <option value="restlessness">Restlessness</option>
+                    <option value="headache">Headache</option>
+                    <option value="Brain Fog">Brain Fog</option>
+                </select>
+                <label for="symptom-intensity">Intensity (1-10):</label>
+                <input type="range" id="symptom-intensity" min="1" max="10" value="5">
+                <span id="inetensity-display">5</span>
+                <button class="btn btn-secondary" id="log-symptom">Log Symptom</button>
+            </div>
+        </div>
+
     </section>
 
     <script src="main.js"></script>
