@@ -9,6 +9,7 @@
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     </head>
     <body>
+
         <div class="app-container">
             <header class="header">
                 <div class="header-content">
@@ -199,17 +200,8 @@
 
     </section>
 
-    <script>
-        fetch('http://localhost:8081/api/hello')
-            .then(response => response.text())
-            .then(data => {
-                document.getElementById('backend-message').textContent = data;
-            })
-            .catch(error => {
-                console.error('Error fetching data from backend:', error);
-                document.getElementById('backend-message').textContent = 'Error connecting to backend';
-            })
-    </script>
+    <script src="main.js"></script>
+
 </body>
 </html>
 
