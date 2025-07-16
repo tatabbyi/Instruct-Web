@@ -19,7 +19,7 @@ function LoadCopingSuggestions(emotion) {
             data.forEach(strategy => {
                 const div = document.createElement.createElement('div');
                 div.className = 'coping-strategy';
-                div.textContent = strategy;
+                div.innerHTML = strategy;
                 container.appendChild(div);
             })
         })
