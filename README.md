@@ -38,5 +38,5 @@ This feature is a one shop stop at everything needed for building a fulfilling l
 
 ## The Overall Goal
 
-The Overall Goal: This application is intended for a wide audience to help improve life. It will likely take 1+year to finish and more time to get running.#
+The Overall Goal: This application is intended for a wide audience to help improve life. It will likely take a year to finish and more time to get running. I hope to have a feedback section so the application can be constantly improving#
 
