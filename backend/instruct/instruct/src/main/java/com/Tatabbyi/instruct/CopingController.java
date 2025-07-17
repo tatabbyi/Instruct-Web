@@ -59,19 +59,19 @@ public class CopingController {
             "Consider any previous progress made in managing anger or what progress you would like to see",
             "<a href=\"https://books.google.ie/books?hl=en&lr=&id=TsdBDAAAQBAJ&oi=fnd&pg=PA1&dq=dealing+with+anger&ots=p3covhKKjw&sig=J2sXpCkYINl0Xqbj7Ym7P57LqX4&redir_esc=y#v=onepage&q=dealing%20with%20anger&f=false\">Anger: How to Live with and without It</a>."
         ));
+
         strategies.put("happy", Arrays.asList(
             "Keep a journal to track your mood and express your happiness",
             "Appreciate positive thoughts.",
-            "Focus on the present moment. Try to be mindful and enjoy the little things in life.",
+            "Focus on the present moment. Try to be mindful and enjoy the little things in life."
         ));
+
         strategies.put("calm", Arrays.asList(
             " Keep a journal to track your mood and express your calmness",
             "Apreciate thee things that make you feel calm.",
             "Focus on the present moment. Try to be mindful and enjoy the little things in life.",
-            "Consider any previous progress made in managing your peace or what progress you would like to see",
+            "Consider any previous progress made in managing your peace or what progress you would like to see"
         ));
-
-
 
         return strategies.getOrDefault(emotion.toLowerCase(), Arrays.asList("Strategies yet to be updates"));
     }
