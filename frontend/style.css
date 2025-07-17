@@ -260,3 +260,80 @@ btn-sucess::hover {
     transform: translateY(-1px);
     box-shadow: 0 8px 12px -3px rgba(70, 66, 17, 0.4), 0 4px 6px -2px rgba(87, 83, 26, 0.2);
 }
+
+.task-templates {
+    margin-bottom: 3rem;
+    background: white;
+    padding: 2rem;
+    border-radius: 16px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+.task-templates h3 {
+    color: #1e293b;
+    margin-bottom: 1.5rem;
+    font-size: 1.5rem;
+    font-weight: 700;
+    letter-spacing: -0.025em;
+}
+
+.template-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+}
+
+.template-card {
+    background: white;
+    border: 2px solid #e2e8f0;
+    border-radius: 16px;
+    padding: 2rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.template-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, #64748b, #475569 );
+    transform: scaleY(0);
+    transition: transform 0.3s ease;
+}
+
+.template-card:hover::before {
+    transform: scaleX(1);
+}
+
+.template-card:hover {
+    border-color:#19263b;
+    transform: translateY(-4px);
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+}
+
+.template-card i {
+    font-size: 2.5rem;
+    color:#18213f;
+    margin-bottom: 1.5rem;
+    transition: transform 0.3s ease;
+}
+
+.template-card:hover h4 {
+    color:#0d1633;
+    margin-bottom: 0.75rem;
+    font-weight: 700;
+    font-size: 1.125rem;
+    letter-spacing: -0.025em;
+}
+
+.template-card p {
+    color:#475569;
+    font-size: 0.0875rem;
+    line-height: 1.5;
+}
