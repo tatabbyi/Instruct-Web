@@ -225,6 +225,113 @@
             </div>
         </div>
 
+        <div class="emotion-history">
+            <h3>Recent Emotions & Symptoms</h3>
+            <div id="emotion-log">
+            </div>
+        </div>
+    </section>
+
+    <section id="career" class="tab-content">
+        <div class="section-header">
+            <h2>Career Development</h2>
+            <div class="progress-overview">
+                <span>Overall Progress:</span>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="career-progress"></div>
+                </div>
+                <span id="progress-percentage">0%</span>
+            </div>
+        </div>
+
+        <div class="job-options">
+            <h3>Available Job Trainning</h3>
+            <div class="job-grid">
+                <div class="job-card" data-job="store-clerk">
+                    <i class="fas fa-shopping-cart"></i>
+                    <h4>Store Clerk</h4>
+                    <p>Customer Service, Cash Handling and Inventory</p>
+                    <div class="job-progress">
+                        <div class="progress-bar small">
+                            <div class="progress-fill" style="width: 0%"></div>
+                        </div>
+                        <span>0% Complete</span>
+                    </div>
+                </div>
+                <div class="job-card" data-job="Cleaner">
+                    <i class="fas fa-broom"></i>
+                    <h4>Cleaner</h4>
+                    <p>Cleaning techniques, safety procedures</p>
+                    <div class="job-progress">
+                        <div class="progress-bar small">
+                            <div class="progress-fill" style="width: 0%"></div>
+                        </div>
+                        <span>0% Complete</span>
+                    </div>
+                </div>
+                <div class="job-card" data-job="data-entry">
+                    <i class="fas fa-keyboard"></i>
+                    <h4>Data Entry</h4>
+                    <p>Typing, Organisation and Attention to detail</p>
+                    <div class="job-progress">
+                        <div class="progress-bar small">
+                            <div class="progress-fill" style="width: 0%"></div>
+                        </div>
+                        <span>0% Complete</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="training-modules">
+            <h3>Training Modules</h3>
+            <div id="modules-container">
+            </div>
+        </div>
+
+        <div class="certifications">
+            <h3>Certifications & Milestones</h3>
+            <div id="Certifications-container">
+            </div>
+         </div>
+      </section>
+   </main>
+ </div>
+
+ <div id="task-modal" class="modal">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <h3>Add New Task</h3>
+        <form id="task-form">
+            <div class="form-group">
+                <label for="task-title">Task Title:</label>
+                <input type="text" id="task-title" required>
+            </div>
+            <div class="form-group">
+                <label for="task-description">Description</label>
+                <textarea id="task-description"></textarea>
+            </div>
+            <div class="form-group">
+                <label for="task-priority">Priority:</label>
+                <select id="task-priority">
+                    <option value="low">Low</option>
+                    <option value="Medium">Medium</option>
+                    <option value="High">High</option>
+                </select>
+            </div>
+             <button type="submit" class="btn btn-primary">Add Task</button>
+        </form>
+    </div>
+</div>
+
+<div id="emotional-modal" class="modal">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <h3>Log Your Emotion</h3>
+                   
+
+                
+
     </section>
 
     <script src="main.js"></script>
