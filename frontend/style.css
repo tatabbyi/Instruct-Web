@@ -338,6 +338,114 @@ btn-sucess::hover {
     line-height: 1.5;
 }
 
+.task-list {
+    background: white
+    padding: 2rem;
+    border-radius: 16px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+.task-list h3 {
+    color:#0c1727;
+    margin-bottom: 1.5rem;
+    font-size: 1.5rem;
+    font-weight: 700;
+    letter-spacing: -0.025em;
+}
+
+.task-item {
+    background: white;
+    border: 2px solid #e2e8f0;
+    border-radius: 12px;
+    padding: 1.5rem;
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    transition: all 0.3 ease;
+    position: relative;
+}
+
+.task-item::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 4px;
+    background: linear-gradient(180deg, #233757, #0d1633);
+    border-radius: 2px 0 0 2px;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.task-item:hover::before {
+    opacity: 1;
+}
+
+.task-item:hover {
+    border-color:#19263b;
+    transform: translateX(4px);
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+.task-checkbox {
+    width: 24px;
+    height: 24px;
+    cursor: pointer;
+    accent-color: #506d9b;
+}
+
+.task-content {
+    flex: 1;
+}
+
+.task-title {
+    font-weight: 600;
+    color: #030a14;
+    margin-bottom: 0.5rem;
+    font-size: 1.125rem;
+    letter-spacing: -0.025em;
+}
+
+.task-description {
+    color: #5d646d;
+    font-size: 0.875rem;
+    line-height: 1.5;
+}
+
+.task-priority {
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.025em;
+    text-transform: uppercase;
+}
+
+.priority-high {
+    background: linear-gradient(135deg, #fffbeb 0%, #fef3c7 100%);
+    color:#d90606;
+    border: 1px solid #dda1a4;
+}
+
+.priority-medium {
+    background: linear-gradient(135deg, #fffbeb 0%, #fef3c7 100%);
+    color:  #cc620b;
+    border: 1px solid #fed7aa;
+}
+
+.priority-low {
+    background: linear-gradient(135deg,  #f0f9ff 0%, #e0f2fe 100% );
+    color: #0284c7;
+    border: 1px solid #bae6fd;
+}
+
+.task-actions {
+    display: flex;
+    gap: 0.075rem;
+}
+
 .coping-strategy {
     margin-bottom: 0.75em;
     padding: 0.75em 1em;

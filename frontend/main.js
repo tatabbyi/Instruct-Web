@@ -7,7 +7,7 @@ function fetchHello() {
             .catch(error => {
                console.error('Error:', error);
          });
-    }
+ }
 function LoadCopingSuggestions(emotion) {
         const container = document.getElementById('coping-suggestions');
         container.innerHTML = '<p>Loading...</p>';
