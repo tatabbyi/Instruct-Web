@@ -328,10 +328,32 @@
     <div class="modal-content">
         <span class="close">&times;</span>
         <h3>Log Your Emotion</h3>
-                   
-
-                
-
+        <form id="emotion-form">
+            <div class="form-group">
+                <label for="emotion-type">Emotion:</label>
+                <select id="emotion-type" required>
+                    <option value="">Select Emotion</option>
+                    <option value="happy">Happy</option>
+                    <option value="sad">Sad</option>
+                    <option value="anxious">Anxious</option>
+                    <option value="angry">Angry</option>
+                    <option value="tired">Tired</option>
+                    <option value="calm">Calm</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="emotion-intensity"Intensity (1-10):</label>
+                    <input type="range" id="emotion-intesity" min="1" max="10" value="5">
+                    <span id="emotion-intesity-display">5</span>
+                </div>
+                <div class="form-group">
+                    <label for="emotion-notes">Notes:</label>
+                    <textarea id="emotion-notes" placeholder="What Triggered This Emotion?"></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Log Emotion</button>
+                </form>
+            </div>
+        </div>
     </section>
 
     <script src="main.js"></script>
