@@ -619,6 +619,62 @@ btn-sucess::hover {
     font-weight: 500;
 }
 
+.emotion-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+
+.emotion-card {
+    background: white;
+    border: 2px solid #e9ecef;
+    border-radius: 12px;
+    padding: 1.5rem;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.emotion-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.emotion-crad.select {
+    border-color: #6f6b70;
+    background: #f8f9ff;
+}
+
+.emotion-card i {
+    font-size: 2rem;
+    margin-bottom: 0.5rem;
+}
+
+.emotion-card[data-emotion="happy"] i {
+    color: #feca57;
+}
+
+.emotion-card[data-emotion="sad"] i {
+    color: #90d3ee;
+}
+
+.emotion-card[data-emotion="anxious"] i {
+    color: #ff9ff3;
+}
+
+.emotion-card[data-emotion="angry"] i {
+    color: #ff6b6b; 
+}
+
+.emotion-crad[data-emotion="tired"] i [
+    color: #5f27cd; 
+]
+
+.emotion-card[data-emotion="calm"] i {
+    color: #48dbfb; 
+}
+
 .coping-strategy {
     margin-bottom: 0.75em;
     padding: 0.75em 1em;
