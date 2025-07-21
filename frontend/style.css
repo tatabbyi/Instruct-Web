@@ -548,6 +548,7 @@ btn-sucess::hover {
     border-radius: 4px;
     background:  #e2e8f0;
     outline: none;
+    appearance: none;
     -webkit-appearance: none;
 }
 
@@ -667,9 +668,9 @@ btn-sucess::hover {
     color: #ff6b6b; 
 }
 
-.emotion-crad[data-emotion="tired"] i [
-    color: #5f27cd; 
-]
+.emotion-card[data-emotion="tired"] i {
+    color: #631796; 
+}
 
 .emotion-card[data-emotion="calm"] i {
     color: #48dbfb; 
