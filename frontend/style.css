@@ -676,10 +676,47 @@ btn-sucess::hover {
     color: #48dbfb; 
 }
 
+
+.symptom-tracking {
+    background: white;
+    border: 1px solid #e9ecef;
+    border-radius:12px;
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.symptom-tracking h3 {
+    color: #495057;
+    margin-bottom: 1rem;
+}
+
+.symptom-input {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 1rem;
+}
+
+.symptom-input label {
+    font-weight: 500;
+    color:  #495057;
+}
+
+.symptom-input select,
+.symptom-input input[type="range"] {
+    padding: 0.5rem;
+    border: 1px solid  #b0b8c0;
+    border-radius: 4px;
+}
+
+.symptom-input input[type="range"] {
+    flex: 1;
+    min-width: 150px;
+}
 .coping-strategy {
     margin-bottom: 0.75em;
     padding: 0.75em 1em;
-    background:#0d1633;
+    background:#090d1b;
     border-radius: 6px;
     border-left: 4px solid #4c5258;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
@@ -690,3 +727,4 @@ btn-sucess::hover {
 .coping-strategy:hover {
     background: #e9f5ff;
 }
+
