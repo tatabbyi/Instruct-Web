@@ -858,3 +858,107 @@ emotion-entry:last child {
     font-weight: 500;
 }
 
+.training-modules h3 {
+    color: #0c1727;
+    margin-bottom: 1.5rem;
+    font-size: 1.5rem;
+    font-weight: 700;
+    letter-spacing: -0.025;
+}
+
+.module-card {
+    background: white;
+    border: 2px solid  #e9ecef;
+    border-radius: 16px;
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.module-card::before {
+    content:'';
+    positon: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, #3b82f6, #1e40af);
+    transform: scaleY(0);
+    transition: transform 0.3s ease;
+}
+
+.module-card:hover::before {
+    transform: scaleX(1);
+}
+
+.module-card:hover {
+    border-color:#3b82f6;
+    transform: translateY(-4px);
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+}
+
+.module-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.module-title {
+    font-weight: 700;
+    color:#1d2025;
+    font-size: 1.125rem;
+    letter-spacing: -0.025em;
+}
+
+.module-status {
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.025em;
+    text-transform: uppercase;
+}
+
+.status-completed {
+    background: linear-gradient(135deg, #d1fae5 0%, #a7f3d0 100%);
+    color:  #065f46;
+    border: 1px solid #6ee7b7;
+}
+
+.status-in-progress {
+    background: linear-gradient(135deg, #faeebc 0%, #fde68a 100% );
+    color: #92400e;
+    border: 1px solid #fbbf24;
+}
+
+.status-not-started {
+    background: linear-gradient(135deg, #fee2e2 0%, #fecaca 100%);
+    color: #991b1b;
+    border: 1px solid #f87171;
+}
+
+.module-preview {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    color:  #64748b;
+    font-size: 0.875rem;
+    font-weight: 500;
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid #e2e8f0;
+}
+
+.module-preview i {
+    color:#0284c7;
+    transition: transform 0.2s ease;
+}
+
+.module-card:hover .module-preview i {
+    transform: translateX(4px);
+}
+
