@@ -728,3 +728,52 @@ btn-sucess::hover {
     background: #e9f5ff;
 }
 
+.emotion-history {
+    background: white;
+    border: 1px solid #e9ecef;
+    border-radius: 12px;
+    padding: 1.5rem;
+}
+
+.emotion-history h3 {
+    color: #6f6b70;
+    margin-bottom: 1rem;
+}
+
+.emotion-entry {
+    border-bottom: 1px solid #e9ecef;
+    padding:1rem 0;
+}
+
+emotion-entry:last child {
+    border-bottom: none;
+}
+
+.emotion-entry-header {
+    display: felx;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.05rem;
+}
+
+.emotion-type {
+    font-weight: 600;
+    color:#2c333d;
+}
+
+.emotion-time {
+    color:#6f6b70;
+    font-size: 0.9rem;
+}
+
+.emotion-intesity {
+    color:#90d3ee;
+    font-weight: 500;
+}
+
+.emotion-notes {
+    color:#6f6b70;
+    font-size: 0.9rem;
+    font-style: italic;
+}
+
