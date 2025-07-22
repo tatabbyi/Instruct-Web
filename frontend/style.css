@@ -962,3 +962,35 @@ emotion-entry:last child {
     transform: translateX(4px);
 }
 
+.certifications h3 {
+    color:#64748b;
+    margin-bottom: 1rem;
+}
+
+.certification-card {
+    background: white;
+    border: 2px solid #e9ecef;
+    border-radius: 12px;
+    padding: 1.5rem;
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.certifications-icon {
+    font-size: 2rem;
+    color:#10b951;
+}
+
+.certifications-content h4 {
+    color:#2c3e50;
+    margin-bottom: 0.25rem;
+    font-weight: 600;
+}
+
+.certifications-content p {
+    color:#64748b;
+    font-size: 0.9rem;
+}
+
