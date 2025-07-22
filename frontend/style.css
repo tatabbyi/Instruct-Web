@@ -880,7 +880,7 @@ emotion-entry:last child {
 
 .module-card::before {
     content:'';
-    positon: absolute;
+    position: absolute;
     top: 0;
     left: 0;
     right: 0;
@@ -1008,7 +1008,7 @@ emotion-entry:last child {
 
 .modal-content {
     background-color: white;
-    margin 5% auto;
+    margin: 5% auto;
     padding: 2rem;
     border-radius: 16px;
     width: 90%;
