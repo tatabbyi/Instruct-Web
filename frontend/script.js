@@ -16,7 +16,7 @@ class LifeAssistant {
 
     init() {
         this.loadData();
-        this.setUpEventListeners();
+        this.setupEventListeners();
         this.updateUI();
         this.loadTrainingModules();
         this.loadCopingStrategies();
@@ -28,7 +28,7 @@ class LifeAssistant {
             tasks: this.tasks,
             emotions: this.emotions,
             symptoms: this.symptoms,
-            careerProgress: this.careerProgress.careerProgress,
+            careerProgress: this.careerProgress,
             certifications: this.certifications
         };
         localStorage.setItem('lifeAssistantData', JSON.stringify(data));
@@ -37,14 +37,14 @@ class LifeAssistant {
         const saved = localStorage.getItem('lifeAssistantData');
         if (saved) {
             const data = JSON.parse(saved);
-            this.currentEnergy = datacurrentEnergy || 75;
+            this.currentEnergy = data.currentEnergy || 75;
             this.tasks = data.tasks || [];
-            this.emotion = data.emotion || [];
+            this.emotions = data.emotions || [];
             this.symptoms = data.symptoms || [];
             this.careerProgress = data.careerProgress || {
                 'store-clerk': 0,
                 'cleaner': 0,
-                'data-energy': 0
+                'data-entry': 0
             };
             this.certifications = data.certifications || [];
         }
@@ -59,5 +59,19 @@ class LifeAssistant {
 
     }
 
-    
+    switchTab(tabName) {
+        document.querySelectorAll('.nav-tab').forEach(tab => {
+            tab.classList.remove('active');
+        });
+        document.querySelector(`[data-tab="${tabName}"]`).classList.add('active');
+
+        document.querySelectorAll('.tab-content').forEach(content => {
+            content.classList.remove('active');
+        });
+        document.getElementById(tabName).classList.add('active');
+    }
 }
+
+const lifeAssistant = new LifeAssistant();
+
+
