@@ -50,5 +50,14 @@ class LifeAssistant {
         }
     }
 
+    setupEventListeners() {
+        document.querySelectorAll('.nav-tab').forEach(tab => {
+            tab.addEventListener('click', (e) => {
+                this.switchTab(e.target.closest('.nav-tab').dataset.tab);
+            });
+        });
+
+    }
+
     
 }
