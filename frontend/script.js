@@ -86,6 +86,30 @@ class LifeAssistant {
             });
         });
 
+        document.getElementById('log-emotion-btn').addEventListener('click', () => {
+            this.showmodal('emotional-modal');
+        });
+
+        document.getElementById.getElementById('emotion-form').addEventListener('submit', (e) => {
+            e.preventDefault();
+            this.LogEmotion();
+        });
+
+        document.querySelectorAll('.emotion-card').forEach(card => {
+            card.addEventListener('click', () => {
+                this.selectEmotion(card);
+            });
+        });
+
+        document.getElementById('symptom-intesity').addEventListener('input', (e) => {
+            document.getElementById('intensity-display')..textContent = e.target.value;
+        });
+
+        document.getElementById('log-symptom').addEventListener('click', () => {
+            this.logSymptom();
+        });
+
+
     }
 
     switchTab(tabName) {
