@@ -57,6 +57,35 @@ class LifeAssistant {
             });
         });
 
+        document.getElementById('add-task-btn').addEventListener('click', () => {
+            this.showModal('task-modal');
+        });
+
+        document.getElementById('task-form').addEventListener('sumbit', (e) => {
+            e.preventDefault();
+            this.addTask();
+        });
+
+        document.querySelectorAll('.template-card').forEach(card => {
+            card.addEventListener('click', () => {
+                this.addTaskFromTemplate(card.dataset.template);
+            });
+        });
+
+        document.getElementById('energy-level').addEventListener('input', (e) => {
+            document.getElementById('energy-display').textContent = e.target.value;
+        });
+
+        document.getElementById('update-energy').addEventListener('click', () => {
+            this.updateEnergy();
+        });
+
+        document.querySelectorAll('.activity-card').forEach(card => {
+            card.addEventListener('click', () => {
+                this.addEnergy(card.dataset.energy);
+            });
+        });
+
     }
 
     switchTab(tabName) {
