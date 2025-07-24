@@ -109,6 +109,24 @@ class LifeAssistant {
             this.logSymptom();
         });
 
+        doocument.querySelectorAll('.job-card').forEach(card => {
+            card.addEventListener('click', () => {
+                this.selectJob(card.dataset.job);
+            });
+        });
+
+        document.querySelectorAll('.close').forEach(closeBtn => {
+            closeBtn.addEventListener('click', () => {
+                this.hideModals();
+            });
+        });
+
+        window.addEventListener('click', (e) => {
+            if (e.target.classList.contains('modal')) {
+                this.hideModals();
+            }
+        });
+
 
     }
 
