@@ -227,6 +227,43 @@ class LifeAssistant {
         }
     }
 
+    deleteTask(taskId) {
+        this.tasks =this.tasks.filter(t => t.id !== taskId);
+        this.saveData();
+        this.updateTasksUI();
+    }
+
+    updateTasksUI() {
+        const container = document.getElementById('tasks-container');
+        container.innerHTML='';
+
+        if(this.tasks.lenght === 0) {
+            container.innerHTML = '<p style="text-align: center; color: #6c757d; font-style: italic;">No tasks yet. Add some to get started!</p>';
+            return;
+        }
+
+        this.tasks.forEach(task => {
+            const taskElement = document.createElement('div');
+            taskElement.className = 'task-item';
+            taskElement.innerHTML =
+            <input type="checkbox" class="task-checkbox" ${task.completed ? 'checked' : ''}
+                    onchange="LifeAssistant.toggleTask(${task.id})">
+            <div class="task-content">
+                <div class="task-title ${task.completed ? 'completed' : ''}">${task.title}</div>
+                <div class="task-description">${task.description}</div>
+            </div>
+            <span class="task-priority priority-${task.priority}">${task.priority}</span>
+            <div class="task-actions">
+                <button class="btn btn-danger" onclick="LifeAssistant.deleteTask(${task.id})">
+                    <i class="fas fa-trash"></i>
+                </button>
+            </div>
+            `;
+            conatiner.appendChild(taskElement);
+           </input> 
+        });
+    }
+
 
 }
 
