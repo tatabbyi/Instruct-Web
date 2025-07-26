@@ -200,7 +200,34 @@ class LifeAssistant {
                 priority: 'low'
             }
         };
+
+        const templateData = templates[template];
+        if (templateData) {
+            const task = {
+                id: Date.now(),
+                ...templateData,
+                completed: false,
+                createdAt: new Date().toISOString()
+            };
+
+            this.tasks.push(task);
+            this.saveData();
+            this.updateTasksUI();
+        } else {
+            console.warn('Template not found:', template);
+        }
     }
+    
+    toggleTask(taskId) {
+        const task = this.tasks.find(t => t.id === taskId);
+        if (task) {
+            task.completed = !task.completed;
+            this.saveData();
+            this.updateTasksUI();
+        }
+    }
+
+
 }
 
 const lifeAssistant = new LifeAssistant();
