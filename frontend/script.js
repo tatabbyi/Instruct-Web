@@ -264,7 +264,26 @@ class LifeAssistant {
         });
     }
 
+    clearTaskForm() {
+        document.getElementById('task-title').value = '';
+        document.getElementById('task-description').value = '';
+        document.getElementById('task-priority').value = 'low';
+    }
 
+    updateEnergy() {
+        const energyLevel = parseInt(document.getElementById('energy-level').value);
+        this.currentEnergy = energyLevel * 10;
+        this.saveData();
+        this.updateEnergyUI();
+    }
+    
+    addEnergy(energyValue) {
+        const energy = parseInt(energyValue..replace('+', ''));
+        this.currentEnergy = Math.min(100, this.currentEnergy + energy);
+        this.saveData();
+        this.updateEnergyUI();
+
+        this.showNotification(`+${energy}) Energy added!`, 'success');
 }
 
 const lifeAssistant = new LifeAssistant();
