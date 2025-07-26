@@ -127,6 +127,10 @@ class LifeAssistant {
             }
         });
 
+        document.getElementById('emotion-intensity').addEventListener('input', (e) => {
+            document.getElementById('emotion-intensity-display').textContent = e.target.value;
+        });
+
 
     }
 
@@ -140,6 +144,62 @@ class LifeAssistant {
             content.classList.remove('active');
         });
         document.getElementById(tabName).classList.add('active');
+    }
+
+    addTask() {
+    const title = document.getElementById('task-title').value;
+    const description = document.getElementById('task-description').value;
+    const priority = document.getElementById('task-priority').value;
+
+    const task = {
+        id : Date.now(),
+        title,
+        description,
+        priority,
+        completed: false,
+        createdAt: new Date().toISOString()
+    };
+
+     this.tasks.push(task);
+     this.saveData();
+     this.updateTasksUI();
+     this.hideModals();
+     this.clearTaskForm();
+    }
+
+    addTaskFromTemplate(template) {
+        const templates = {
+            hygiene: {
+                title: 'Personal Hygiene',
+                description: 'shower, brush teeth, get dressed',
+                priority: 'high'
+            },
+            medication: {
+                title: 'Take Medication',
+                description: 'Take prescribed medications',
+                priority: 'high'
+            },
+            exercise: {
+                title: 'Light Exercise',
+                description: '10-minute walk or stretch',
+                priority: 'medium'
+            },
+            social: {
+                title: 'Social Connection',
+                description: 'Call a friend or family member',
+                priority: 'medium'
+            },
+            hobby: {
+                title: 'Creative Activity',
+                description: 'Drawing, writing, or crafts',
+                priority: 'low'
+            },
+            learning: {
+                title: 'Learning Time',
+                description: 'Read or watch educational content',
+                priority: 'low'
+            }
+        };
     }
 }
 
