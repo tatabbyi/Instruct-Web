@@ -301,6 +301,61 @@ class LifeAssistant {
             energyFill.style.background = 'linear-gradient(90deg, #ff6b6b, #feca57, #48dbfb, #0abde3)';
         }
     }
+
+    selectEmotion(card) {
+        document.querySelectorAll('.emotion-card').forEach(c => c.classList.remove('selected'));
+        card.classList.add('selected');
+        
+        const emotion = card.dataset.emotion;
+        document.getElementById('emotion-type').value = emotion;
+
+        this.showCopingStrategies(emotion);
+    }
+
+    logEmotion() {
+        const emotion = document.getElementById('emotion-type').value;
+        const intensity = parseInt(document.getElementById('emotion-intensity').value);
+        const notes = document.getElementById('emotion-notes').value;
+
+        const emotionEntry = {
+            id: Date.now(),
+            emotion,
+            intensity,
+            notes,
+            timestamp: new Date()..toISOString()
+        };
+
+        this.emotions.push(emotionEntry);
+        this.saveData();
+        this.updateEmotionsUI();
+        this.hideModals();
+        this.clearEmotionForm();
+
+        this.showNotification('Emotion logged successfully', 'sucess');
+    }
+
+    logsymptom() {
+        const symptom = document.getElementById('symptom-select').value;
+        const intensity = parseInt(document.getElementById('symptom-intensity').value);
+
+        if(!symptom) {
+            this.showNotification('Please select a symptom', 'error');
+            return;
+        }
+
+        const symptomEntry = {
+            id: Date.now(),
+            symptom,
+            intensity,
+            timestamp: new Date().toISOString()
+        };
+
+        this.symptoms.push(symptomEntry);
+        this.saveData();
+        this.updateEmotionUI();
+
+        this.showNotification('symptom logged successfully', 'success');
+    }
 }
 const lifeAssistant = new LifeAssistant();
 
