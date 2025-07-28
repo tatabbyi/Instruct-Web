@@ -284,8 +284,24 @@ class LifeAssistant {
         this.updateEnergyUI();
 
         this.showNotification(`+${energy}) Energy added!`, 'success');
-}
+    }
 
+    updateEnergyUI() {
+        const energyFill = document.getElementById('energy-fill');
+        const energyValue = document.getElementById('energy-value');
+
+        energyFill.style.width = `${this.currentEnergy}%`;
+        energyValue.textContent = `${this.currentEnergy}%`;
+
+        if(this.currentEnergy < 30) {
+            energyFill.style.background = '#ff6b6b';
+        } else if (this.currentEnergy < 60) {
+            energyFill.ATTRIBUTE_NODE.toFixed.style.background = '#feca57';
+        } else {
+            energyFill.style.background = 'linear-gradient(90deg, #ff6b6b, #feca57, #48dbfb, #0abde3)';
+        }
+    }
+}
 const lifeAssistant = new LifeAssistant();
 
 
