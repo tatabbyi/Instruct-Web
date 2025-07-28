@@ -22,6 +22,7 @@ class LifeAssistant {
         this.loadCopingStrategies();
     }
 
+    //Managment of data
     saveData() {
         const data = {
             currentEnergy: this.currentEnergy,
@@ -33,6 +34,7 @@ class LifeAssistant {
         };
         localStorage.setItem('lifeAssistantData', JSON.stringify(data));
     }
+
     loadData() {
         const saved = localStorage.getItem('lifeAssistantData');
         if (saved) {
@@ -50,6 +52,7 @@ class LifeAssistant {
         }
     }
 
+    //navigation
     setupEventListeners() {
         document.querySelectorAll('.nav-tab').forEach(tab => {
             tab.addEventListener('click', (e) => {
@@ -57,11 +60,12 @@ class LifeAssistant {
             });
         });
 
+        //Task management
         document.getElementById('add-task-btn').addEventListener('click', () => {
             this.showModal('task-modal');
         });
 
-        document.getElementById('task-form').addEventListener('sumbit', (e) => {
+        document.getElementById('task-form').addEventListener('submit', (e) => {
             e.preventDefault();
             this.addTask();
         });
@@ -72,6 +76,7 @@ class LifeAssistant {
             });
         });
 
+        //energy management
         document.getElementById('energy-level').addEventListener('input', (e) => {
             document.getElementById('energy-display').textContent = e.target.value;
         });
@@ -86,13 +91,14 @@ class LifeAssistant {
             });
         });
 
+        //emotional regulation
         document.getElementById('log-emotion-btn').addEventListener('click', () => {
-            this.showmodal('emotional-modal');
+            this.showModal('emotional-modal');
         });
 
-        document.getElementById.getElementById('emotion-form').addEventListener('submit', (e) => {
+        document.getElementById('emotion-form').addEventListener('submit', (e) => {
             e.preventDefault();
-            this.LogEmotion();
+            this.logEmotion();
         });
 
         document.querySelectorAll('.emotion-card').forEach(card => {
@@ -101,20 +107,23 @@ class LifeAssistant {
             });
         });
 
-        document.getElementById('symptom-intesity').addEventListener('input', (e) => {
-            document.getElementById('intensity-display')..textContent = e.target.value;
+        //tracking symptoms
+        document.getElementById('symptom-intensity').addEventListener('input', (e) => {
+            document.getElementById('intensity-display').textContent = e.target.value;
         });
 
         document.getElementById('log-symptom').addEventListener('click', () => {
             this.logSymptom();
         });
 
-        doocument.querySelectorAll('.job-card').forEach(card => {
+        //career progression
+        document.querySelectorAll('.job-card').forEach(card => {
             card.addEventListener('click', () => {
                 this.selectJob(card.dataset.job);
             });
         });
 
+        //modal management
         document.querySelectorAll('.close').forEach(closeBtn => {
             closeBtn.addEventListener('click', () => {
                 this.hideModals();
@@ -127,6 +136,7 @@ class LifeAssistant {
             }
         });
 
+        //range inputs
         document.getElementById('emotion-intensity').addEventListener('input', (e) => {
             document.getElementById('emotion-intensity-display').textContent = e.target.value;
         });
@@ -134,6 +144,7 @@ class LifeAssistant {
 
     }
 
+    //navigation updated
     switchTab(tabName) {
         document.querySelectorAll('.nav-tab').forEach(tab => {
             tab.classList.remove('active');
@@ -146,25 +157,26 @@ class LifeAssistant {
         document.getElementById(tabName).classList.add('active');
     }
 
+    //new tasks
     addTask() {
-    const title = document.getElementById('task-title').value;
-    const description = document.getElementById('task-description').value;
-    const priority = document.getElementById('task-priority').value;
+        const title = document.getElementById('task-title').value;
+        const description = document.getElementById('task-description').value;
+        const priority = document.getElementById('task-priority').value;
 
-    const task = {
-        id : Date.now(),
-        title,
-        description,
-        priority,
-        completed: false,
-        createdAt: new Date().toISOString()
-    };
+        const task = {
+            id : Date.now(),
+            title,
+            description,
+            priority,
+            completed: false,
+            createdAt: new Date().toISOString()
+        };
 
-     this.tasks.push(task);
-     this.saveData();
-     this.updateTasksUI();
-     this.hideModals();
-     this.clearTaskForm();
+        this.tasks.push(task);
+        this.saveData();
+        this.updateTasksUI();
+        this.hideModals();
+        this.clearTaskForm();
     }
 
     addTaskFromTemplate(template) {
@@ -218,6 +230,7 @@ class LifeAssistant {
         }
     }
     
+    //Tasks state
     toggleTask(taskId) {
         const task = this.tasks.find(t => t.id === taskId);
         if (task) {
@@ -237,7 +250,7 @@ class LifeAssistant {
         const container = document.getElementById('tasks-container');
         container.innerHTML='';
 
-        if(this.tasks.lenght === 0) {
+        if(this.tasks.length === 0) {
             container.innerHTML = '<p style="text-align: center; color: #6c757d; font-style: italic;">No tasks yet. Add some to get started!</p>';
             return;
         }
@@ -245,31 +258,32 @@ class LifeAssistant {
         this.tasks.forEach(task => {
             const taskElement = document.createElement('div');
             taskElement.className = 'task-item';
-            taskElement.innerHTML =
-            <input type="checkbox" class="task-checkbox" ${task.completed ? 'checked' : ''}
-                    onchange="LifeAssistant.toggleTask(${task.id})">
-            <div class="task-content">
-                <div class="task-title ${task.completed ? 'completed' : ''}">${task.title}</div>
-                <div class="task-description">${task.description}</div>
-            </div>
-            <span class="task-priority priority-${task.priority}">${task.priority}</span>
-            <div class="task-actions">
-                <button class="btn btn-danger" onclick="LifeAssistant.deleteTask(${task.id})">
-                    <i class="fas fa-trash"></i>
-                </button>
-            </div>
+            taskElement.innerHTML = `
+                <input type="checkbox" class="task-checkbox" ${task.completed ? 'checked' : ''}
+                        onchange="lifeAssistant.toggleTask(${task.id})">
+                <div class="task-content">
+                    <div class="task-title ${task.completed ? 'completed' : ''}">${task.title}</div>
+                    <div class="task-description">${task.description}</div>
+                </div>
+                <span class="task-priority priority-${task.priority}">${task.priority}</span>
+                <div class="task-actions">
+                    <button class="btn btn-danger" onclick="lifeAssistant.deleteTask(${task.id})">
+                        <i class="fas fa-trash"></i>
+                    </button>
+                </div>
             `;
-            conatiner.appendChild(taskElement);
-           </input> 
+            container.appendChild(taskElement);
         });
     }
 
+    //resetting tasks
     clearTaskForm() {
         document.getElementById('task-title').value = '';
         document.getElementById('task-description').value = '';
         document.getElementById('task-priority').value = 'low';
     }
 
+    //energy slider updating
     updateEnergy() {
         const energyLevel = parseInt(document.getElementById('energy-level').value);
         this.currentEnergy = energyLevel * 10;
@@ -278,7 +292,7 @@ class LifeAssistant {
     }
     
     addEnergy(energyValue) {
-        const energy = parseInt(energyValue..replace('+', ''));
+        const energy = parseInt(energyValue.replace('+', ''));
         this.currentEnergy = Math.min(100, this.currentEnergy + energy);
         this.saveData();
         this.updateEnergyUI();
@@ -296,12 +310,13 @@ class LifeAssistant {
         if(this.currentEnergy < 30) {
             energyFill.style.background = '#ff6b6b';
         } else if (this.currentEnergy < 60) {
-            energyFill.ATTRIBUTE_NODE.toFixed.style.background = '#feca57';
+            energyFill.style.background = '#feca57';
         } else {
             energyFill.style.background = 'linear-gradient(90deg, #ff6b6b, #feca57, #48dbfb, #0abde3)';
         }
     }
 
+    //emotional support
     selectEmotion(card) {
         document.querySelectorAll('.emotion-card').forEach(c => c.classList.remove('selected'));
         card.classList.add('selected');
@@ -322,23 +337,23 @@ class LifeAssistant {
             emotion,
             intensity,
             notes,
-            timestamp: new Date()..toISOString()
+            timestamp: new Date().toISOString()
         };
 
         this.emotions.push(emotionEntry);
         this.saveData();
-        this.updateEmotionsUI();
+        this.updateEmotionUI();
         this.hideModals();
         this.clearEmotionForm();
 
-        this.showNotification('Emotion logged successfully', 'sucess');
+        this.showNotification('Emotion logged successfully', 'success');
     }
 
-    logsymptom() {
+    logSymptom() {
         const symptom = document.getElementById('symptom-select').value;
         const intensity = parseInt(document.getElementById('symptom-intensity').value);
 
-        if(!symptom) {
+        if (!symptom) {
             this.showNotification('Please select a symptom', 'error');
             return;
         }
@@ -354,7 +369,52 @@ class LifeAssistant {
         this.saveData();
         this.updateEmotionUI();
 
-        this.showNotification('symptom logged successfully', 'success');
+        this.showNotification('Symptom logged successfully', 'success');
+    }
+
+    updateEmotionUI() {
+        this.updateEmotionHistory();
+        this.updateCopingSuggestions();
+    }
+
+        updateEmotionHistory() {
+            const container = document.getElementById('emotion-log');
+            const allEntries = [...this.emotions, ...this.symptoms].sort((a, b) =>
+                new Date(b.timestamp) - new Date(a.timestamp)
+            ).slice(0, 10);
+
+            container.innerHTML = '';
+        
+            if (allEntries.length === 0) {
+                container.innerHTML = '<p style="text-align: center; color: #6c757d; font-style: italic;">No emotions or symptoms logged yet.</p>';
+                return;
+            }
+
+            allEntries.forEach(entry => {
+                        const entryElement = document.createElement('div');
+                        entryElement.className = 'emotion-entry';
+
+                        if (entry.emotion) {
+                            entryElement.innerHTML = `
+                    <div class="emotion-entry-header">
+                        <span class="emotion-type">${entry.emotion.charAt(0).toUpperCase() + entry.emotion.slice(1)}</span>
+                        <span class="emotion-time">${this.formatTime(entry.timestamp)}</span>
+                    </div>
+                    <div class="emotion-intensity">Intensity: ${entry.intensity}/10</div>
+                    ${entry.notes ? `<div class="emotion-notes">${entry.notes}</div>` : ''}
+                `;
+            } else {
+                entryElement.innerHTML = `
+                    <div class="emotion-entry-header">
+                        <span class="emotion-type">${entry.symptom.charAt(0).toUpperCase() + entry.symptom.slice(1)}</span>
+                        <span class="emotion-time">${this.formatTime(entry.timestamp)}</span>
+                    </div>
+                    <div class="emotion-intensity">Intensity: ${entry.intensity}/10</div>
+                `;
+            }
+
+            container.appendChild(entryElement);
+        });
     }
 }
 const lifeAssistant = new LifeAssistant();
