@@ -459,6 +459,45 @@ class LifeAssistant {
             this.showCopingStrategies(lastEmotion);
         }
     }
+
+    //career progression
+    selectJob(jobType) {
+        this.loadTrainingModules(jobType);
+    }
+
+loadTrainingModules(jobType = 'store-clerk') {
+    const modules = {
+        'store-clerk': [
+            {
+                title: 'Customer Service Basics',
+                status: 'not-started',
+                progress: 0,
+                skills: [
+                    'Professional communication',
+                    'Active listening techniques',
+                    'Problem-solving approaches',
+                    'Connecting with the customer', 
+                    'Conflict resolution',
+                    'Customer empathy'
+                ],
+                practiceMethods: [
+                    'Role-play customer scenarios with a friend or family member, if thinking about it like a script helps use that to your advantage. General Acknowledgment: "Thank you for reaching out." "I appreciate your patience." "I understand how important this is to you." Apologizing: "I apologize for any inconvenience this may have caused." "I\'m sorry to hear that you\'re experiencing this issue." "We regret that this has happened and appreciate your understanding." Providing Information: "Let me provide you with the information you need." "Here\'s what I can do for you." "I\'d be happy to assist you with that." Clarification: "Could you please provide more details about the issue?" "Can you clarify what you mean by...?" "I want to make sure I understand your concern correctly." Offering Solutions: "Here are a few options to resolve your issue." "I recommend trying this solution..." "Let\'s work together to find a resolution." Closing the Conversation: "Is there anything else I can assist you with?" "Thank you for your understanding." "I\'m glad I could help. Have a great day!" Follow-Up: "I will follow up with you regarding this matter." "Please feel free to reach out if you need further assistance." "I\'ll keep you updated on the progress."',
+                    
+                    'Provide fast responses to your clients to demonstrate that you value their demands. Practice maintaining eye contact, nodding, and repeating back what customers say. Use phrases like "I understand you\'re saying..." and "Let me make sure I heard you correctly..." Ask follow-up questions to show you\'re engaged and truly listening to their concerns.',
+                    
+                    'To solve customer problems, try using these techniques. Don\'t argue, simply start with an apology: "Thank you for reaching out! I totally feel for you. Here is what I\'m going to do to turn things around." "Wow, I am so sorry to hear that. No wonder you feel this way. Let\'s get things right ASAP." "I appreciate you letting me know about the issue! I definitely will make sure that it gets sorted." "Ohh, it sounds like a serious issue. I am so sorry you have to go through this. But you\'ve come to the right place to get this resolved." Practice with scenarios like "My order is wrong" or "I can\'t find what I\'m looking for."',
+                    
+                    'One way to establish connection with clients is to ask them by name and use them in discussions. Build connections by using customers\' names, remembering their preferences, and showing genuine interest. Practice greeting regular customers warmly and asking about their day. Create a friendly, welcoming atmosphere that makes customers feel valued and appreciated.',
+                    
+                    'Say "thank you!" Remember to express gratitude to those you serve. For conflicts, stay calm and use these techniques: Listen without interrupting, acknowledge their feelings, apologize sincerely, offer solutions, and follow up. Practice de-escalating situations with phrases like "I understand this is frustrating" and "Let\'s work together to resolve this."',
+                    
+                    'Help others! Be helpful even if you are unable to assist. It demonstrates your concern. Additionally, adding a smile alongside it. Show empathy by putting yourself in the customer\'s shoes. Use phrases like "I can imagine how frustrating this must be" and "I would feel the same way in your situation." Practice responding to emotional customers with compassion and understanding.'
+                ]
+            }
+        ]
+    };
+}
+
 }
 const lifeAssistant = new LifeAssistant();
 

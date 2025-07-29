@@ -994,6 +994,69 @@ emotion-entry:last child {
     font-size: 0.9rem;
 }
 
+.practice-methods-container {
+    margin-top: 1rem;
+}
+
+.practice-method-item {
+    border: 1px solid #e0e0e0;
+    border-radius: 6px;
+    margin-bottom:0.5rem;
+    overflow: hidden;
+}
+
+.practice-method-header {
+    background: #f8f9fa;
+    padding: 0.75rem 1rem;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: background-color 0.2s;
+}
+
+.practice-method-header:hover {
+    background:  #e9ecef;
+}
+
+.practice-method-title {
+    font-weight: 500;
+    color:  #495057;
+}
+
+.expand-icon {
+    transition: transform 0.3s ease;
+    color: #6c757d;
+}
+
+.practice-method-content {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease;
+    background: white;
+}
+
+.practice-method-content-expanded {
+    max-height: 500px;
+    padding: 1rem;
+    border-top: 1px solid #e0e0e0;
+}
+
+.practice-method-content.collapsed {
+    max-height: 0;
+    padding: 0 1rem;
+}
+
+.practice-method-content p {
+    margin: 0;
+    line-height: 1.6;
+    color: #495057;
+}
+
+.practice-method-header.expanded .expand-icon {
+    transform: rotate(180deg);
+}
+
 .modal {
     display: none;
     position: fixed;
