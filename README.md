@@ -40,3 +40,34 @@ This feature is a one shop stop at everything needed for building a fulfilling l
 
 The Overall Goal: This application is intended for a wide audience to help improve life. It will likely take a year to finish and more time to get running. I hope to have a feedback section so the application can be constantly improving#
 
+## Refrences
+# Coping Strategies: References Used to Compile Evidence
+
+##  Anxious  
+- *The Anxiety Skills Workbook*. (2020). [Google Books](https://books.google.ie/books?hl=en&lr=&id=he-0DwAAQBAJ&oi=fnd&pg=PT10&ots=aKwbveUTt1&sig=2khzNMMSofboKqDJOSfWxSLjLdc&redir_esc=y#v=onepage&q&f=false). [Accessed 16 Jul. 2025].
+
+##  Sad  
+- Team, B.E. (2017). *How To Not Be Sad: Coping Skills To Manage Sadness*. [BetterHelp](https://www.betterhelp.com/advice/how-to/learning-how-to-not-be-sad-coping-mechanisms/). [Accessed 17 Jul. 2025].  
+- *Re-constructing Emotional Spaces: From Experience to Regulation*. (2025). [Google Books](https://books.google.ie/books?hl=en&lr=&id=uLe2fJRHQGoC&oi=fnd&pg=PA121&dq=dealing+with+sadness&ots=m4sfs7v-55&sig=_tBaIdU8aqYYGyfQMCXJbbG94UA&redir_esc=y#v=onepage&q=dealing%20with%20sadness&f=false). [Accessed 17 Jul. 2025].
+
+##  Tired  
+- NHS. (2019). *Self-help Tips to Fight Tiredness - Sleep and Tiredness*. [NHS UK](https://www.nhs.uk/live-well/sleep-and-tiredness/self-help-tips-to-fight-fatigue/). [Accessed 17 Jul. 2025].
+
+##  Angry  
+- *Anger: How to Live with and without It*. (2017). [Google Books](https://books.google.ie/books?hl=en&lr=&id=TsdBDAAAQBAJ&oi=fnd&pg=PA1&dq=dealing+with+anger&ots=p3covhKKjw&sig=J2sXpCkYINl0Xqbj7Ym7P57LqX4&redir_esc=y#v=onepage&q=dealing%20with%20anger&f=false). [Accessed 17 Jul. 2025].  
+- American Psychological Association. (2011). *Strategies for Controlling Your Anger: Keeping Anger in Check*. [APA](https://www.apa.org/topics/anger/strategies-controlling). [Accessed 17 Jul. 2025].
+
+##  Happy & Calm  
+_(No references listed yet – consider adding mindfulness, meditation, or gratitude practice resources.)_
+
+---
+
+#  Career Progression: Store-Clerk References
+
+##  Customer Service Basics  
+- Indeed. (2024). *The Basics of Customer Care for Your Business (With 7 Tips)*. [Indeed](https://www.indeed.com/hire/c/info/customer-care). [Accessed 29 Jul. 2025].  
+- Hyken, S. (2024). *The Five Easiest Customer Service Tactics Anyone Can Do*. [Medium](https://hyken.medium.com/the-five-easiest-customer-service-tactics-anyone-can-do-431ca7a85bf3). [Accessed 29 Jul. 2025].
+
+##  Customer Service Problem-Solving  
+- Shataieva, T. (2021). *Customer Service Problem-Solving Techniques with Examples*. [HelpCrunch Blog](https://helpcrunch.com/blog/customer-service-problem-solving/). [Accessed 29 Jul. 2025].
+
