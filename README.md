@@ -57,8 +57,7 @@ The Overall Goal: This application is intended for a wide audience to help impro
 - *Anger: How to Live with and without It*. (2017). [Google Books](https://books.google.ie/books?hl=en&lr=&id=TsdBDAAAQBAJ&oi=fnd&pg=PA1&dq=dealing+with+anger&ots=p3covhKKjw&sig=J2sXpCkYINl0Xqbj7Ym7P57LqX4&redir_esc=y#v=onepage&q=dealing%20with%20anger&f=false). [Accessed 17 Jul. 2025].  
 - American Psychological Association. (2011). *Strategies for Controlling Your Anger: Keeping Anger in Check*. [APA](https://www.apa.org/topics/anger/strategies-controlling). [Accessed 17 Jul. 2025].
 
-##  Happy & Calm  
-_(No references listed yet – consider adding mindfulness, meditation, or gratitude practice resources.)_
+
 
 ---
 
