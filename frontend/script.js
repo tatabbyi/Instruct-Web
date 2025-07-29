@@ -424,6 +424,41 @@ class LifeAssistant {
         document.getElementById('emotion-notes').value = '';
         document.querySelectorAll('.emotion-card').forEach(c => c.classList.remove('selected'));
     }
+    //made CopingController instead to learn, handled by backend API
+    loadCopingStragies() {
+
+    }
+
+    showCopingStragies(emotion) {
+        const container = document.getElementById('coping-suggestions');
+        container.innerHTML = '<p style="text-align: center; color:#6c757d; font-style: italic;">Loading coping strategies...</p>;
+        fetch(`/api/coping?emotion=${encodeURIComponent(emotion)}`)
+            .then(response => response.json())
+            .then(strategies => {
+                if (strategies.length === 0) {
+                    container.innerHTML = '<p style="text-align: center; color: #6c757d; font-style: italic;">No strategies available for this emotion..</p>;
+                    return;
+                }
+
+                container.innerHTML = strategies.map(strategy => `
+                    <div class="coping-strategy">
+                        <p>${strategy}</p>
+                    </div>
+                `).join('');
+            })
+            .catch(error => {
+                console.error('Error fetching coping strategies:', error);
+                container.innerHTML =  '<p style ="text-align: center; color: #dc3545; font-style: italic;">Error loading coping strategies. Please try again.</p>';
+            });
+    }
+
+    updateCopingSuggestions() {
+        const recentEmotions = this.emotions.slice(-3);
+        if (recentEmotions.length > 0) {
+            const lastEmotion = recentEmotions[recentEmotions.length - 1].emotion;
+            this.showCopingStrategies(lastEmotion);
+        }
+    }
 }
 const lifeAssistant = new LifeAssistant();
 
