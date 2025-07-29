@@ -6,16 +6,16 @@
 }
 body {
     font-family: 'Inter', sans-serif;
-    background: #f8fafc;
+    background: #d2d9e0;
     min-height: 100vh;
-    color: #1d2025;
+    color: #4d4b66;
     line-height: 1.6;
 }
 
 .app-container {
     max-width: 1400px;
     margin: 0 auto;
-    background: white;
+    background: rgb(221, 224, 253);
     min-height: 100vh;
     box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
 }
@@ -24,7 +24,7 @@ body {
     margin: 2rem auto;
     padding: 1.5rem 2rem;
     background: #e3f2fd;
-    color: #252930;
+    color: #42464d;
     border-radius: 8px;
     font-size: 1.25rem;
     max-width: 600px;
@@ -79,10 +79,10 @@ body {
 
 .nav-tabs {
     display: flex;
-    background: white;
+    background: rgb(190, 186, 247);
     border-bottom: 1px solid  #e2e8f0;
     overflow-x: auto;
-    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+    box-shadow: 0 1px 3px 0 rgba(26, 26, 58, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
 }
 
 .nav-tab {
@@ -101,14 +101,14 @@ body {
 }
 
 .nav-tab:hover {
-    background: #f8fafc;
-    color: #222c3b; 
+    background: #dbd6f8;
+    color: #2d2941; 
 }
 
 .nav-tab.active {
     background: white;
-    color: #242a3d;
-    border-bottom: 3px solid  #26303f;
+    color: #41316b;
+    border-bottom: 3px solid  #3c2c57;
     font-weight: 600;
 }
 
@@ -122,7 +122,7 @@ body {
     height: 0;
     border-left: 8px solid transparent;
     border-right: 8px solid transparent;
-    border-bottom: 8px solid  #233757;
+    border-bottom: 8px solid  #3a3052;
 }
 
 .nav-tab i {
@@ -142,7 +142,7 @@ body {
 
 .main-content {
     padding: 2.5rem;
-    background: #f8fafc;
+    background: #c1c1e7;
 }
 
 .tab-content {
@@ -171,8 +171,8 @@ body {
     align-items: center;
     margin-bottom: 2..5rem;
     padding-bottom: 1.5rem;
-    border-bottom: 2px solid #e2e8f0;
-    background: white;
+    border-bottom: 2px solid #bbb8e0;
+    background: rgb(255, 255, 255);
     padding: 2rem;
     border-radius: 12px;
     box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
@@ -209,7 +209,7 @@ body {
     left: -100%;
     width: 100%;
     height: 100%;
-    background: linear-gradient(90deg, transparent,rgba(255, 255, 255, 0.2), transparent);
+    background: linear-gradient(90deg, transparent,rgba(106, 98, 138, 0.2), transparent);
     transition: left 0.5s;
 }
 
@@ -218,7 +218,7 @@ body {
 }
 
 .btn-primary {
-    background: linear-gradient(135deg, #2c333d 0%, #18213f 100%);
+    background: linear-gradient(135deg, #dad8f1 0%, #928ada 100%);
     color: white;
     box-shadow: 0 4px 6px -1px rgba(9, 24, 49, 0.3), 0 2px 4px -1px rgba(6, 22, 46, 0.2);
 }
@@ -229,7 +229,7 @@ body {
 }
 
 .btn-secondary {
-    background: linear-gradient(135deg, #64748b 0%, #475569 100% );
+    background: linear-gradient(135deg, #beb9ec 0%, #9b91e0 100% );
     color: white;
     box-shadow: 0 4px 6px -1px rgba(100, 116,139, 0.3), 0 2px 4px -1px rgba(100, 116, 139, 0.2);
 }
@@ -270,7 +270,7 @@ btn-sucess::hover {
 }
 
 .task-templates h3 {
-    color: #1e293b;
+    color: #211e46;
     margin-bottom: 1.5rem;
     font-size: 1.5rem;
     font-weight: 700;
@@ -312,7 +312,7 @@ btn-sucess::hover {
 }
 
 .template-card:hover {
-    border-color:#19263b;
+    border-color:#29234b;
     transform: translateY(-4px);
     box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
 }
@@ -384,7 +384,7 @@ btn-sucess::hover {
 }
 
 .task-item:hover {
-    border-color:#19263b;
+    border-color:#20163b;
     transform: translateX(4px);
     box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
 }
@@ -393,7 +393,7 @@ btn-sucess::hover {
     width: 24px;
     height: 24px;
     cursor: pointer;
-    accent-color: #506d9b;
+    accent-color: #8f67cf;
 }
 
 .task-content {
@@ -425,20 +425,20 @@ btn-sucess::hover {
 
 .priority-high {
     background: linear-gradient(135deg, #fffbeb 0%, #fef3c7 100%);
-    color:#d90606;
-    border: 1px solid #dda1a4;
+    color:#dd5d5d;
+    border: 1px solid #c07377;
 }
 
 .priority-medium {
     background: linear-gradient(135deg, #fffbeb 0%, #fef3c7 100%);
-    color:  #cc620b;
+    color:  #df9961;
     border: 1px solid #fed7aa;
 }
 
 .priority-low {
     background: linear-gradient(135deg,  #f0f9ff 0%, #e0f2fe 100% );
-    color: #0284c7;
-    border: 1px solid #bae6fd;
+    color: #897ee6;
+    border: 1px solid #c6b7f0;
 }
 
 .task-actions {
@@ -458,7 +458,7 @@ btn-sucess::hover {
 
 .energy-label {
     font-weight: 600;
-    color:#0c1727;
+    color:#7c57e0;
     font-size: 1.125rem;
     letter-spacing: -0.025em;
 }
@@ -488,7 +488,7 @@ btn-sucess::hover {
     left: 0;
     right: 0;
     bottom: 0;
-    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+    background: linear-gradient(90deg, transparent, rgba(117, 101, 129, 0.3), transparent);
     animation: shimmer 2s infinite;
 }
 
@@ -503,7 +503,7 @@ btn-sucess::hover {
 
 .energy-value {
     font-weight: 700;
-    color: #1e293b;
+    color: #2e2d5a;
     min-width: 60px;
     font-size: 1.25rem;
     text-align: center;
@@ -519,7 +519,7 @@ btn-sucess::hover {
 }
 
 .energy-tracking h3 {
-    color:#18213f;
+    color:#2d235e;
     margin-bottom: 1.5rem;
     font-size: 1.5rem;
     font-weight: 700;
@@ -538,7 +538,7 @@ btn-sucess::hover {
 
 .energy-input label {
     font-weight: 600;
-    color: #1e293b;
+    color: #221e3b;
     min-width: 200px;
 }
 
@@ -558,7 +558,7 @@ btn-sucess::hover {
     width: 24px;
     height: 24px;
     border-radius: 50%;
-    background: linear-gradient(135deg,#4a4f57, #272e42 );
+    background: linear-gradient(135deg,#aca6dd, #695fc2 );
     cursor: pointer;
     box-shadow: 0 4px 6px -1px rgba(59, 130, 246, 0.3);
 }
@@ -567,7 +567,7 @@ btn-sucess::hover {
     width: 24px;
     height: 24px;
     border-radius: 50%;
-    background: linear-gradient(135deg, #4a4f57, #272e42 );
+    background: linear-gradient(135deg, #a79dd4, #8b76d6 );
     cursor: pointer;
     border: none;
     box-shadow: 0 4px 6px -1px rgba(59, 130, 246, 0.3);
@@ -598,7 +598,7 @@ btn-sucess::hover {
 }
 
 .activity-card:hover {
-    border-color: #28a745;
+    border-color: #d5a6f0;
     transform: translateY(-2px);
     box-shadow: 0 4px 12px rgba(40, 167, 69, 0.2);
 }

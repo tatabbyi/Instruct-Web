@@ -416,6 +416,14 @@ class LifeAssistant {
             container.appendChild(entryElement);
         });
     }
+
+    clearEmotionForm() {
+        document.getElementById('emotion-type').value = '';
+        document.getElementById('emotion-intensity').value = '5';
+        document.getElementById('emotion-intensity-display').textContent = '5';
+        document.getElementById('emotion-notes').value = '';
+        document.querySelectorAll('.emotion-card').forEach(c => c.classList.remove('selected'));
+    }
 }
 const lifeAssistant = new LifeAssistant();
 
