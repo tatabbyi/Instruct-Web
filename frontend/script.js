@@ -10,6 +10,8 @@ class LifeAssistant {
             'data-entry': 0
         };
         this.certifications = [];
+        this.selectedJob = 'store-clerk';
+        this.trainingModules = {};
         
         this.init();
     }
@@ -425,18 +427,18 @@ class LifeAssistant {
         document.querySelectorAll('.emotion-card').forEach(c => c.classList.remove('selected'));
     }
     //made CopingController instead to learn, handled by backend API
-    loadCopingStragies() {
+    loadCopingStrategies() {
 
     }
 
-    showCopingStragies(emotion) {
+    showCopingStrategies(emotion) {
         const container = document.getElementById('coping-suggestions');
-        container.innerHTML = '<p style="text-align: center; color:#6c757d; font-style: italic;">Loading coping strategies...</p>;
+        container.innerHTML = '<p style="text-align: center; color:#6c757d; font-style: italic;">Loading coping strategies...</p>';
         fetch(`/api/coping?emotion=${encodeURIComponent(emotion)}`)
             .then(response => response.json())
             .then(strategies => {
                 if (strategies.length === 0) {
-                    container.innerHTML = '<p style="text-align: center; color: #6c757d; font-style: italic;">No strategies available for this emotion..</p>;
+                    container.innerHTML = '<p style="text-align: center; color: #6c757d; font-style: italic;">No strategies available for this emotion.</p>';
                     return;
                 }
 
@@ -448,7 +450,7 @@ class LifeAssistant {
             })
             .catch(error => {
                 console.error('Error fetching coping strategies:', error);
-                container.innerHTML =  '<p style ="text-align: center; color: #dc3545; font-style: italic;">Error loading coping strategies. Please try again.</p>';
+                container.innerHTML =  '<p style="text-align: center; color: #dc3545; font-style: italic;">Error loading coping strategies. Please try again.</p>';
             });
     }
 
@@ -465,40 +467,135 @@ class LifeAssistant {
         this.loadTrainingModules(jobType);
     }
 
-loadTrainingModules(jobType = 'store-clerk') {
-    const modules = {
-        'store-clerk': [
-            {
-                title: 'Customer Service Basics',
-                status: 'not-started',
-                progress: 0,
-                skills: [
-                    'Professional communication',
-                    'Active listening techniques',
-                    'Problem-solving approaches',
-                    'Connecting with the customer', 
-                    'Conflict resolution',
-                    'Customer empathy'
-                ],
-                practiceMethods: [
-                    'Role-play customer scenarios with a friend or family member, if thinking about it like a script helps use that to your advantage. General Acknowledgment: "Thank you for reaching out." "I appreciate your patience." "I understand how important this is to you." Apologizing: "I apologize for any inconvenience this may have caused." "I\'m sorry to hear that you\'re experiencing this issue." "We regret that this has happened and appreciate your understanding." Providing Information: "Let me provide you with the information you need." "Here\'s what I can do for you." "I\'d be happy to assist you with that." Clarification: "Could you please provide more details about the issue?" "Can you clarify what you mean by...?" "I want to make sure I understand your concern correctly." Offering Solutions: "Here are a few options to resolve your issue." "I recommend trying this solution..." "Let\'s work together to find a resolution." Closing the Conversation: "Is there anything else I can assist you with?" "Thank you for your understanding." "I\'m glad I could help. Have a great day!" Follow-Up: "I will follow up with you regarding this matter." "Please feel free to reach out if you need further assistance." "I\'ll keep you updated on the progress."',
+    loadTrainingModules(jobType = 'store-clerk') {
+        const modules = {
+            'store-clerk': [
+                {
+                    title: 'Customer Service Basics',
+                    status: 'not-started',
+                    progress: 0,
+                    skills: [
+                        'Professional communication',
+                        'Active listening techniques',
+                        'Problem-solving approaches',
+                        'Connecting with the customer', 
+                        'Conflict resolution',
+                        'Customer empathy'
+                    ],
+                    practiceMethods: [
+                        'Role-play customer scenarios with a friend or family member, if thinking about it like a script helps use that to your advantage. General Acknowledgment: "Thank you for reaching out." "I appreciate your patience." "I understand how important this is to you." Apologizing: "I apologize for any inconvenience this may have caused." "I\'m sorry to hear that you\'re experiencing this issue." "We regret that this has happened and appreciate your understanding." Providing Information: "Let me provide you with the information you need." "Here\'s what I can do for you." "I\'d be happy to assist you with that." Clarification: "Could you please provide more details about the issue?" "Can you clarify what you mean by...?" "I want to make sure I understand your concern correctly." Offering Solutions: "Here are a few options to resolve your issue." "I recommend trying this solution..." "Let\'s work together to find a resolution." Closing the Conversation: "Is there anything else I can assist you with?" "Thank you for your understanding." "I\'m glad I could help. Have a great day!" Follow-Up: "I will follow up with you regarding this matter." "Please feel free to reach out if you need further assistance." "I\'ll keep you updated on the progress."',
                     
-                    'Provide fast responses to your clients to demonstrate that you value their demands. Practice maintaining eye contact, nodding, and repeating back what customers say. Use phrases like "I understand you\'re saying..." and "Let me make sure I heard you correctly..." Ask follow-up questions to show you\'re engaged and truly listening to their concerns.',
+                        'Provide fast responses to your clients to demonstrate that you value their demands. Practice maintaining eye contact, nodding, and repeating back what customers say. Use phrases like "I understand you\'re saying..." and "Let me make sure I heard you correctly..." Ask follow-up questions to show you\'re engaged and truly listening to their concerns.',
                     
-                    'To solve customer problems, try using these techniques. Don\'t argue, simply start with an apology: "Thank you for reaching out! I totally feel for you. Here is what I\'m going to do to turn things around." "Wow, I am so sorry to hear that. No wonder you feel this way. Let\'s get things right ASAP." "I appreciate you letting me know about the issue! I definitely will make sure that it gets sorted." "Ohh, it sounds like a serious issue. I am so sorry you have to go through this. But you\'ve come to the right place to get this resolved." Practice with scenarios like "My order is wrong" or "I can\'t find what I\'m looking for."',
+                        'To solve customer problems, try using these techniques. Don\'t argue, simply start with an apology: "Thank you for reaching out! I totally feel for you. Here is what I\'m going to do to turn things around." "Wow, I am so sorry to hear that. No wonder you feel this way. Let\'s get things right ASAP." "I appreciate you letting me know about the issue! I definitely will make sure that it gets sorted." "Ohh, it sounds like a serious issue. I am so sorry you have to go through this. But you\'ve come to the right place to get this resolved." Practice with scenarios like "My order is wrong" or "I can\'t find what I\'m looking for."',
                     
-                    'One way to establish connection with clients is to ask them by name and use them in discussions. Build connections by using customers\' names, remembering their preferences, and showing genuine interest. Practice greeting regular customers warmly and asking about their day. Create a friendly, welcoming atmosphere that makes customers feel valued and appreciated.',
+                        'One way to establish connection with clients is to ask them by name and use them in discussions. Build connections by using customers\' names, remembering their preferences, and showing genuine interest. Practice greeting regular customers warmly and asking about their day. Create a friendly, welcoming atmosphere that makes customers feel valued and appreciated.',
                     
-                    'Say "thank you!" Remember to express gratitude to those you serve. For conflicts, stay calm and use these techniques: Listen without interrupting, acknowledge their feelings, apologize sincerely, offer solutions, and follow up. Practice de-escalating situations with phrases like "I understand this is frustrating" and "Let\'s work together to resolve this."',
+                        'Say "thank you!" Remember to express gratitude to those you serve. For conflicts, stay calm and use these techniques: Listen without interrupting, acknowledge their feelings, apologize sincerely, offer solutions, and follow up. Practice de-escalating situations with phrases like "I understand this is frustrating" and "Let\'s work together to resolve this."',
                     
-                    'Help others! Be helpful even if you are unable to assist. It demonstrates your concern. Additionally, adding a smile alongside it. Show empathy by putting yourself in the customer\'s shoes. Use phrases like "I can imagine how frustrating this must be" and "I would feel the same way in your situation." Practice responding to emotional customers with compassion and understanding.'
-                ]
-            }
-        ]
-    };
+                        'Help others! Be helpful even if you are unable to assist. It demonstrates your concern. Additionally, adding a smile alongside it. Show empathy by putting yourself in the customer\'s shoes. Use phrases like "I can imagine how frustrating this must be" and "I would feel the same way in your situation." Practice responding to emotional customers with compassion and understanding.'
+
+                        this.updateTrainingModulesUI
+                    ]
+                }
+            ]
+        };
+        
+        this.updateTrainingModulesUI();
+    }
+
+    updateTrainingModulesUI() {
+        const container = document.getElementById('modules-container');
+        container.innerHTML = '';
+
+        const modules = this.trainingModules[this.selectedJob] || [];
+
+        modules.forEach((module, index) => {
+            const moduleElement = document.createElement('div');
+            moduleElement.className = 'module-card';
+            moduleElement.innerHTML = `
+                <div class="module-header">
+                    <h4>${module.title}</h4>
+                    <span class="module-status ${module.status}">${module.status}</span>
+                </div>
+                <div class="module-progress">
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: ${module.progress}%"></div>
+                    </div>
+                    <span>${module.progress}% Complete</span>
+                </div>
+                <div class="module-skills">
+                    <h5>Skills:</h5>
+                    <ul>
+                        ${module.skills.map(skill => `<li>${skill}</li>`).join('')}
+                    </ul>
+                </div>
+                <div class="module-practice">
+                    <h5>Practice Methods:</h5>
+                    <div class="practice-methods-container">
+                        ${module.practiceMethods.map((method, methodIndex) => `
+                            <div class="practice-method-item">
+                                <div class="practice-method-header" onclick="lifeAssistant.togglePracticeMethod(${index}, ${methodIndex})">
+                                    <span class="practice-method-title">${module.skills[methodIndex] || `Practice ${methodIndex + 1}`}</span>
+                                    <i class="fas fa-chevron-down expand-icon"></i>
+                                </div>
+                                <div class="practice-method-content collapsed">
+                                    <p>${method}</p>
+                                </div>
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+                <button class="btn btn-primary" onclick="lifeAssistant.startModule('${this.selectedJob}', ${index})">
+                    Start Module
+                </button>
+            `;
+            container.appendChild(moduleElement);
+        });
+    }
+    
+    togglePracticeMethod(moduleIndex, methodIndex) {
+        const header = event.currentTarget;
+        const content = header.nextElementSibling;
+        const icon = header.querySelector('.expand-icon');
+
+        if (content.classList.contains('collapsed')) {
+            content.classList.remove('collapsed');
+            content.classList.add('expanded');
+            header.classList.add('expanded');
+        } else {
+            content.classList.remove('expanded');
+            content.classList.add('collapsed');
+            header.classList.remove('expanded');
+        }
+    }
+
+
+    showModal(modalId) {
+        document.getElementById(modalId).style.display = 'block';
+    }
+
+    hideModals() {
+        document.querySelectorAll('.modal').forEach(modal => {
+            modal.style.display = 'none';
+        });
+    }
+
+    showNotification(message, type = 'info') {
+        console.log(`${type}: ${message}`);
+    }
+
+    formatTime(timestamp) {
+        return new Date(timestamp).toLocaleString();
+    }
+
+    updateUI() {
+        this.updateTasksUI();
+        this.updateEnergyUI();
+        this.updateEmotionUI();
+    }
+
+    startModule(jobType, moduleIndex) {
+        console.log(`Starting module ${moduleIndex} for ${jobType}`);
+    }
 }
-
-}
-const lifeAssistant = new LifeAssistant();
-
-
