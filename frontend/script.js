@@ -494,8 +494,6 @@ class LifeAssistant {
                         'Say "thank you!" Remember to express gratitude to those you serve. For conflicts, stay calm and use these techniques: Listen without interrupting, acknowledge their feelings, apologize sincerely, offer solutions, and follow up. Practice de-escalating situations with phrases like "I understand this is frustrating" and "Let\'s work together to resolve this."',
                     
                         'Help others! Be helpful even if you are unable to assist. It demonstrates your concern. Additionally, adding a smile alongside it. Show empathy by putting yourself in the customer\'s shoes. Use phrases like "I can imagine how frustrating this must be" and "I would feel the same way in your situation." Practice responding to emotional customers with compassion and understanding.'
-
-                        this.updateTrainingModulesUI //need to make this work for each section later
                     ],
                     resources: [ //Later resources will be added specifically made for this module.
                         '<a href="https://cursa.app/free-courses-customer-service-online" target="_blank" rel="noopener noreferrer" title="Free Customer Service Courses">Free Customer Service Courses on Cursa</a>',
@@ -598,7 +596,7 @@ class LifeAssistant {
                 },
                 {
                     title: 'Chemical Handling & Usage',
-                    status: 'not-staretd',
+                    status: 'not-started',
                     progress: 0,
                     skills: [
                         'Chemical mixing and dilution',
@@ -763,7 +761,7 @@ class LifeAssistant {
                     title: 'Software Proficiency',
                     status: 'not-started',
                     progress: 0,
-                    skilld: [
+                    skills: [
                         'Microsoft Excel basics',
                         'Google Sheets operation',
                         'Database software',
@@ -829,11 +827,10 @@ class LifeAssistant {
                     ]
                 }
             ]
-        
+        };
+
         this.updateTrainingModulesUI();
     };
-
-    
 
     updateTrainingModulesUI() {
         const container = document.getElementById('modules-container');
@@ -930,3 +927,4 @@ class LifeAssistant {
         console.log(`Starting module ${moduleIndex} for ${jobType}`);
     }
 }
+const lifeAssistant = new LifeAssistant();
