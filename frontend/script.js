@@ -691,12 +691,149 @@ class LifeAssistant {
             ],
             'data-entry': [
                 {
-                    title:
+                    title: 'Typing Skills & Speed',
+                    status: 'not-started',
+                    progress: 0,
+                    skills: [
+                        'Touch typing techniques',
+                        'Typing speed improvement',
+                        'Accuracy in typing',
+                        'Keyboard shortcuts',
+                        'Error correction'
+                    ],
+                    practiceMethods: [ //fix
+                        'Practice touch typing using online typing tutors or software. Focus on proper finger placement and posture.',
+                        'Set a goal to improve your typing speed by a certain number of words per minute (WPM) each week. Use typing tests to track your progress.',
+                        'Work on accuracy by practicing typing exercises that focus on common words and phrases. Use spell check tools to identify and correct errors.',
+                        'Learn and practice keyboard shortcuts for common tasks, such as copy, paste, and undo. Use these shortcuts to improve efficiency.',
+                        'Practice error correction techniques, such as backspacing and retyping. Focus on correcting mistakes quickly without losing your place.'
+                    ],
+                    resources: [ //fix
+                        '<a href="https://www.youtube.com/watch?v=4b1k2g3f4g5&ab_channel=TypingSkillsTraining" target="_blank" rel="noopener noreferrer" title="Typing Skills Training Video">Typing Skills Training Video</a>',
+                        '<a href="https://www.typing.com/" target="_blank" rel="noopener noreferrer" title="Typing Practice Website">Typing Practice Website</a>'
+                    ]
+                },
+                {
+                    title: 'Data Entry Software Proficiency',
+                    status: 'not-started',
+                    progress: 0,
+                    skills: [
+                        'Familiarity with data entry software',
+                        'Data validation techniques',
+                        'Database management basics',
+                        'Spreadsheet skills',
+                        'Data import/export procedures'
+                    ],
+                    practiceMethods: [ //fix
+                        'Familiarize yourself with common data entry software such as Microsoft Excel, Google Sheets, or specialized data entry applications. Practice using their features and functions.',
+                        'Learn and practice data validation techniques to ensure accuracy and consistency in data entry. Use tools like drop-down lists and data validation rules.',
+                        'Understand basic database management concepts, such as tables, records, and fields. Practice creating and managing simple databases.',
+                        'Practice using spreadsheets for data entry tasks, including formulas, functions, and formatting. Focus on organizing and analyzing data effectively.',
+                        'Learn how to import and export data between different software applications. Practice transferring data between spreadsheets and databases.'
+                    ],
+                    resources: [ //fix
+                        '<a href="https://www.youtube.com/watch?v=4b1k2g3f4g5&ab_channel=DataEntrySoftwareTraining" target="_blank" rel="noopener noreferrer" title="Data Entry Software Training Video">Data Entry Software Training Video</a>',
+                        '<a href="https://www.gcflearnfree.org/topics/excel/" target="_blank" rel="noopener noreferrer" title="Excel Training Website">Excel Training Website</a>'
+                    ]
+                },
+                {
+                    title: 'Data Accuracy & Validation',
+                    status: 'not-started',
+                    progress: 0,
+                    skills: [
+                        'Data verification techniques',
+                        'Error checking procedures',
+                        'Quality control methods',
+                        'Attention to detail',
+                        'Validation rules'
+                    ],
+                    practiceMethods: [ //fix
+                        'Practice data verification techniques, such as cross-referencing data with source documents. Use tools like VLOOKUP or INDEX-MATCH in spreadsheets.',
+                        'Learn and implement error checking procedures to identify and correct mistakes in data entry. Practice using spell check and grammar check tools.',
+                        'Understand quality control methods for data entry, such as double-checking entries and using automated validation tools. Practice applying these methods consistently.',
+                        'Develop attention to detail by reviewing your work for accuracy and completeness. Practice identifying and correcting errors in sample data sets.',
+                        'Learn how to create and apply validation rules in spreadsheets or databases to ensure data integrity. Practice setting up rules for common data entry tasks.'
+                    ],
+                    resources: [ //fix
+                        '<a href="https://www.youtube.com/watch?v=4b1k2g3f4g5&ab_channel=DataAccuracyTraining" target="_blank" rel="noopener noreferrer" title="Data Accuracy Training Video">Data Accuracy Training Video</a>',
+                        '<a href="https://www.smartsheet.com/content/data-validation-excel" target="_blank" rel="noopener noreferrer" title="Data Validation Guide">Data Validation Guide</a>'
+                    ]
+                },
+                {
+                    title: 'Software Proficiency',
+                    status: 'not-started',
+                    progress: 0,
+                    skilld: [
+                        'Microsoft Excel basics',
+                        'Google Sheets operation',
+                        'Database software',
+                        'File Management',
+                        'Software navigation'
+                    ],
+                    practiceMethods: [ //fix
+                        'Learn the basics of Microsoft Excel, including creating spreadsheets, entering data, and using basic formulas. Practice formatting cells and organizing data effectively.',
+                        'Familiarize yourself with Google Sheets and its features, such as collaboration tools and cloud storage. Practice sharing and editing spreadsheets with others.',
+                        'Understand how to use database software for data entry tasks. Practice creating tables, entering records, and running queries.',
+                        'Practice file management techniques, such as organizing files into folders, naming conventions, and version control. Focus on keeping your files organized and accessible.',
+                        'Learn how to navigate different software applications efficiently. Practice using keyboard shortcuts and menus to improve your workflow.'
+                    ],
+                    resources: [ //fix
+                        '<a href="https://www.youtube.com/watch?v=4b1k2g3f4g5&ab_channel=SoftwareProficiencyTraining" target="_blank" rel="noopener noreferrer" title="Software Proficiency Training Video">Software Proficiency Training Video</a>',
+                        '<a href="https://www.gcflearnfree.org/topics/excel/" target="_blank" rel="noopener noreferrer" title="Excel Training Website">Excel Training Website</a>'
+                    ]
+                },
+                {
+                    title: 'Attention to Detail',
+                    status: 'not-started',
+                    progress: 0,
+                    skills: [
+                        'Identifying errors',
+                        'Data consistency checks',
+                        'Reviewing data entries',
+                        'Spotting discrepancies',
+                        'Quality assurance'
+                    ],
+                    practiceMethods: [ //fix
+                        'Practice identifying errors in sample data sets. Focus on spotting typos, formatting issues, and inconsistencies.',
+                        'Learn how to perform data consistency checks to ensure uniformity in data entry. Practice using tools like conditional formatting to highlight discrepancies.',
+                        'Review your data entries regularly to catch mistakes early. Practice setting aside time for thorough reviews of your work.',
+                        'Develop skills for spotting discrepancies in data, such as mismatched values or incorrect formats. Practice comparing data against source documents.',
+                        'Implement quality assurance practices to maintain high standards in your data entry work. Practice following checklists and procedures consistently.'
+                    ],
+                    resources: [ //fix
+                        '<a href="https://www.youtube.com/watch?v=4b1k2g3f4g5&ab_channel=AttentionToDetailTraining" target="_blank" rel="noopener noreferrer" title="Attention to Detail Training Video">Attention to Detail Training Video</a>',
+                        '<a href="https://www.smartsheet.com/content/data-validation-excel" target="_blank" rel="noopener noreferrer" title="Data Validation Guide">Data Validation Guide</a>'
+                    ]
+                },
+                {
+                    title: 'Workplace Organization',
+                    status: 'not-started',
+                    progress: 0,
+                    skills: [
+                        'Organizing workspaces',
+                        'Time management',
+                        'Task prioritization',
+                        'Workflow optimization',
+                        'Documentation practices'
+                    ],
+                    practiceMethods: [ //fix
+                        'Practice organizing your workspace to improve efficiency. Keep frequently used items within reach and declutter regularly.',
+                        'Learn time management techniques to prioritize tasks effectively. Practice using tools like to-do lists or task management apps.',
+                        'Develop skills for task prioritization by identifying urgent and important tasks. Practice using the Eisenhower Matrix or similar methods.',
+                        'Optimize your workflow by identifying bottlenecks and streamlining processes. Practice analyzing your work habits and making adjustments as needed.',
+                        'Implement good documentation practices, such as keeping records of completed tasks and maintaining clear communication with colleagues.'
+                    ],
+                    resources: [ //fix
+                        '<a href="https://www.youtube.com/watch?v=4b1k2g3f4g5&ab_channel=WorkplaceOrganizationTraining" target="_blank" rel="noopener noreferrer" title="Workplace Organization Training Video">Workplace Organization Training Video</a>',
+                        '<a href="https://www.mindtools.com/pages/article/newTMC_08.htm" target="_blank" rel="noopener noreferrer" title="Time Management Guide">Time Management Guide</a>'
+                    ]
                 }
             ]
         
         this.updateTrainingModulesUI();
-    }
+    };
+
+    
 
     updateTrainingModulesUI() {
         const container = document.getElementById('modules-container');
