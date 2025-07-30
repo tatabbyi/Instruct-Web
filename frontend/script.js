@@ -570,7 +570,7 @@ class LifeAssistant {
                     ]
                 }
             ],
-            'Care-Taker': [
+            'care-taker': [
                 {
                     title: 'Cleaning Safety Procedures',
                     status: 'not-started',
@@ -925,6 +925,263 @@ class LifeAssistant {
 
     startModule(jobType, moduleIndex) {
         console.log(`Starting module ${moduleIndex} for ${jobType}`);
+    }
+
+    startPracticeSession(jobType, moduleIndex) {
+        const practiceScenarios = {
+            'store-clerk': {
+                0: {
+                    scenarios: [
+                        {
+                            type: 'role-play',
+                            title: 'Difficult Customer Scenario',
+                            description: 'A customer is upset about a product that was out of stock.',
+                            helperRole: 'Angry customer who is frustrated about a missing item',
+                            userRole: 'Store clerk trying to help',
+                            helperScript: [
+                                "I can\'t believe you don\'t have this item in stock! I came all the way here for it.",
+                                "This is unacceptable! I need it today, what are you going to do about it?",
+                                "I demand a discount or some compensation for this inconvenience!"
+                            ],
+                            correctResponses: [
+                                "I apologize for the inconvenience. Let me check if we can order it for you.",
+                                "I understand your frustration. We can offer you a similar product or a discount on your next purchase.",
+                                "Thank you for your patience. I will do my best to resolve this issue for you."
+                            ]
+                        },
+                        {
+                            type: 'quiz',
+                            title: 'Customer Service Quiz',
+                            questions: [
+                                {
+                                    question: 'What is the best way to handle an angry customer?',
+                                    options: [
+                                        'Ignore them and hope they go away',
+                                        'Listen to their concerns and apologize sincerely',
+                                        'Argue with them until they calm down',
+                                        'Offer them a discount immediately'
+                                    ],
+                                    correct: 2
+                                },
+                                {
+                                    question: 'How should you respond to a customer asking for a refund?',
+                                    options: [
+                                        'Tell them it\'s not possible',
+                                        'Ask for their receipt and follow the store policy',
+                                        'Ignore their request',
+                                        'Offer them store credit instead'
+                                    ],
+                                    correct: 2
+                                },
+                                {
+                                    question: 'What is the most important skill for a store clerk?',
+                                    options: [
+                                        'Knowledge of products',
+                                        'Ability to handle cash',
+                                        'Excellent communication and customer service skills',
+                                        'Speed in processing transactions'
+                                    ],
+                                    correct: 3
+                                }
+                            ]
+                        }
+                    ]
+                },
+                1: {
+                    scenarios: [
+                        {
+                            type: 'role-play',
+                            title: 'Cash Transaction Practice',
+                            description: 'Practice handling cash transactions with different amounts.',
+                            helperRole: 'Customer making purchases',
+                            userRole: 'Cashier handling transactions',
+                            helperScript: [
+                                "I would like to buy these items, here is $20.",
+                                "Can I pay with a $50 bill for these items?",
+                                "I have a coupon, can you apply it to my purchase?"
+                            ],
+                            correctResponses: [
+                                "Thank you for your payment. Here is your change.",
+                                "I can accept that amount, let me process your payment.",
+                                "Sure, I will apply the coupon to your purchase."
+                            ]
+                        },
+                        {
+                            type: 'quiz',
+                            title: 'Cash Handling Quiz',
+                            questions: [
+                                {
+                                    question: 'What is the first step in handling a cash transaction?',
+                                    options: [
+                                        'Count the cash in the register',
+                                        'Ask the customer for their payment method',
+                                        'Process the transaction immediately',
+                                        'Give change to the customer'
+                                    ],
+                                    correct: 2
+                                },
+                                {
+                                    question: 'How should you handle a situation where a customer gives you a counterfeit bill?',
+                                    options: [
+                                        'Ignore it and continue with the transaction',
+                                        'Politely inform the customer and refuse the bill',
+                                        'Take the bill and report it later',
+                                        'Give them change for it'
+                                    ],
+                                    correct: 2
+                                },
+                                {
+                                    question: 'What is the best practice for counting change back to a customer?',
+                                    options: [
+                                        'Count it silently to yourself',
+                                        'Count it out loud, starting with the largest denomination',
+                                        'Hand them the change without counting',
+                                        'Ask them to count it themselves'
+                                    ],
+                                    correct: 2
+                                },
+                                {
+                                    question: "A customer gives you $50 for a $23.45 purchase. How much change do you give back?",
+                                    options: [
+                                        "$26.55", "$27.55", "$26.45", "$27.45"
+                                    ],
+                                    correct: 0
+                                }
+                            ]
+                        }
+                    ]
+                }
+            },
+            'care-taker':{
+                0: {
+                    scenarios: [
+                        {
+                            type: 'role-play',
+                            title: 'Safety Protocol Practice',
+                            description: 'Practice following safety protocols in a cleaning enviorment.',
+                            helperRole: 'Safety supervisor',
+                            userRole: 'New cleaner',
+                            helperScript: [
+                                "What safety equipment should you wear when using cleaning chemicals?",
+                                "What should you do if you spill a hazardous chemical?",
+                                "How do you properly dispose of used cleaning materials?"
+                                "How should you lift heavy objects safely?"
+                            ],
+                            correctResponses: [
+                                "I should wear gloves, goggles, and a mask when handling chemicals.",
+                                "I should immediately contain the spill, follow the safety procedures, and report it to my supervisor.",
+                                "I should follow the disposal guidelines for hazardous materials and ensure they are disposed of safely.",
+                                "I should bend my knees, keep my back straight, and lift with my legs to avoid injury."
+                            ]
+                        },
+                        {
+                            type: 'quiz',
+                            title: 'Safety Quiz',
+                            questions: [
+                                {
+                                    question: "What is the first step in handling a chemical spill?",
+                                    options: [
+                                        "Ignore it and continue working",
+                                        "Contain the spill and follow safety procedures",
+                                        "Report it to a supervisor immediately",
+                                        "Clean it up with a cloth"
+                                    ],
+                                    correct: 2
+                                },
+                                {
+                                    question: "What personal protective equipment (PPE) should you wear when handling chemicals?",
+                                    options: [
+                                        "Gloves and goggles",
+                                        "Mask and apron",
+                                        "Gloves, goggles, and mask",
+                                        "No PPE is needed"
+                                    ],
+                                    correct: 3
+                                },
+                                {
+                                    question: "How should you lift heavy objects safely?",
+                                    options: [
+                                        "Bend at the waist and lift with your back",
+                                        "Keep your back straight and lift with your legs",
+                                        "Use your arms to lift without bending your knees",
+                                        "Ask someone else to lift it for you"
+                                    ],
+                                    correct: 2
+                                },
+                                {
+                                    question: "What should you do if you see a wet floor?",
+                                    options: [
+                                        "Ignore it", "Place a wet floor sign", "Clean it immediately", "Walk around it"
+                                    ],
+                                    correct: 2
+                                }
+                            ]
+                        }
+                    ]
+                }
+            },
+            'data-entry': {
+                0: {
+                    scenarios: [
+                        {
+                            type: 'typing-test',
+                            title: 'Speed Typing Test',
+                            description: 'Practice your typing speed and accuracy.',
+                            text: "The quick brown fox jumps over the lazy dog. This sentence contains every letter of the alphabet. Practice typing this sentence to improve you speed and accuracy.",
+                            timeLimit: 60
+                        },
+                        {
+                            type: 'quiz',
+                            title: 'Data Entry Quiz',
+                            questions; [
+                                {
+                                    questions: "Whats the most important aspect of data entry?",
+                                    options: [
+                                        "Speed",
+                                        "Accuracy",
+                                        "Attention to detail",
+                                        "All of the above"
+                                    ],
+                                    correct: 3
+                                },
+                                {
+                                    question: "What is the best way to ensure data accuracy?",
+                                    options: [
+                                        "Double-checking entries",
+                                        "Using spell check",
+                                        "Relying on memory",
+                                        "Ignoring errors"
+                                    ],
+                                    correct: 1
+                                },
+                                {
+                                    question: "How should you handle a data entry error?",
+                                    options: [
+                                        "Ignore it",
+                                        "Correct it immediately",
+                                        "Report it to a supervisor",
+                                        "Leave it for someone else to fix"
+                                    ],
+                                    correct: 2
+                                },
+                                {
+                                    question: "What is the purpose of data validation?",
+                                    options: [
+                                        "To ensure data is entered correctly",
+                                        "To speed up data entry",
+                                        "To make data look good",
+                                        "To reduce the amount of data"
+                                    ],
+                                    correct: 1
+                                }
+                            ]
+                        }
+                    ]
+                }
+            }
+        };
+
+        
     }
 }
 const lifeAssistant = new LifeAssistant();
