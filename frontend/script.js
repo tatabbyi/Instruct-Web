@@ -1181,7 +1181,22 @@ class LifeAssistant {
             }
         };
 
-        
+        const moduleScenarios = practiceScenarios[jobType]?.[moduleIndex];
+        if(!moduleScenarios) {
+            this.showNotification('Practice scenarios coming soon for this module', 'info');
+            return;
+        }
+
+        this.showPracticeModal(moduleScenarios, jobType, moduleIndex);
+    }
+
+    showPracticeModal(scenarios, jobType, moduleIndex) {
+        const modalContent = `
+            <div class="practice-session-modal">
+                <div class="practice-header">
+                    <h2><i class="fas fa-robot"></i> Helper Practice Sessions</h2>
+                    <p> Practice your skills with a Helper!</p>
+                </div>
     }
 }
 const lifeAssistant = new LifeAssistant();
