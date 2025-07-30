@@ -482,7 +482,7 @@ class LifeAssistant {
                         'Conflict resolution',
                         'Customer empathy'
                     ],
-                    practiceMethods: [
+                    practiceMethods: [ //example of how other practiceMethods will look at end
                         'Role-play customer scenarios with a friend or family member, if thinking about it like a script helps use that to your advantage. General Acknowledgment: "Thank you for reaching out." "I appreciate your patience." "I understand how important this is to you." Apologizing: "I apologize for any inconvenience this may have caused." "I\'m sorry to hear that you\'re experiencing this issue." "We regret that this has happened and appreciate your understanding." Providing Information: "Let me provide you with the information you need." "Here\'s what I can do for you." "I\'d be happy to assist you with that." Clarification: "Could you please provide more details about the issue?" "Can you clarify what you mean by...?" "I want to make sure I understand your concern correctly." Offering Solutions: "Here are a few options to resolve your issue." "I recommend trying this solution..." "Let\'s work together to find a resolution." Closing the Conversation: "Is there anything else I can assist you with?" "Thank you for your understanding." "I\'m glad I could help. Have a great day!" Follow-Up: "I will follow up with you regarding this matter." "Please feel free to reach out if you need further assistance." "I\'ll keep you updated on the progress."',
                     
                         'Provide fast responses to your clients to demonstrate that you value their demands. Practice maintaining eye contact, nodding, and repeating back what customers say. Use phrases like "I understand you\'re saying..." and "Let me make sure I heard you correctly..." Ask follow-up questions to show you\'re engaged and truly listening to their concerns.',
@@ -495,11 +495,205 @@ class LifeAssistant {
                     
                         'Help others! Be helpful even if you are unable to assist. It demonstrates your concern. Additionally, adding a smile alongside it. Show empathy by putting yourself in the customer\'s shoes. Use phrases like "I can imagine how frustrating this must be" and "I would feel the same way in your situation." Practice responding to emotional customers with compassion and understanding.'
 
-                        this.updateTrainingModulesUI
+                        this.updateTrainingModulesUI //need to make this work for each section later
+                    ],
+                    resources: [ //Later resources will be added specifically made for this module.
+                        '<a href="https://cursa.app/free-courses-customer-service-online" target="_blank" rel="noopener noreferrer" title="Free Customer Service Courses">Free Customer Service Courses on Cursa</a>',
+                        '<a href="https://www.youtube.com/watch?v=SsNfAOTZNZY&ab_channel=CareerVidz" target="_blank" rel="noopener noreferrer" title="Training Video">Youtube Customer Service Masterclass</a>'
+                    ]
+                },
+                {
+                    title: 'Cash Handling & POS Systems',
+                    status: 'not-started',
+                    progress: 0,
+                    skills: [
+                        'Math skills and money counting',
+                        'POS system operation',
+                        'Cash register procedures',
+                        'Handling Transactions',
+                        'Receipt handling',
+                    ],
+                    practiceMethods: [ //automated response for now will be edited later
+                        'Practice counting cash quickly and accurately using play money or real coins. Set a timer to improve speed and accuracy. Use a calculator to check your work.',
+                        'Familiarize yourself with the POS system by practicing common transactions like sales, returns, and exchanges. Use a demo version of the software if available.',
+                        'Role-play scenarios where you handle different types of transactions, such as cash, credit cards, and gift cards. Practice giving change and processing refunds.',
+                        'Practice handling receipts by organizing them in a logical order. Use color-coded folders or envelopes to keep track of different types of transactions.',
+                        'Simulate busy periods by processing multiple transactions in a row. Focus on maintaining accuracy while working quickly.'
+                    ],
+                    resources: [ //fix later
+                        '<a href="https://www.youtube.com/watch?v=4b1k2g3f4g5&ab_channel=RetailTraining" target="_blank" rel="noopener noreferrer" title="POS System Training Video">POS System Training Video</a>',
+                        '<a href="https://www.shopify.com/blog/pos-system-guide" target="_blank" rel="noopener noreferrer" title="POS System Guide">POS System Guide</a>'
+                    ]
+                },
+                {
+                    title: 'Inventory Management',
+                    status: 'not-started',
+                    progress: 0,
+                    skills: [
+                        'Stock management',
+                        'Inventory tracking',
+                        'Product organization',
+                        'Loss prevention techniques',
+                        'Supply chain basics'
+                    ],
+                    practiceMethods: [ //fix
+                        'Practice organizing products on shelves by category and size. Use labels or tags to identify different sections. Create a system for restocking items when they run low.',
+                        'Use a spreadsheet or inventory management software to track stock levels. Practice updating the inventory regularly and generating reports.',
+                        'Role-play scenarios where you handle inventory discrepancies, such as missing items or overstock situations. Practice investigating and resolving these issues.',
+                        'Learn about loss prevention techniques, such as monitoring for theft and implementing security measures. Practice identifying potential risks in a retail environment.',
+                        'Familiarize yourself with the supply chain process by learning about suppliers, shipping, and receiving products. Practice communicating with suppliers to place orders.'
+                    ],
+                    resources: [ //fix
+                        '<a href="https://www.youtube.com/watch?v=4b1k2g3f4g5&ab_channel=RetailTraining" target="_blank" rel="noopener noreferrer" title="Inventory Management Training Video">Inventory Management Training Video</a>',
+                        '<a href="https://www.shopify.com/blog/inventory-management-guide" target="_blank" rel="noopener noreferrer" title="Inventory Management Guide">Inventory Management Guide</a>'
+                    ]
+                },
+                {
+                    title: 'Stress Management & Resilience',
+                    status: 'not-started',
+                    progress: 0,
+                    skills: [
+                        'Stress reduction techniques',
+                        'Time management',
+                        'Work-life balance strategies',
+                        'Building resilience',
+                        'Self-care practices'
+                    ],
+                    practiceMethods: [ //fix
+                        'Practice deep breathing exercises to reduce stress. Inhale deeply through your nose, hold for a few seconds, and exhale slowly through your mouth. Repeat several times.',
+                        'Use a planner or digital calendar to organize your tasks and schedule breaks. Practice prioritizing tasks based on urgency and importance.',
+                        'Set boundaries between work and personal life by establishing specific work hours. Practice saying no to additional tasks that interfere with your personal time.',
+                        'Learn about resilience-building techniques, such as positive thinking and problem-solving. Practice reframing negative thoughts into positive ones.',
+                        'Incorporate self-care practices into your daily routine, such as exercise, healthy eating, and relaxation techniques. Practice taking short breaks throughout the day.'
+                    ],
+                    resources: [ //fix
+                        '<a href="https://www.youtube.com/watch?v=4b1k2g3f4g5&ab_channel=RetailTraining" target="_blank" rel="noopener noreferrer" title="Stress Management Training Video">Stress Management Training Video</a>',
+                        '<a href="https://www.mindtools.com/pages/article/newTCS_00.htm" target="_blank" rel="noopener noreferrer" title="Stress Management Guide">Stress Management Guide</a>'
                     ]
                 }
+            ],
+            'Care-Taker': [
+                {
+                    title: 'Cleaning Safety Procedures',
+                    status: 'not-started',
+                    progress: 0,
+                    skills: [
+                        'Understanding cleaning chemicals',
+                        'Proper use of PPE',
+                        'Safe lifting techniques',
+                        'Hazardous material handling',
+                        'Emergency procedures'
+                    ],
+                    practiceMethods: [ //fix
+                        'Familiarize yourself with the Material Safety Data Sheets (MSDS) for all cleaning chemicals used. Practice reading and understanding the safety information provided.',
+                        'Practice putting on and removing personal protective equipment (PPE) such as gloves, masks, and goggles. Ensure proper fit and comfort.',
+                        'Learn and practice safe lifting techniques to prevent injury. Use your legs to lift, keep your back straight, and avoid twisting while lifting.',
+                        'Understand how to handle hazardous materials safely. Practice identifying hazardous materials in the workplace and following proper disposal procedures.',
+                        'Review emergency procedures for spills, accidents, or injuries. Practice responding to hypothetical emergency scenarios.'
+                    ],
+                    resources: [ //fix
+                        '<a href="https://www.youtube.com/watch?v=4b1k2g3f4g5&ab_channel=CleaningSafetyTraining" target="_blank" rel="noopener noreferrer" title="Cleaning Safety Training Video">Cleaning Safety Training Video</a>',
+                        '<a href="https://www.osha.gov/Publications/osha3151.pdf" target="_blank" rel="noopener noreferrer" title="OSHA Cleaning Safety Guide">OSHA Cleaning Safety Guide</a>'
+                    ]
+                },
+                {
+                    title: 'Chemical Handling & Usage',
+                    status: 'not-staretd',
+                    progress: 0,
+                    skills: [
+                        'Chemical mixing and dilution',
+                        'Understanding pH levels',
+                        'Proper storage of chemicals',
+                        'Labeling and documentation',
+                        'Disposal procedures'
+                    ],
+                    practiceMethods: [ //fix
+                        'Practice mixing and diluting cleaning chemicals according to manufacturer instructions. Use measuring tools for accuracy.',
+                        'Learn about pH levels of different cleaning products. Practice testing pH levels using pH strips or meters.',
+                        'Understand proper storage procedures for cleaning chemicals, including temperature and ventilation requirements. Practice organizing chemicals in a designated storage area.',
+                        'Practice labeling cleaning products with the correct information, including product name, concentration, and safety warnings. Ensure labels are clear and legible.',
+                        'Review disposal procedures for hazardous waste. Practice following local regulations for disposing of cleaning chemicals.'
+                    ],
+                    resources: [ //fix
+                        '<a href="https://www.youtube.com/watch?v=4b1k2g3f4g5&ab_channel=ChemicalHandlingTraining" target="_blank" rel="noopener noreferrer" title="Chemical Handling Training Video">Chemical Handling Training Video</a>',
+                        '<a href="https://www.epa.gov/hw/learn-about-hazardous-waste" target="_blank" rel="noopener noreferrer" title="EPA Hazardous Waste Guide">EPA Hazardous Waste Guide</a>'
+                    ]
+                },
+                {
+                    title: 'Equipment Operation',
+                    status:'not-started',
+                    progress: 0,
+                    skills: [
+                        'Vacum cleaner operation',
+                        'Floor cleaning equipment',
+                        'Equipment maintenance',
+                        'Safety procedures & checks',
+                        'Troubleshooting basics',
+                    ],
+                    practiceMethods: [ //fix
+                        'Practice operating different types of vacuum cleaners, including upright, canister, and robotic models. Familiarize yourself with their features and settings.',
+                        'Learn how to operate floor cleaning equipment such as scrubbers and polishers. Practice using them on different floor surfaces.',
+                        'Understand basic maintenance procedures for cleaning equipment, such as changing filters, emptying bags, and cleaning brushes. Practice performing these tasks regularly.',
+                        'Review safety procedures for operating cleaning equipment, including checking for hazards and ensuring proper use of safety features.',
+                        'Practice troubleshooting common issues with cleaning equipment, such as clogs or malfunctions. Learn how to identify and resolve these problems.'
+                    ],
+                    resources: [ //fix
+                        '<a href="https://www.youtube.com/watch?v=4b1k2g3f4g5&ab_channel=EquipmentOperationTraining" target="_blank" rel="noopener noreferrer" title="Equipment Operation Training Video">Equipment Operation Training Video</a>',
+                        '<a href="https://www.cleanlink.com/cleanlinkminute/article/How-To-Operate-Cleaning-Equipment-Safely--20224" target="_blank" rel="noopener noreferrer" title="Cleaning Equipment Safety Guide">Cleaning Equipment Safety Guide</a>'
+                    ]
+                },
+                {
+                    title: 'Time Management',
+                    status: 'not-started',
+                    progress: 0,
+                    skills: [
+                        'Prioritizing tasks',
+                        'Creating cleaning schedules',
+                        'Efficient work practices',
+                        'Goal setting',
+                        'Time tracking'
+                    ],
+                    practiceMethods: [ //fix
+                        'Practice prioritizing cleaning tasks based on urgency and importance. Create a daily or weekly cleaning schedule that outlines tasks and deadlines.',
+                        'Learn how to create effective cleaning schedules that maximize efficiency. Practice organizing tasks by area or type of cleaning.',
+                        'Identify and implement efficient work practices, such as using the right tools and techniques for each task. Practice streamlining your cleaning process.',
+                        'Set specific, measurable goals for your cleaning tasks. Practice breaking down larger tasks into smaller, manageable steps.',
+                        'Use time tracking tools or apps to monitor your cleaning progress. Practice reviewing and adjusting your schedule based on time spent on tasks.'
+                    ],
+                    resources: [ //fix
+                        '<a href="https://www.youtube.com/watch?v=4b1k2g3f4g5&ab_channel=TimeManagementTraining" target="_blank" rel="noopener noreferrer" title="Time Management Training Video">Time Management Training Video</a>',
+                        '<a href="https://www.mindtools.com/pages/article/newTMC_08.htm" target="_blank" rel="noopener noreferrer" title="Time Management Guide">Time Management Guide</a>'
+                    ]
+                },
+                {
+                    title: 'Quality Standards',
+                    status: 'not-started',
+                    progress: 0,
+                    skills: [
+                        'Quality inspection procedures',
+                        'Standard operating procedures',
+                        'Attention to detail',
+                        'Quality control checklists',
+                        'Feedback acceptance'
+                    ],
+                    practiceMethods: [ //fix
+                        'Practice conducting quality inspections of cleaned areas. Use a checklist to ensure all tasks are completed to standard.',
+                        'Familiarize yourself with standard operating procedures (SOPs) for cleaning tasks. Practice following these procedures consistently.',
+                        'Develop attention to detail by reviewing your work for missed spots or areas that need improvement. Practice identifying and correcting mistakes.',
+                        'Create quality control checklists for different cleaning tasks. Practice using these checklists to ensure all steps are completed.',
+                        'Learn how to accept and implement feedback on your cleaning performance. Practice seeking feedback from supervisors or colleagues.'
+                    ],
+                    resources: [ //fix
+                        '<a href="https://www.youtube.com/watch?v=4b1k2g3f4g5&ab_channel=QualityStandardsTraining" target="_blank" rel="noopener noreferrer" title="Quality Standards Training Video">Quality Standards Training Video</a>',
+                        '<a href="https://www.iso.org/iso-9001-quality-management.html" target="_blank" rel="noopener noreferrer" title="ISO 9001 Quality Management Guide">ISO 9001 Quality Management Guide</a>'
+                    ]
+                }
+            ],
+            'data-entry': [
+                {
+                    title:
+                }
             ]
-        };
         
         this.updateTrainingModulesUI();
     }
