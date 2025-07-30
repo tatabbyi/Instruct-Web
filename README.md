@@ -69,4 +69,7 @@ The Overall Goal: This application is intended for a wide audience to help impro
 
 ##  Customer Service Problem-Solving  
 - Shataieva, T. (2021). *Customer Service Problem-Solving Techniques with Examples*. [HelpCrunch Blog](https://helpcrunch.com/blog/customer-service-problem-solving/). [Accessed 29 Jul. 2025].
+- Resources https://cursa.app/free-courses-customer-service-online
+- https://www.youtube.com/watch?v=SsNfAOTZNZY&ab_channel=CareerVidz
+
 
