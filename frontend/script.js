@@ -1383,5 +1383,30 @@ class LifeAssistant {
         chatMessages.scrollTop = chatMessages.scrollHeight;
     }
 
+    generateHelperResponse(userMessage, scenario, messageIndex) {
+        this.trackConversation(userMessage, scenario);
+        const analysis = this.analyzeUserMessage(userMessage, scenario);
+        return this.createContextualResponse(analysis, scenario, messageIndex);
+    }
+
+    trackConversation(userMessage, scenario) {
+        this.helperMemory.conversationHistory.push({
+            message: userMessage,
+            timestramp: new Date().toISOString(),
+            scenario: scenario.title,
+            jobType: this.selectedJob
+        });
+
+        if(this.helperMemory.conversationHistory.length > 20) {
+            this.helperMemory.conversationHistory.shift();
+        }
+
+        this.helperMemory.sessionStats.messageSent++;
+
+        if(userMessage.toLowerCase().includes('manager') || userMessage.toLowerCase().includes('supervisor')) {
+            this.helperMemory.sessionStats.escalationCount++;
+        } 
+    }
+
 }
 const lifeAssistant = new LifeAssistant();
