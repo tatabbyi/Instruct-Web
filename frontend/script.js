@@ -1236,7 +1236,83 @@ class LifeAssistant {
             document.body.appendChild(modal);
         }
 
-        
+        modal.dataset.scenarios = JSON.stringify(scenarios);
+        modal.dataset.jobType = jobType;
+        modal.dataset.moduleIndex = moduleIndex;
+
+        document.getElementById('practice-modal-body').innerHTML.innerHTML = modalContent;
+        modal.style.display = 'block';
     }
+
+    hidePracticeModal() {
+        const modal = document.getElementById('practice-modal');
+        if (modal) {
+            modal.style.display = 'none';
+        }
+    }
+
+    startScenario(scenarioIndex, jobType, moduleIndex) {
+        const modal = document.getElementById('practice-modal');
+        const scenarios =JSON.parse(modal.dataset.scenarios);
+        const scenario = scenarios.scenarios[scenarioIndex];
+
+        if (scenario.type === 'roleplay') {
+            this.startRoleplayScenario(scenario, scenarioIndex);
+        } else if (scenario.type === 'quiz') {
+            this.startQuizScenario(scenario, acenarioIndex);
+        } else if (scenario.type === 'typing-test') {
+            this.startTypingTest(scenario, scenarioIndex);
+        }
+    }
+
+    startRoleplayScenario(scenario, scenarioIndex) {
+        const modalContent = `
+            <div class="roleplay-session">
+                <div class="roleplay-header">
+                    <h3>${scenario.title}</h3>
+                    <p>${scenario.description}</p>
+                </div>
+
+                <div class="roleplay-info">
+                    <div class="role-info">
+                        <h4><i class="fas fa-robot"></i> Helper Role</h4>
+                        <p>${scenario.helperRole}</p>
+                    </div>
+                    <div class="role-info">
+                        <h4><i class="fas fa-user"></i> Your Role:</h4>
+                        <p>${scenario.userRole}</p>
+                    </div>
+                </div>
+
+                <div class="chat-container">
+                    <div id="chat-messages" class="chat-messages">
+                        <div class="message helper-message">
+                            <div class="message-content">
+                                <i class="fas fa-robot"></i>
+                                <p>${scenario.helperScript[0]}</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="chat-input">
+                        <input type="text" id="user-response" placeholder="Type your response..." />
+                        <button class="btn btn-primary" onclick="lifeAssistant.sendMessage(${scenarioIndex})">
+                            <i class="fas fa-paper-plane"></i> send
+                        </button>
+                    </div>
+                </div>
+
+                <div class="roleplay-controls">
+                    <button class="btn btn-secondary" onclick="lifeAssistant.resetRoleplay(${scenarioIndex})">
+                        <i class="fas fa-redo"></i> Restart
+                    </button>
+                    <button class="btn btn-success" onclick="lifeAssistant.completeRoleplay(${scenarioIndex})">
+                        <i class="fas fa-check"></i> Complate
+                    </button>
+                </div>
+            </div>
+        `;
+    }
+
 }
 const lifeAssistant = new LifeAssistant();
