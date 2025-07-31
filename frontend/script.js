@@ -12,6 +12,20 @@ class LifeAssistant {
         this.certifications = [];
         this.selectedJob = 'store-clerk';
         this.trainingModules = {};
+        this.helperMemory = {
+            conversationHistory: [],
+            userPerformance: {
+                'store-clerk': {difficulty: 'medium', successRate: 0.5 },
+                'cleaner': {difficulty: 'medium', successRate: 0.5 },
+                'data-entry': {difficulty: 'medium', successRate: 0.5 },
+            },
+            userPreferences: {},
+            sessionStats: {
+                messagesSent: 0,
+                correctResponses: 0,
+                escalationCount: 0
+            }
+        };
         
         this.init();
     }
@@ -1064,7 +1078,7 @@ class LifeAssistant {
                             helperScript: [
                                 "What safety equipment should you wear when using cleaning chemicals?",
                                 "What should you do if you spill a hazardous chemical?",
-                                "How do you properly dispose of used cleaning materials?"
+                                "How do you properly dispose of used cleaning materials?",
                                 "How should you lift heavy objects safely?"
                             ],
                             correctResponses: [
@@ -1133,7 +1147,7 @@ class LifeAssistant {
                         {
                             type: 'quiz',
                             title: 'Data Entry Quiz',
-                            questions; [
+                            questions: [
                                 {
                                     questions: "Whats the most important aspect of data entry?",
                                     options: [
@@ -1289,7 +1303,7 @@ class LifeAssistant {
                         <div class="message helper-message">
                             <div class="message-content">
                                 <i class="fas fa-robot"></i>
-                                <p>${scenario.helperScript[0]}</p>
+                                <p>${this.getInitialHelperMessage(scenario)}</p>
                             </div>
                         </div>
                     </div>
@@ -1330,6 +1344,43 @@ class LifeAssistant {
                 }
             });
         }, 100);
+    }
+
+    sendMessage(scenarioIndex) {
+        const input = document.getElementById('user-input');
+        const message = input.value.trim();
+        if (!message) return;
+
+        const modal = document.getElementById('practice-modal');
+        const scenario = JSON.parse(modal.dataset.currentScenario);
+        const messageIndex = parseInt(modal.dataset.messageIndex);
+
+        const chatMessages = document.getElementById('chat-messages');
+        chatMessages.innerHTML += `
+            <div class="message user-message">
+                <div class="message-content">
+                    <p>${message}</p>
+                    <i class="fas fa-user">></i>
+                </div>
+            </div>
+        `;
+
+        setTimeout(() => {
+            const helperResponse = this.generateHelperResponse(message, scenario, messageIndex);
+            chatMessages.innerHTML += `
+                <div class="message helper-message">
+                    <div class="message-content">
+                        <i class="fas fa-robot"></i>
+                        <p>${helperResponse}</p>
+                    </div>
+                </div>
+            `;
+            modal.dataset.messageIndex = messageIndex + 1;
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }, 1000);
+
+        input.value = '';
+        chatMessages.scrollTop = chatMessages.scrollHeight;
     }
 
 }
