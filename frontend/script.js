@@ -1197,6 +1197,46 @@ class LifeAssistant {
                     <h2><i class="fas fa-robot"></i> Helper Practice Sessions</h2>
                     <p> Practice your skills with a Helper!</p>
                 </div>
+
+                <div class="scenario-list">
+                   ${scenarios.scenarios.mpa((scenario, index) => `
+                        <div class="scenario-card" onclick="lifeAssistant.startScenario(${index}, '${jobType}', ${moduleIndex})">"}
+                            <div class="scenario-icon">
+                                <i class="fas ${scenario.type === 'roleplay' ? 'fa-comments' : scenario.type === 'quiz' ? 'fa-question-circle' : 'fa-keyboard'}"></i>
+                            </div>
+                            <div class="scenario-content">>
+                                <h3>${scenario.title}</h3>
+                                <p>${scenario.description}</p>
+                                <span class="scenario-type">${scenario.type.toUpperCase()}</span>
+                            </div>
+                            <i class="fas fa-chevron-right"></i>
+                        </div>
+                    `).join('')}
+                </div>
+
+                <div class="practice-footer">
+                    <button class="btn btn-secondary" onclick="lifeAssistant.hidePracticeModal()">
+                        <i class="fas fa-arrow-left"></i> Back to Module
+                    </button>
+                </div>
+            </div>
+        `;
+
+        let modal = document.getElementById('practice-modal');
+        if (!modal) {
+            modal = document.createElement('div');
+            modal.id = 'practice-modal';
+            modal.className = 'modal';
+            modal.innerHTML = `
+                <div class="modal-content practice-modal-content">
+                    <span class="close" onclick="lifeAssistant.hidePracticeModal()">&times;</span>
+                    <div id="practice-modal-body"></div>
+                </div>
+            `;
+            document.body.appendChild(modal);
+        }
+
+        
     }
 }
 const lifeAssistant = new LifeAssistant();
