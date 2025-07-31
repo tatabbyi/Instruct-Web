@@ -1312,6 +1312,24 @@ class LifeAssistant {
                 </div>
             </div>
         `;
+
+        document.getElementById('practice-modal-body').innerHTML = modalContent;
+
+        const modal = document.getElementById('practice-modal');
+        modal.dataset.currentScenario = JSON.stringify(scenario);
+        modal.dataset.scenarioIndex = scenarioIndex;
+        modal.dataset.messageIndex = 0;
+
+        setTimeout(() => {
+            const input = document.getElementById('user-input');
+            input.focus();
+
+            input.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') {
+                    this.sendMessage(scenarioIndex);
+                }
+            });
+        }, 100);
     }
 
 }
