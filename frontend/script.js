@@ -1707,5 +1707,53 @@ class LifeAssistant {
         return response;
     }
 
+    getInitialHelperMessage(scenario) {
+        const initialMessages = {
+            'store-clerk': {
+                'Difficult Customer Scenario': [
+                    "I can't believe you don't have this item in stock! I drove all the way here for nothing!",
+                    "This is ridiculous! I need this item today. What are you going to do about it?",
+                    "I've bben a loyal customer for years and this is how you treat me?"
+                ],
+                'cash Transaction Practice': [
+                    "Hi, I'd like to buy these items. The total is $23.45.",
+                    "I'm paying with a $50 bill.",
+                    "Actually, I have exact change. Here's $23.45."
+                ]
+            },
+            'cleaner': {
+                'Safety Protocol Practice': [
+                    "What safety equipment should you wear when using cleaning chemicals?",
+                    "What should you do if you spill a cleaning chemical?",
+                    "How do you properly dispose of used cleaning materials?"
+                ],
+                'Chemical Handling Practice': [ //fix later
+                    "I need to clean the bathroom. What chemicals should I use?",
+                    "How do I mix the cleaning solution properly?",
+                    "What should I do if I accidentally mix the wrong chemicals?"
+                ]
+            },
+            'data-entry': {
+                'Typing Speed Test': [
+                    "Please type the following text as quickly and accurately as possible.",
+                    "Ready to test your typing skills? Let's begin.",
+                    "Focus on accuracy first, then speed."
+                ],
+                'Data Accuracy Practice': [
+                    "I need you to enter this customer information into the system.",
+                    "Please double-check all the data before submitting.",
+                    "Accuracy is crucial in data entry work."
+                ]
+            }
+        };
+
+        const jobType = this.selectedJob || 'store-clerk';
+        const jobMessages = initialMessages[jobType] || initialMessages['store-clerk'];
+        const scenarioMessages = jobMessages[scenario.title] || jobMessages[Object.keys(jobMessages)[0]];
+
+        const randomIndex = Math.floor(Math.random() * scenarioMessages.length);
+        return scenarioMessages[randomIndex];
+    }
+
 }
 const lifeAssistant = new LifeAssistant();
