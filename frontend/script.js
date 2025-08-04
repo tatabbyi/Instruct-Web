@@ -1440,6 +1440,185 @@ class LifeAssistant {
         }else if (aggressiveScore > 0) {
             sentiment = 'aggressive';
         }
+
+        let contentType = 'general';
+        if(lowerMessage.includes('manager') || lowerMessage.includes('supervisor')) {
+            contentType = 'escalation';
+        } else if (lowerMessage.includes('refund') || lowerMessage.includes('return') || lowerMessage.includes('money back')) {
+          contentType = 'refund_request';  
+        } else if (lowerMessage.inludes('discount') || lowerMessage.includes('compensation') || lowerMessage.includes('free')) {
+            contentType ='compensation_request';
+        } else if (lowerMessage.includes('order') || lowerMessage.includes('ship') || lowerMessage.includes('delivery')) {
+            contentType = 'order_request';
+        } else if (lowerMessage.includes('apology') || lowerMessage.includes('sorry')) {
+            contentType ='apology';
+        }else if (lowerMessage.includes('help') || lowerMessage.includes('assist')) {
+            contentType = 'help_request';
+        }else if (lowerMessage.includes('safety') || lowerMessage.includes('equipment') || lowerMessage.includes('protective')) {
+            contentType ='safety_request';
+        }else if (lowerMessage.includes('chemical')||  lowerMessage.includes('clean') || lowerMessage.includes('spill')) {
+            contentType = 'chemical_handaling';
+        }else if (lowerMessage.includes('data') || lowerMessage.includes('accuracy') || lowerMessage.includes('verify') || lowerMessage.includes('check')) {
+            contentType = 'data_accuracy';
+        }else if (lowerMessage.includes('type') || lowerMessage.includes('keyboard') || lowerMessage.includes ('speed') || lowerMessage.includes('wpm')) {
+            contentType = 'typing_help';
+        }
+
+        return {
+            sentiment,
+            contentType,
+            originalMessage: message,
+            positiveScore,
+            negativeScore,
+            agggressiveScore,
+        };
+    }
+
+    createContextualResponse(analysis, scenario, messageIndex) {
+        const { sentiment, contentType, originalMessage } = analysis;
+
+        const responseTemplates = {
+            'store-clerk': {
+                escalation: {
+                    positive: [ //fix later
+                        "I understand you'd like to speak with a manager. Let me get them for you right away.",
+                        "I appreciate your patience. I'll have a manager assist you immediately.",
+                        "Thank you for being understanding. Let me connect you with my supervisor."
+                    ],
+                    negative: [ //fix later
+                        "I apologize for the inconvenience. Let me see how I can assist you further.",
+                        "I understand your frustration. Please allow me to resolve this issue for you.",
+                        "I’m sorry to hear that. Let me do my best to make it right."
+                    ],
+                    aggressive: [
+                        "I understand you're upset. Let me get a manager to assist you.",
+                        "I apologize for the inconvenience. A manager will be with you shortly.",
+                        "I appreciate your feedback. Let me connect you with my supervisor."
+                    ]
+                },
+                refund_request: {
+                    positive: [
+                        "I can help you with that. Please provide your receipt and I'll process the refund.",
+                        "Thank you for bringing this to my attention. Let me assist you with the refund.",
+                        "I appreciate your patience. Let's get that refund processed for you."
+                    ],
+                    negative: [
+                        "I apologize for the inconvenience. Let me see how I can assist you with the refund.",
+                        "I understand your frustration. Please allow me to resolve this issue for you.",
+                        "I'm sorry to hear that. Let me do my best to make it right."
+                    ],
+                    aggressive: [
+                        "I understand you're upset about the refund. Let me get a manager to assist you.",
+                        "I apologize for the inconvenience. A manager will be with you shortly to handle the refund.",
+                        "I appreciate your feedback. Let me connect you with my supervisor for the refund."
+                    ]
+                },
+                compensation_request: {
+                    positive: [
+                        "I appreciate your understanding. Let me see how we can compensate you for this inconvenience.",
+                        "Thank you for your patience. I will do my best to offer you a suitable compensation.",
+                        "I understand your concern. Let's find a way to make this right for you."
+                    ],
+                    negative: [
+                        "I apologize for the inconvenience. Let me see how I can assist you with compensation.",
+                        "I understand your frustration. Please allow me to resolve this issue for you.",
+                        "I'm sorry to hear that. Let me do my best to make it right."
+                    ],
+                    aggressive: [
+                        "I understand you're upset about the compensation. Let me get a manager to assist you.",
+                        "I apologize for the inconvenience. A manager will be with you shortly to handle the compensation.",
+                        "I appreciate your feedback. Let me connect you with my supervisor for the compensation."
+                    ]
+                },
+                order_request: {
+                    positive: [
+                        "I can help you with that. Please provide your order details and I'll check the status for you.",
+                        "Thank you for bringing this to my attention. Let me assist you with your order request.",
+                        "I appreciate your patience. Let's get that order issue resolved for you."
+                    ],
+                    negative: [
+                        "I apologize for the inconvenience. Let me see how I can assist you with your order.",
+                        "I understand your frustration. Please allow me to resolve this issue for you.",
+                        "I'm sorry to hear that. Let me do my best to make it right."
+                    ],
+                    aggressive: [
+                        "I understand you're upset about the order. Let me get a manager to assist you.",
+                        "I apologize for the inconvenience. A manager will be with you shortly to handle the order request.",
+                        "I appreciate your feedback. Let me connect you with my supervisor for the order issue."
+                    ]
+                },
+                apology: {
+                    positive: [
+                        "I appreciate your understanding. I apologize for any inconvenience caused.",
+                        "Thank you for your patience. I'm sorry for the trouble this has caused you.",
+                        "I understand your concern. Please accept my sincere apologies for the issue."
+                    ],
+                    negative: [
+                        "I apologize for the inconvenience. Let me see how I can assist you further.",
+                        "I understand your frustration. Please allow me to resolve this issue for you.",
+                        "I'm sorry to hear that. Let me do my best to make it right."
+                    ],
+                    aggressive: [
+                        "I understand you're upset. Let me get a manager to assist you.",
+                        "I apologize for the inconvenience. A manager will be with you shortly.",
+                        "I appreciate your feedback. Let me connect you with my supervisor."
+                    ]
+                },
+                help_request: {
+                    positive: [
+                        "I'm here to help you. Please let me know what you need assistance with.",
+                        "Thank you for reaching out. How can I assist you today?",
+                        "I appreciate your patience. I'm ready to help with any questions you have."
+                    ],
+                    negative: [
+                        "I apologize for the inconvenience. Let me see how I can assist you further.",
+                        "I understand your frustration. Please allow me to resolve this issue for you.",
+                        "I'm sorry to hear that. Let me do my best to make it right."
+                    ],
+                    aggressive: [
+                        "I understand you're upset. Let me get a manager to assist you.",
+                        "I apologize for the inconvenience. A manager will be with you shortly.",
+                        "I appreciate your feedback. Let me connect you with my supervisor."
+                    ]
+                }
+            },
+            'cleaner': {
+                escalation: {
+                    positive: [
+                        "I understand you'd like to speak with a supervisor. Let me get them for you right away.",
+                        "I appreciate your patience. I'll have a supervisor assist you immediately.",
+                        "Thank you for being understanding. Let me connect you with my supervisor."
+                    ],
+                    negative: [
+                        "I apologize for the inconvenience. Let me see how I can assist you further.",
+                        "I understand your frustration. Please allow me to resolve this issue for you.",
+                        "I’m sorry to hear that. Let me do my best to make it right."
+                    ],
+                    aggressive: [
+                        "I understand you're upset. Let me get a supervisor to assist you.",
+                        "I apologize for the inconvenience. A supervisor will be with you shortly.",
+                        "I appreciate your feedback. Let me connect you with my supervisor."
+                    ]
+                },
+                safety_concern: {
+                    positive: [
+                        "I appreciate your concern for safety. Please let me know what specific issue you're facing.",
+                        "Thank you for bringing this to my attention. Safety is our top priority.",
+                        "I understand your concern. Let's address this safety issue together."
+                    ],
+                    negative: [
+                        "I apologize for the inconvenience. Let me see how I can assist you with the safety concern.",
+                        "I understand your frustration. Please allow me to resolve this issue for you.",
+                        "I'm sorry to hear that. Let me do my best to make it right."
+                    ],
+                    aggressive: [
+                        "I understand you're upset about the safety issue. Let me get a supervisor to assist you.",
+                        "I apologize for the inconvenience. A supervisor will be with you shortly to handle the safety concern.",
+                        "I appreciate your feedback. Let me connect you with my supervisor for the safety issue."
+                    ]
+                }
+            }
+        }
     }
 
 }
