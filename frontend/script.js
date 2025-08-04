@@ -1690,7 +1690,21 @@ class LifeAssistant {
             }
         };
 
+        const jobType = this.selectedJob || 'store-clerk';
+        const templates = responseTemplates[jobType] || responseTemplates['store-clerk'];
         
+        const category = templates[contentType] || templates.help_request;
+        const sentimentResponses = category[sentiment] || category.positive;
+
+        const randomIndex = Math.floor(Math.random() * sentimentResponses.length);
+        let response = sentimentResponses[randomIndex];
+
+        const tip = this.generatepersonalizedTip(analysis, scenario);
+        if (tip) {
+            response += ` ${tip}`;
+        }
+
+        return response;
     }
 
 }
