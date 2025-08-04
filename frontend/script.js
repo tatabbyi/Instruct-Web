@@ -1408,5 +1408,39 @@ class LifeAssistant {
         } 
     }
 
+    analyzeUserMessage(message, scenario) {
+        const lowerMessage = message.toLowerCase();
+
+        const positiveWords = ['sorry', 'apologize', 'understand', 'help', 'please', 'thank', 'appreciate', 'good', 'great', 'excellent'];
+        const negativeWords = ['angry', 'frustrated', 'upset', 'mad', 'terrible', 'awful', 'bad', 'wrong', 'hate', 'disappointed'];
+        const aggressiveWords = ['demand', 'insist', 'immediately', 'now', 'urgent', 'emergency', 'complain', 'sue', 'report'];
+
+
+        let sentiment = 'neutral';
+        let positiveScore = 0;
+        let negativeScore = 0;
+        let aggressiveScore = 0;
+
+        positiveWords.forEach(word => {
+            if (lowerMessage.includes(word)) positiveScore++;
+        });
+
+        negativeWords.forEach(word => {
+            if (lowerMessage.include(word)) negativeScore++;
+        });
+
+        aggressiveScore.forEach(word => {
+            if (lowerMessage.include(work)) aggressiveScore++;
+        });
+
+        if (positiveScore > negativeScore && positiveScore && aggressiveScore) {
+            sentiment = 'positive' ;
+        } else if (negativeScore > positiveScore) {
+            sentiment = 'negative';
+        }else if (aggressiveScore > 0) {
+            sentiment = 'aggressive';
+        }
+    }
+
 }
 const lifeAssistant = new LifeAssistant();
