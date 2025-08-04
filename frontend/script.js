@@ -1611,14 +1611,86 @@ class LifeAssistant {
                         "I understand your frustration. Please allow me to resolve this issue for you.",
                         "I'm sorry to hear that. Let me do my best to make it right."
                     ],
-                    aggressive: [
+                    aggressive: [ //fix all responses later
                         "I understand you're upset about the safety issue. Let me get a supervisor to assist you.",
                         "I apologize for the inconvenience. A supervisor will be with you shortly to handle the safety concern.",
                         "I appreciate your feedback. Let me connect you with my supervisor for the safety issue."
                     ]
+                },
+                chemical_handling: {
+                    positive: [ //fix later
+                        "I appreciate your concern for safety. Please let me know what specific issue you're facing with the chemicals.",
+                        "Thank you for bringing this to my attention. Safety is our top priority when handling chemicals.",
+                        "I understand your concern. Let's address this chemical handling issue together."
+                    ],
+                    negative: [
+                        "I apologize for the inconvenience. Let me see how I can assist you with the chemical handling concern.",
+                        "I understand your frustration. Please allow me to resolve this issue for you.",
+                        "I'm sorry to hear that. Let me do my best to make it right."
+                    ],
+                    aggressive: [
+                        "I understand you're upset about the chemical handling issue. Let me get a supervisor to assist you.",
+                        "I apologize for the inconvenience. A supervisor will be with you shortly to handle the chemical concern.",
+                        "I appreciate your feedback. Let me connect you with my supervisor for the chemical handling issue."
+                    ]
+                }
+            },
+            'data-entry': {
+                escalation: {
+                    positive: [
+                        "I understand you'd like to speak with a supervisor. Let me get them for you right away.",
+                        "I appreciate your patience. I'll have a supervisor assist you immediately.",
+                        "Thank you for being understanding. Let me connect you with my supervisor."
+                    ],
+                    negative: [
+                        "I apologize for the inconvenience. Let me see how I can assist you further.",
+                        "I understand your frustration. Please allow me to resolve this issue for you.",
+                        "I’m sorry to hear that. Let me do my best to make it right."
+                    ],
+                    aggressive: [ //fix all later
+                        "I understand you're upset. Let me get a supervisor to assist you.",
+                        "I apologize for the inconvenience. A supervisor will be with you shortly.",
+                        "I appreciate your feedback. Let me connect you with my supervisor."
+                    ]
+                },
+                data_accuracy: {
+                    positive: [
+                        "I appreciate your attention to detail. Please let me know what specific data entry issue you're facing.",
+                        "Thank you for bringing this to my attention. Accuracy is our top priority in data entry.",
+                        "I understand your concern. Let's address this data accuracy issue together."
+                    ],
+                    negative: [
+                        "I apologize for the inconvenience. Let me see how I can assist you with the data accuracy concern.",
+                        "I understand your frustration. Please allow me to resolve this issue for you.",
+                        "I'm sorry to hear that. Let me do my best to make it right."
+                    ],
+                    aggressive: [
+                        "I understand you're upset about the data accuracy issue. Let me get a supervisor to assist you.",
+                        "I apologize for the inconvenience. A supervisor will be with you shortly to handle the data accuracy concern.",
+                        "I appreciate your feedback. Let me connect you with my supervisor for the data accuracy issue."
+                    ]
+                },
+                typing_help: {
+                    positive: [
+                        "I appreciate your interest in improving your typing skills. Please let me know what specific help you need.",
+                        "Thank you for reaching out. I'm here to assist you with any typing-related questions.",
+                        "I understand your concern. Let's work together to enhance your typing speed and accuracy."
+                    ],
+                    negative: [
+                        "I apologize for the inconvenience. Let me see how I can assist you with your typing concerns.",
+                        "I understand your frustration. Please allow me to resolve this issue for you.",
+                        "I'm sorry to hear that. Let me do my best to make it right."
+                    ],
+                    aggressive: [
+                        "I understand you're upset about your typing skills. Let me get a supervisor to assist you.",
+                        "I apologize for the inconvenience. A supervisor will be with you shortly to handle your typing concerns.",
+                        "I appreciate your feedback. Let me connect you with my supervisor for typing assistance."
+                    ]
                 }
             }
-        }
+        };
+
+        
     }
 
 }
