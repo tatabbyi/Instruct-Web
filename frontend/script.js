@@ -1385,7 +1385,7 @@ class LifeAssistant {
 
     generateHelperResponse(userMessage, scenario, messageIndex) {
         this.trackConversation(userMessage, scenario);
-        const analysis = this.analyzeUserMessage(userMessage, scenario);
+        const analysis = this.analyseUserMessage(userMessage, scenario);
         return this.createContextualResponse(analysis, scenario, messageIndex);
     }
 
@@ -1408,7 +1408,7 @@ class LifeAssistant {
         } 
     }
 
-    analyzeUserMessage(message, scenario) {
+    analyseUserMessage(message, scenario) {
         const lowerMessage = message.toLowerCase();
 
         const positiveWords = ['sorry', 'apologize', 'understand', 'help', 'please', 'thank', 'appreciate', 'good', 'great', 'excellent'];
@@ -1699,7 +1699,7 @@ class LifeAssistant {
         const randomIndex = Math.floor(Math.random() * sentimentResponses.length);
         let response = sentimentResponses[randomIndex];
 
-        const tip = this.generatepersonalizedTip(analysis, scenario);
+        const tip = this.generatepersonalisedTip(analysis, scenario);
         if (tip) {
             response += ` ${tip}`;
         }
@@ -1753,6 +1753,69 @@ class LifeAssistant {
 
         const randomIndex = Math.floor(Math.random() * scenarioMessages.length);
         return scenarioMessages[randomIndex];
+    }
+
+    generatePersonalisedTip(analysis, scenario) {
+        const { sentiment, contentType } = analysis;
+        const jobType = this.selectedJob;
+        const performance = this.helperMemory.userPerformance[jobType];
+        const history = this.helperMemory.conversationHistory;
+
+        if (Math.random() >0.3) return null;
+
+        const tips = {
+            'store-clerk': {
+                escalation: [
+                    "Tip: Try resolve issues yourself before escalating to a manager.",
+                    "Tip: Show empathy and understanding before suggesting a manager.",
+                    "Tip: Use positive language to de-escalate the situation."
+                ],
+                aggressive: [
+                    "Tip: Stay calm and professional even when the customer is upset.",
+                    "Tip: Use phrases like 'I understand' or 'I apologize' to show empathy.",
+                    "Tip: Avoid arguing with the customer; focus on finding a solution."
+                ],
+                negative: [
+                    "Tip: Acknowledge the customer's frustration and offer solutions.",
+                    "Tip: Use positive language even in difficult situations.",
+                    "Tip: Show that you care about their experience."
+                ]
+            },
+            'cleaner': {
+                safety_concern: [
+                    "Tip: Always prioritise safety over speed.",
+                    "Tip: When in doubt about safety, ask a supervisor.",
+                    "Tip: Proper PPE is essential for your protection and others."
+                ],
+                chemical_handling: [
+                    "Tip: Read all chemical labels carefully before use.",
+                    "Tip: Never mix chemicals unless specifically instructed.",
+                    "Tip: Always work in well-ventilated areas."
+                ]
+            },
+            'data-entry': {
+                data-accuracy: [
+                    "Tip: Double-check work before submitting.",
+                    "Tip: Take your time - accuracy is more important than speed.",
+                    "Tip: Use spell-check and validation tools when available."
+                ],
+                typing_help: [
+                    "Tip: Practice typing regularly to improve speed and accuracy.",
+                    "Tip: Take regular breaks to prevent fatigue.",
+                    "Tip: Focus on accuracy first, speed will come with practice."
+                ]
+            }
+        };
+
+        const jobTips = tips[jobType] || tips['store-clerk'];
+        const categoryTips = jobTips[contentType] || jobTips[sentiment] || [];
+
+        if (categoryTips.length > 0) {
+            const randomIndex = Math.floor(Math.random() * categoryTips.length);
+            return categoryTips[randomIndex];
+        }
+
+        return null;
     }
 
 }
