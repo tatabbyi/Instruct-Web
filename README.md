@@ -72,4 +72,13 @@ The Overall Goal: This application is intended for a wide audience to help impro
 - Resources https://cursa.app/free-courses-customer-service-online
 - https://www.youtube.com/watch?v=SsNfAOTZNZY&ab_channel=CareerVidz
 
+## AI Disclaimer
+This project, INSTRUCT, was created as a learning exercise. AI assistance from the app Cursor was used only for:
 
+-Guidance on structuring content
+
+-Checking for errors
+
+-Providing draft text for review
+
+All AI-generated drafts were fully rewritten by me. No ideas, features, or original concepts in this project originated from AI. The use of AI was limited to improving my understanding and refining my own work.
