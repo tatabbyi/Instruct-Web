@@ -1855,9 +1855,45 @@ class LifeAssistant {
                 </div>
             `;
 
+            document.getElementById('practice-modal-body').innerHTML = modalContent;
             
+            const modal = document.getElementById('practice-modal');
+            modal.dataset.currentQuiz = JSON.stringify(scenario);
+            modal.dataset.quizIndex = scenarioIndex;
+            modal.dataset.currentQuestion = 0;
+            modal.dataset.correctAnswers = 0;
+    }
 
-                    
+    selectAnswer(selectedIndex, scenarioIndex) {
+        const modal = document.getElementById('practice-modal');
+        const quiz = JSON.parse(modal.dataset.currentQuiz);
+        const currentQuestion = parseInt(modal.dataset.currentQuestion);
+        const correctAnswers = parseInt(modal.dataset.correctAnswers);
+
+        const questions = quiz.questions[currentQuestions];
+        const isCorrect = selectedIndex === questions.correct:
+
+        if (isCorrect) {
+            modal.dataset.correctAnswers = correctAnswers + 1;
+        }
+
+        const options = document.querySelectorAll('.quiz-option');
+        options.forEach((option, index) => {
+            if (index === questions.correct) {
+                option.classList.add('correct');
+            } else if (index === selectedIndex && !isCorrect) {
+                option.classList.add('incorrect');
+            }
+            option.disabled = true;
+        });
+
+        setTimeout(() => {
+            if (currentQuestion < quiz.questions.length - 1) {
+                this.shwoNextQuestion(scenarioIndex);
+            } else {
+                this.showQuizResults(scenarioIndex);
+            }
+        }, 2000);
     }
 
 }
