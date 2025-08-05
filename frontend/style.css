@@ -1109,3 +1109,98 @@ emotion-entry:last child {
     letter-spacing: -0.025em;
 }
 
+.module-details-modal {
+    padding: 1rem 0;
+}
+
+.module-details-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 2px solid  #e2e8f0;
+}
+
+.module-details-header h2 {
+    color:#1d2025;
+    font-size: 2rem;
+    font-weight: 800;
+    letter-spacing: -0.025em;
+    margin: 0;
+}
+
+.module-details-content {
+    display: grid;
+    gap: 2rem;
+}
+
+.skills-section,
+.practice-section,
+.resource-section {
+    background: #f8fafc;
+    padding: 1.5rem;
+    border-radius: 12px;
+    border: 1px solid #f8fafc;
+}
+
+.skilld-section h3,
+.practice-section h3,
+.resource-section h3 {
+    color: #1e293b;
+    font-size: 1.25rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.skills-section h3 i {
+    color:  #f0c966;
+}
+
+.practice-section h3 i {
+    color: #64f0c1; 
+}
+
+.resource-section h3 i {
+    color: #8bb5fa; 
+}
+
+.skills-section ul,
+.practice-section ul,
+.resource-section  ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.skills-section li,
+.practice-section li,
+.resource-section li {
+    padding: 0.75rem 0;
+    border-bottom: 1px solid #e2e8f0;
+    color: #7b70b9;
+    font-size: 0.95rem;
+    line-height: 1.5;
+    position: relative;
+    padding-left: 1.5rem;
+}
+
+.skills-section li:last-child,
+.practice-section li:last-child,
+.resources-section li:last-child {
+    border-bottom: none;
+}
+
+.skill-section li::before,
+.practice-section li::before,
+.resources-section li::before {
+    content: '•';
+    position: absolute;
+    left: 0;
+    color:#b981f8;
+    font-weight: bold;
+    font-size: 1.2rem;
+}

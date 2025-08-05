@@ -313,7 +313,7 @@ class LifeAssistant {
         this.saveData();
         this.updateEnergyUI();
 
-        this.showNotification(`+${energy}) Energy added!`, 'success');
+        this.showNotification(`+${energy} Energy added!`, 'success');
     }
 
     updateEnergyUI() {
@@ -428,10 +428,10 @@ class LifeAssistant {
                     <div class="emotion-intensity">Intensity: ${entry.intensity}/10</div>
                 `;
             }
-
             container.appendChild(entryElement);
         });
     }
+}
 
     clearEmotionForm() {
         document.getElementById('emotion-type').value = '';
@@ -1213,12 +1213,12 @@ class LifeAssistant {
                 </div>
 
                 <div class="scenario-list">
-                   ${scenarios.scenarios.mpa((scenario, index) => `
-                        <div class="scenario-card" onclick="lifeAssistant.startScenario(${index}, '${jobType}', ${moduleIndex})">"}
+                   ${scenarios.scenarios.map((scenario, index) => `
+                        <div class="scenario-card" onclick="lifeAssistant.startScenario(${index}, '${jobType}', ${moduleIndex})">
                             <div class="scenario-icon">
                                 <i class="fas ${scenario.type === 'roleplay' ? 'fa-comments' : scenario.type === 'quiz' ? 'fa-question-circle' : 'fa-keyboard'}"></i>
                             </div>
-                            <div class="scenario-content">>
+                            <div class="scenario-content">
                                 <h3>${scenario.title}</h3>
                                 <p>${scenario.description}</p>
                                 <span class="scenario-type">${scenario.type.toUpperCase()}</span>
@@ -1254,7 +1254,7 @@ class LifeAssistant {
         modal.dataset.jobType = jobType;
         modal.dataset.moduleIndex = moduleIndex;
 
-        document.getElementById('practice-modal-body').innerHTML.innerHTML = modalContent;
+        document.getElementById('practice-modal-body').innerHTML = modalContent;
         modal.style.display = 'block';
     }
 
@@ -1273,7 +1273,7 @@ class LifeAssistant {
         if (scenario.type === 'roleplay') {
             this.startRoleplayScenario(scenario, scenarioIndex);
         } else if (scenario.type === 'quiz') {
-            this.startQuizScenario(scenario, acenarioIndex);
+            this.startQuizScenario(scenario, scenarioIndex);
         } else if (scenario.type === 'typing-test') {
             this.startTypingTest(scenario, scenarioIndex);
         }
@@ -1309,7 +1309,7 @@ class LifeAssistant {
                     </div>
 
                     <div class="chat-input">
-                        <input type="text" id="user-response" placeholder="Type your response..." />
+                        <input type="text" id="user-input" placeholder="Type your response..." />
                         <button class="btn btn-primary" onclick="lifeAssistant.sendMessage(${scenarioIndex})">
                             <i class="fas fa-paper-plane"></i> send
                         </button>
@@ -1321,7 +1321,7 @@ class LifeAssistant {
                         <i class="fas fa-redo"></i> Restart
                     </button>
                     <button class="btn btn-success" onclick="lifeAssistant.completeRoleplay(${scenarioIndex})">
-                        <i class="fas fa-check"></i> Complate
+                        <i class="fas fa-check"></i> Complete
                     </button>
                 </div>
             </div>
@@ -1360,7 +1360,7 @@ class LifeAssistant {
             <div class="message user-message">
                 <div class="message-content">
                     <p>${message}</p>
-                    <i class="fas fa-user">></i>
+                    <i class="fas fa-user"></i>
                 </div>
             </div>
         `;
@@ -1392,7 +1392,7 @@ class LifeAssistant {
     trackConversation(userMessage, scenario) {
         this.helperMemory.conversationHistory.push({
             message: userMessage,
-            timestramp: new Date().toISOString(),
+            timestamp: new Date().toISOString(),
             scenario: scenario.title,
             jobType: this.selectedJob
         });
@@ -1401,7 +1401,7 @@ class LifeAssistant {
             this.helperMemory.conversationHistory.shift();
         }
 
-        this.helperMemory.sessionStats.messageSent++;
+        this.helperMemory.sessionStats.messagesSent++;
 
         if(userMessage.toLowerCase().includes('manager') || userMessage.toLowerCase().includes('supervisor')) {
             this.helperMemory.sessionStats.escalationCount++;
@@ -1426,14 +1426,14 @@ class LifeAssistant {
         });
 
         negativeWords.forEach(word => {
-            if (lowerMessage.include(word)) negativeScore++;
+            if (lowerMessage.includes(word)) negativeScore++;
         });
 
-        aggressiveScore.forEach(word => {
-            if (lowerMessage.include(work)) aggressiveScore++;
+        aggressiveWords.forEach(word => {
+            if (lowerMessage.includes(word)) aggressiveScore++;
         });
 
-        if (positiveScore > negativeScore && positiveScore && aggressiveScore) {
+        if (positiveScore > negativeScore && positiveScore > aggressiveScore) {
             sentiment = 'positive' ;
         } else if (negativeScore > positiveScore) {
             sentiment = 'negative';
@@ -1446,7 +1446,7 @@ class LifeAssistant {
             contentType = 'escalation';
         } else if (lowerMessage.includes('refund') || lowerMessage.includes('return') || lowerMessage.includes('money back')) {
           contentType = 'refund_request';  
-        } else if (lowerMessage.inludes('discount') || lowerMessage.includes('compensation') || lowerMessage.includes('free')) {
+        } else if (lowerMessage.includes('discount') || lowerMessage.includes('compensation') || lowerMessage.includes('free')) {
             contentType ='compensation_request';
         } else if (lowerMessage.includes('order') || lowerMessage.includes('ship') || lowerMessage.includes('delivery')) {
             contentType = 'order_request';
@@ -1470,7 +1470,7 @@ class LifeAssistant {
             originalMessage: message,
             positiveScore,
             negativeScore,
-            agggressiveScore,
+            aggressiveScore,
         };
     }
 
@@ -1713,9 +1713,9 @@ class LifeAssistant {
                 'Difficult Customer Scenario': [
                     "I can't believe you don't have this item in stock! I drove all the way here for nothing!",
                     "This is ridiculous! I need this item today. What are you going to do about it?",
-                    "I've bben a loyal customer for years and this is how you treat me?"
+                    "I've been a loyal customer for years and this is how you treat me?"
                 ],
-                'cash Transaction Practice': [
+                'Cash Transaction Practice': [
                     "Hi, I'd like to buy these items. The total is $23.45.",
                     "I'm paying with a $50 bill.",
                     "Actually, I have exact change. Here's $23.45."
@@ -1794,7 +1794,7 @@ class LifeAssistant {
                 ]
             },
             'data-entry': {
-                data-accuracy: [
+                'data_accuracy': [
                     "Tip: Double-check work before submitting.",
                     "Tip: Take your time - accuracy is more important than speed.",
                     "Tip: Use spell-check and validation tools when available."
@@ -1819,7 +1819,7 @@ class LifeAssistant {
     }
 
     startQuizScenario(scenario, scenarioIndex) {
-        const modalContest = `
+        const modalContent = `
             <div class="quiz-session">
                 <div class="quiz-header">
                     <h3>${scenario.title}</h3>
@@ -1830,7 +1830,7 @@ class LifeAssistant {
                     <div class="quiz-progress">
                         <span id="quiz-progress-text">Question 1 of ${scenario.questions.length}</span>
                         <div class="progress-bar">
-                            <div class="progress-bar">
+                            <div class="progress-fill">
                                 <div id="quiz-progress-fill" class="progress-fill" style="width: ${100/scenario.questions.length}%"></div>
                             </div>
                         </div>
@@ -1839,7 +1839,7 @@ class LifeAssistant {
                             <h4 id="question-text">${scenario.questions[0].question}</h4>
                             <div class="quiz-options">
                                 ${scenario.questions[0].options.map((option, index) => `
-                                    <button class="quiz-option" onclick="lifeAssistant.selectAnswer(c{index}, ${scenarioIndex})">
+                                    <button class="quiz-option" onclick="lifeAssistant.selectAnswer(${index}, ${scenarioIndex})">
                                     ${option}
                                 </button>
                                 `).join('')}
@@ -1870,8 +1870,8 @@ class LifeAssistant {
         const currentQuestion = parseInt(modal.dataset.currentQuestion);
         const correctAnswers = parseInt(modal.dataset.correctAnswers);
 
-        const questions = quiz.questions[currentQuestions];
-        const isCorrect = selectedIndex === questions.correct:
+        const question = quiz.questions[currentQuestion];
+        const isCorrect = selectedIndex === question.correct;
 
         if (isCorrect) {
             modal.dataset.correctAnswers = correctAnswers + 1;
@@ -1879,7 +1879,7 @@ class LifeAssistant {
 
         const options = document.querySelectorAll('.quiz-option');
         options.forEach((option, index) => {
-            if (index === questions.correct) {
+            if (index === question.correct) {
                 option.classList.add('correct');
             } else if (index === selectedIndex && !isCorrect) {
                 option.classList.add('incorrect');
@@ -1889,12 +1889,11 @@ class LifeAssistant {
 
         setTimeout(() => {
             if (currentQuestion < quiz.questions.length - 1) {
-                this.shwoNextQuestion(scenarioIndex);
+                this.showNextQuestion(scenarioIndex);
             } else {
                 this.showQuizResults(scenarioIndex);
             }
         }, 2000);
     }
-
 }
 const lifeAssistant = new LifeAssistant();
