@@ -1818,5 +1818,47 @@ class LifeAssistant {
         return null;
     }
 
+    startQuizScenario(scenario, scenarioIndex) {
+        const modalContest = `
+            <div class="quiz-session">
+                <div class="quiz-header">
+                    <h3>${scenario.title}</h3>
+                    <p>${scenario.description}</p>
+                </div>
+
+                <div id="quiz-container" class="quiz-container">
+                    <div class="quiz-progress">
+                        <span id="quiz-progress-text">Question 1 of ${scenario.questions.length}</span>
+                        <div class="progress-bar">
+                            <div class="progress-bar">
+                                <div id="quiz-progress-fill" class="progress-fill" style="width: ${100/scenario.questions.length}%"></div>
+                            </div>
+                        </div>
+                        
+                        <div id="quiz-question" class="quiz-question">
+                            <h4 id="question-text">${scenario.questions[0].question}</h4>
+                            <div class="quiz-options">
+                                ${scenario.questions[0].options.map((option, index) => `
+                                    <button class="quiz-option" onclick="lifeAssistant.selectAnswer(c{index}, ${scenarioIndex})">
+                                    ${option}
+                                </button>
+                                `).join('')}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="quiz-controls">
+                        <button class="btn btn-secondary" onclick="lifeAssistant.resetQuiz(${scenarioIndex})">
+                            <i class="fas fa-redo"></i> Restart Quiz
+                        </button>
+                    </div>
+                </div>
+            `;
+
+            
+
+                    
+    }
+
 }
 const lifeAssistant = new LifeAssistant();
