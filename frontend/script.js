@@ -1959,5 +1959,51 @@ class LifeAssistant {
 
         document.getElementById('quiz-container').innerHTML = resultContent;
     }
+
+    startTypingTest(scenario, scenarioIndex) {
+        const modalContent = `
+            <div class="typing-test-session">
+                <div class="typing-header">
+                    <h3>${scenario.title}</h3>
+                    <p>${scenario.description}</p>
+                </div>
+
+                <div class="typing-stats">
+                    <div class="stat">
+                        <span class="stat-label">Time:</span>
+                        <span id="typing-time" class="stat-value">${scenario.timeLimit}s</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-label">WPM:</span>
+                        <span id="typing-wpm" class="stat-value">0</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-label">Accuracy:</span>
+                        <span id="typing-accuracy" class="stat-value">0%</span>
+                    </div>
+                </div>
+
+                <div class="typing-area">
+                    <div class="typing-text" id="typing-text">${scenario.text}</div>
+                    <textarea id="typing-input" placeholder="Start typing here..." disabled></textarea>.
+                </div>
+
+                <div class="typing-controls">
+                    <button class="btn btn-primary" id="start-typing-btn" onclick="lifeAssistant.startTyping(${scenarioIndex})">
+                        <i class="fas fa-play"></i> Start Test
+                    </button>
+                    <button class="btn btn-secondary" onclick="lifeAssistant.resetTyping(${scenarioIndex})">
+                        <i class="fas fa-redo"></i> Reset
+                    </button>
+                </div>
+            </div>
+        `;
+
+        document.getElementById('practice-modal-body').innerHTML = modalContent;
+
+        const modal = document.getElementById('practice-modal');
+        modal.dataset.currentTypingTest =JSON.stringify(scenario);
+        modal.dataset.typingIndex = scenarioIndex;
+    }
 }
 const lifeAssistant = new LifeAssistant();
