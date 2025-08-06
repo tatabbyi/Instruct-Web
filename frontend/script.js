@@ -1936,6 +1936,28 @@ class LifeAssistant {
                         </div>
                     </div>
                 </div> 
+
+                <div class="results-feedback">
+                    ${percentage} >=80 ?
+                        '<p class="excellent">Excellent work! You have a strong understanding of this topic.<p>' :
+                        percentage >= 60?
+                        '<p class="good">good Job! You have a solid foundation, but there\'s room for improvement.</p>' :
+                        '<p class ="needs-improvement">Keep practicing! Review the material and try again.</p>'
+                    }
+                </div>
+
+                <div class="results-actions">
+                    <button class="btn btn-secondary" onclick="lifeAssistant.resetQuiz(${scenarioIndex})">
+                        <i class="fas fa-redo"></i> Try Again
+                    </button>
+                    <button class="btn btn-primary" onclick="lifeAssistant.complete.Practice()">
+                        <i class="fas fa-check"></i> Complete Practice
+                    </button>
+                </div>
+            </div>
+        `;
+
+        document.getElementById('quiz-container').innerHTML = resultContent;
     }
 }
 const lifeAssistant = new LifeAssistant();
