@@ -431,7 +431,7 @@ class LifeAssistant {
             container.appendChild(entryElement);
         });
     }
-}
+
 
     clearEmotionForm() {
         document.getElementById('emotion-type').value = '';
@@ -1894,6 +1894,48 @@ class LifeAssistant {
                 this.showQuizResults(scenarioIndex);
             }
         }, 2000);
+    }
+
+    showNextQuestion(scenarioIndex) {
+        const modal = document.getElementById('practice-modal');
+        const quiz = JSON.parse(modal.dataset.currentQuiz);
+        const currentQuestion = parseInt(modal.dataset.currentQuestion) + 1;
+
+        modal.dataset.currentQuestion = currentQuestion;
+
+        const question = quiz.questions[currentQuestion];
+        const progressPercent = ((currentQuestion + 1) / quiz.questions.length) * 100;
+
+        document.getElementById('quiz-progress-text').textContent = `Question ${currentQuestion + 1} of ${quiz.questions.length}`;
+        document.getElementById('quiz-progress-fill').style.width = `${progressPercent}%`;
+        document.getElementById('question-text').textContent = question.question;
+        
+        const optionsContainer = document.querySelector('.quiz-options');
+        optionsContainer.innerHTML = question.options.map((option, index) => `
+            <button class="quiz-option" onclick="lifeAssistant.selectAnswer(${index}, ${scenarioIndex})">
+                ${option}
+            </button>
+        `).join('');
+    }
+
+    showQuizResults(scenarioIndex) {
+        const modal = document.getElementById('practice-modal');
+        const quiz = JSON.parse(modal.dataset.currentQuiz);
+        const correctAnswers = parseInt(modal.dataset.correctAnswers);
+        const totalQuestions = quiz.questions.length;
+        const percentage = Math.round((correctAnswers / totalQuestions) * 100);
+
+        const resultContent = `
+            <div class="quiz-results">
+                <div class="results-header">
+                    <h3><i class="fas fa-trophy"></i> Quiz Complete!</h3>
+                    <div class="score-display">
+                        <div class="score-circle">
+                            <span class="score-number">${percentage}%</span>
+                            <span class="score-text">${correctAnswers}/${totalQuestions} Correct</span>
+                        </div>
+                    </div>
+                </div> 
     }
 }
 const lifeAssistant = new LifeAssistant();
