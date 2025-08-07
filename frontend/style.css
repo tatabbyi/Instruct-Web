@@ -1285,3 +1285,17 @@ emotion-entry:last child {
         transition-duration: 0.01ms !important;
     }
 }
+
+@media (prefers-contrast: high) {
+    .btn-primary {
+        background:#090513;
+        color:white;
+    }
+    .energy-fill {
+        background:#060311;
+    }
+    .progress-fill {
+        background:#10091f;
+    }
+}
+
