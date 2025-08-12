@@ -2005,5 +2005,60 @@ class LifeAssistant {
         modal.dataset.currentTypingTest =JSON.stringify(scenario);
         modal.dataset.typingIndex = scenarioIndex;
     }
+
+    startTyping(scenarioIndex) {
+        const startBtn = document.getElementById('start-typing-btn');
+        const input = document.getElementById('typing-input');
+
+        startBtn.disabled = true;
+        input.disabled = false;
+        input.focus();
+
+        const modal = document.getElementById('practice-modal');
+        const test = JSON.parse(modal.dataset.currentTypingTest);
+        let timeLeft = test.timeLimit;
+        let startTime = Date.now();
+
+        const timer = setInterval(() => {
+            timeLeft--;
+            document.getElementById('typing-time').textContent = `${timeLeft}s`;
+            
+            if (timeLeft <= 0) {
+                clearInterval(timer);
+                this.finishTypingTest(startTime, test);
+            }
+        }, 1000)
+
+        modal.dataset.typingTimer = timer;
+        modal.dataset.typingStartTime = startTime;
+    }
+
+    finishTypingTest(startTime, test) {
+        const input = document.getElementById('typing-input');
+        const typedText = input.value;
+        const originalText = test.text;
+
+        const timeElapsed = (Date.now() - startTime) / 1000;
+        const wordsTyped = typedText.trim().split(/\s+/).length;
+        const wpm = Math.round((wordsTypedTyped / timeElapsed) * 60);
+
+        let correctChars = 0;
+        const minLength = Math.min(typedText.length, originalText.length);
+        for (let i = 0; i < minLength; i++) {
+            if (typedText[i] === originalText[i]) {
+                correctChars++;
+            }
+        }
+        const accuracy = Math.round((correctChars / originalText.length) * 100);
+
+        document.getElementById('typing-wpm').textContent = wpm;
+        document.getElementById('typing-accuracy').textContent = `${accuracy}%`;
+
+        input.disabled = true;
+
+        setTimeout(() => {
+            this.showTypingResults(wpm, accuracy);
+        }, 1000);
+    }
 }
 const lifeAssistant = new LifeAssistant();
