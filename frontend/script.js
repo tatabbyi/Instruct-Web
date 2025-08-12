@@ -2171,5 +2171,31 @@ class LifeAssistant {
         console.log(`Session Analysis - job: ${jobType}, Success Rate ${(successRate * 100).toFixed(1)}%, Difficulty: ${performance.difficulty}`);
         
     }
+
+    startModule(jobType, moduleIndex) {
+        this.hideModuleModal();
+
+        const modules = document.querySelectorAll('.module-card');
+        const module = modules[moduleIndex];
+
+        if (module) {
+            const statusElement = module.querySelector('.module-status');
+            const progressElement = module.querySelector('.progress-fill');
+
+            statusElement.textContent = 'in progress';
+            statusElement.className = 'module-status status-in-progress';
+            progressElement.style.width = '50%';
+
+            setTimeout(() => {
+                statusElement.textContent = 'completed';
+                statusElement.className = 'module-status status-completed';
+                progressElement.style.width = '100%';
+
+                this.careerProgress[jobType] += 20;
+                this.updateCareerProgress();
+                this.checkCertification(jobType);
+            }, 3000);
+        }
+    }
 }
 const lifeAssistant = new LifeAssistant();
