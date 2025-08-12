@@ -2143,5 +2143,33 @@ class LifeAssistant {
         this.showNotification('Roleplay Session Completed! Well Done!', 'success');
         this.completePractice();
     }
+
+    analyseSessionPerformance() {
+        const stats = this.helperMemory.sessionsStats;
+        const jobType = this.selectedJob;
+        const performance = this.helperMemory.userPerformance[jobType];
+
+        const escalationRate = stats.messagesSent > 0 ? stats.escalationCount / stats.messagesSent : 0;
+        const successRate = Math.max(0, 1 - escalationRate);
+
+        performance.successRate = (performance.successRate + successRate) / 2;
+
+        if (successRate > 0.8 && performance.difficulty === 'medium') {
+            performance.difficulty = 'hard';
+            this.showNotification('Helper: I\'m increasing the difficulty - you\'re doing great!', 'info');
+        }else if (successRate < 0.3 && performance.difficulty === 'medium') {
+            performance.difficulty = 'easy';
+            this.showNotification('Helper: I\'m making this easier -  let\'s practice the basics!', 'info');
+        }
+
+        this.helperMemory.sessionStats = {
+            messagesSent: 0,
+            correctResponses: 0,
+            escalationCount: 0,
+        };
+
+        console.log(`Session Analysis - job: ${jobType}, Success Rate ${(successRate * 100).toFixed(1)}%, Difficulty: ${performance.difficulty}`);
+        
+    }
 }
 const lifeAssistant = new LifeAssistant();
