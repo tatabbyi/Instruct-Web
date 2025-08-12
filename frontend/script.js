@@ -2060,5 +2060,88 @@ class LifeAssistant {
             this.showTypingResults(wpm, accuracy);
         }, 1000);
     }
+
+    showTypingResults(wpm, accuracy) {
+        const resultsContent = `
+            <div class="typing-results">
+                <h3><i class="fas fa-keyboard"></i> Typing Test Complete!</h3>
+                <div class="typing-score">
+                    <div class="score-item">
+                        <span class="score-label">Speed:</span>
+                        <span class="score-value">${wpm} WPM</span>
+                    </div>
+                    <div class="score-item">
+                        <span class="score-label">Accuracy:</span>
+                        <span class="score-value">${accuracy}%</span>
+                    </div>
+                </div>
+            
+                <div class="typing-feedback">
+                    ${wpm >= 40 && accuracy >= 95 ?
+                        '<p class="excellent">Excellent typing skills! You\'re ready for data entry work.</p>' :
+                        wpm >= 30 && accuracy >= 90 ?
+                        '<p class="good">Good typing skills! Keep practicing to improve speed and accuracy.</p>' :
+                        '<p class="needs-improvement">Keep practicing! Focus on accuracy first, then speed.</p>'
+                    }
+                </div>
+            
+                <button class="btn btn-primary" onclick="lifeAssistant.completePractice()">
+                    <i class="fas fa-check"></i> Complete Practice
+                </button>.
+            </div>
+        `;
+    
+        document.querySelector('.typing-area').innerHTML = resultsContent;
+    }
+
+    completePractice() {
+        this.showNotification('Practice session Completed! Great Job!', 'success');
+        this.hidePracticeModal();
+
+        const modal = document.getElementById('practice-modal');
+        const jobType = modal.dataset.jobType;
+        const moduleIndex = parseInt(modal.dataset.moduleIndex);
+
+        setTimeout(() => {
+            const modules = document.querySelectorAll('.module-card');
+            const module = modules[moduleIndex];
+
+            if (module) {
+                const progressElement = module.querySelector('.progress-fill');
+                const currentProgress = parseInt(progressElement.style.width) || 0;
+                const newProgress = Math.min(100, currentProgress + 25);
+                progressElement.style.width = `${newProgress}%`;
+
+                if (newProgress >= 100) {
+                    const statusElement = module.querySelector('.module-status');
+                    statusElement.textContent = 'completed';
+                    statusElement.className = 'module-status status-completed';
+
+                    this.careerprogress[jobType] += 20;
+                    this.updateCareerProgress();
+                    this.checkCertification(jobType);    
+                }
+            }
+        }, 1000);
+    }
+
+    resetRoleplay(sceanrioIndex) {
+        this.startRoleplayScenario(JSON.parse(document.getElementById('practice-modal').dataset.currentScenario), scenarioIndex);
+    }
+
+    resetQuiz(scenarioIndex) {
+        this.startQuizSceanrio(JSON.parse(document.getElementById('practice-modal').dataset.currentQuiz), scenrioindex);
+    }
+
+    resetTyping(scenarioIndex) {
+        this.startTypingTests(JSON.parse(document.getElementById('practice-modal').dataset.currentTypingTest), scenairoIndex);
+    }
+
+    completeRoleplay(scenarioIndex) {
+        this.analyseSessionPerformance();
+
+        this.showNotification('Roleplay Session Completed! Well Done!', 'success');
+        this.completePractice();
+    }
 }
 const lifeAssistant = new LifeAssistant();
