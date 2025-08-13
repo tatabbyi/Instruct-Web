@@ -2306,10 +2306,20 @@ class LifeAssistant {
         this.updateEmotionsUI();
         this.updateCareerProgress();
         this.updateCertificationsUI();
-    }
-
-
-
-    
+    } 
 }
+
 const lifeAssistant = new LifeAssistant();
+const style = document.createElement('style');
+style.textContent = `
+    .task-title.completed {
+        text-decoration: line-through;
+        color: #6f54adff;
+    }
+        
+    .notification {
+        font-familt: 'Inter', sans-serif;
+        font-weigth: 500;
+    }
+`;
+document.head.appendChild(style)
