@@ -2300,6 +2300,14 @@ class LifeAssistant {
         return date.toLocaleDateString();
     }
 
+    updateUI() {
+        this.updateTasksUI();
+        this.updateEnergyUI();
+        this.updateEmotionsUI();
+        this.updateCareerProgress();
+        this.updateCertificationsUI();
+    }
+
 
 
     
