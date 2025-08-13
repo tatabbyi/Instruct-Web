@@ -2197,5 +2197,55 @@ class LifeAssistant {
             }, 3000);
         }
     }
+
+    updateCareerProgress() {
+        const totalProgress = Object.values(this.careerProgress).reduce((sum,progress) => sum + progress, 0);
+        const averageProgress = totalProgress / Object.keys(this.careerProgress).length;
+
+        document.getElementById('career-progress').style.width = `${averageProgress}%`;
+        document.getElementById('progress-percentage').textContent = `${Math.round(averageProgress)}%`;
+
+        Object.keys(this.careerProgress).forEach(job => {
+            const jobCard = document.querySelector(`[data-job="${job}"]`);
+            if (jobCard) {
+                const progressFill = jobCard.querySelector('.progress-fill');
+                const progressText = jobCard.querySelector('.job-progress span');
+
+                progressFill.style.width = `${this.careerProgress[job]}%`;
+                progressTexttextContent = `${this.careerProgress[job]}% Complete`;
+            }
+        };
+
+        this.saveData();
+    }
+
+    checkCertification(jobType) {
+        if (this.careerProgress[jobType] >= 100 && !this.certifications.includes(jobType)) {
+            this.certifications.push(jobType);
+            this.updateCertificationsUI();
+            this.showNotification(`Congratulations! You've earned your ${jobType.replace('-', ' ')} certification!`, 'success');
+        }
+    }
+
+    updateCertificationsUI() {
+        const container = document.getElementById('certifications-container');
+
+        if(this.certifications.length === 0) {
+            container.innerHTML = '<p style="text-align: center; color: #8f73aaff; font-style: italic;">Complete traning modules to earn certifications!</p>';
+            return;
+        }
+
+        container.innerHTML = this.certifications.map(cert => `
+            <div class="certification-card">
+                <i class="fas fa-certificate certification-icon"></i>
+                <div class="certification-content">
+                    <h4>${cert.replace('-', ' ').replace(/\b\w/g, l => l.toUpperCase())}Certification</h4>
+                    <p>Successfully completed all training modules</p>
+                </div>
+            </div>
+        `).join('');
+    }
+
+    
 }
 const lifeAssistant = new LifeAssistant();
