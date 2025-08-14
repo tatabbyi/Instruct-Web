@@ -42,11 +42,13 @@ A streak feature will track how often these skills are practiced, encouraging co
 
 To help build community, a messaging feature will connect support groups based on shared interests, location, and age. Age verification will be required depending on the group being joined.
 
+
 ---
 
 ## The Overall Goal
 
 The aim of this application is to help a wide audience improve their lives. Development is expected to take about a year, with additional time required to get it running smoothly. A feedback section will be included so the application can continually improve.
+[View the Buissness Plan]https://docs.google.com/presentation/d/e/2PACX-1vQRzOcrcJBNYVItplNU8xvXvDWSfm2cLUeNxZNfOOZk-e0e4f9ZEzxDhNUN1Eh4rOL27zYysVvUA7u3/pub?start=true&loop=false&delayms=3000
 
 ---
 
