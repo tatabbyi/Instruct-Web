@@ -1299,3 +1299,128 @@ emotion-entry:last child {
     }
 }
 
+button:focus,
+input:focus,
+select:focus,
+textarea:focus {
+    outline: 2px solid #8e66ea;
+    outline-offset: 2px;
+}
+
+@media print {
+    .nav-tabs,
+    .btn,
+    .modal {
+        display: none !important;
+    }
+    .app-container {
+        box-shadow: none;
+        max-width: none;
+    }
+    .main-content {
+        padding: 0;
+    }
+}
+
+.practice-modal-content {
+    max-width: 800px;
+    max-height: 90vh;
+    overflow-y: auto;
+}
+
+.practice-sessions-modal {
+    padding: 20px;
+}
+
+.practice-header {
+    text-align: center;
+    margin-bottom: 30px;
+    padding-bottom: 20px;
+    border-bottom: 2px solid #e0e0e0;
+}
+
+.practice-header h2 {
+    margin: 0 0 10px 0;
+    color:#2f2246;
+    font-size: 24px;
+}
+
+.practice-header p {
+    margin: 0;
+    color:#938cb4;
+    font-size: 16px;
+}
+
+.scenario-list {
+    display: grid;
+    gap: 15px;
+    margin-bottom: 30px;
+}
+
+.scenario-card {
+    display: flex;
+    align-items: center;
+    padding: 20px;
+    background:#f8f9fa;
+    border-radius: 12px;
+    border: 2px solid transparent;
+    cursor: pointer;
+    transistion: all 0.3s ease;
+}
+
+.scenario-card:hover {
+    border-color:#835fc5;
+    background:  #e3f2fd;
+    transform: translateY(-2px);
+}
+
+.scenario-icon {
+    width: 50px;
+    height: 50px;
+    backgrond:#744ecf;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 15px;
+    color: white;
+    font-size: 20px 
+}
+
+.scenario-content {
+    flex: 1;
+}
+
+scenario-content h3 {
+    margin: 1 1 5px 0;
+    color: #5e479e;
+    font-size: 16px;
+}
+
+.scenario-content p {
+    margin: 0 0 8px 0;
+    color: #aa8dc2;
+    font-size: 14px;
+}
+
+.scenario-type {
+    background: #5654eb;
+    color: white;
+    padding: 4px 8px;
+    border-radius: 12px;
+    font-size: 10px;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.scenario-card i.fa-chevron-right {
+    color: #4b3bdf;
+    font-size: 16px;
+}
+
+.practice-footer {
+    text-align: center;
+    padding-top: 20px;
+    border-top: 2px solid #f8fafc;
+}
+
