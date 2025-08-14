@@ -1710,3 +1710,98 @@ scenario-content h3 {
     gap: 15px;
 }
 
+.typing-test-session {
+    padding: 20px;
+}
+
+.typing-header {
+    text-align: center;
+    margin-bottom; 30px;
+}
+
+.typing-header h3 {
+    margin: 0 0 10px 0;
+    color:  #8068e9;
+    font-size: 20px;
+}
+
+.typing-header p {
+    margin: 0;
+    color:  #8068e9;
+}
+
+.typing-stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    margin-bottom: 30px;
+}
+
+.stat {
+    background:  #e5e3f1;
+    padding: 15px;
+    border-radius: 8px;
+    text-align: center;
+    border-left: 4px solid  #8068e9;
+}
+
+.stat-label {
+    display: block;
+    font-size: 12px;
+    color:  #8068e9;
+    margin-bottom: 5px;
+}
+
+.stat-value {
+    display: block;
+    font-size: 18px;
+    font-weight: bold;
+    color: #7b69cc;
+}
+
+.typing-area {
+    background: #f4f3f8;
+    border-radius: 12px;
+    padding: 30px;
+    margin-bottom: 20px;
+}
+
+.typing-text {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    font-size: 16px;
+    line-height: 1.6;
+    color:  #a39bc9;
+    border: 2px solid #f4f2ff;
+}
+
+.typing-input {
+    width: 100%;
+    min-height: 120px;
+    padding: 15px;
+    border: 2px solid #f8f6ff;
+    border-radius: 8px;
+    font-size: 16px;
+    line-height: 1.6;
+    resize: vertical;
+    outline: none;
+    transition: border-color 0.3s ease;
+}
+
+.typing-input:focus {
+    border-color:  #8068e9;
+}
+
+.typing-input:disabled {
+    background:  #f9f8ff;
+    cursor: not-allowed;
+}
+
+.typing-controls {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+}
+
