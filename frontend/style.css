@@ -1424,3 +1424,130 @@ scenario-content h3 {
     border-top: 2px solid #f8fafc;
 }
 
+.roleplay-session {
+    padding: 20px;
+}
+
+.roleplay-header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.roleplay-header h3  {
+    margin: 0 0 10px 0;
+    color: #664f9c;
+    font-size: 20px;
+}
+
+.roleplay-header p {
+    margin: 0;
+    color: #aa9bd3;
+}
+
+.roleplay-infor {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin-bottom: 30px;
+}
+
+.role-info h4 {
+    margin: 0 0 10px 0;
+    color: #8074c5;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.role-info p {
+    margin: 0;
+    color: #8068e9;
+    font-size: 14px;
+}
+
+.chat-container {
+    background: #ffffff;
+    border-radius: 12px;
+    overflow: hidden;
+    margin-bottom: 20px;
+}
+
+.chat-messages {
+    height: 200px;
+    overflow-y: auto;
+    padding: 20px;
+}
+
+.message {
+    margin-bottom: 15px;
+    display: flex;
+}
+
+.message.user-message {
+    justify-content: flex-end;
+}
+
+.message-content {
+    max-width: 70%;
+    padding: 12px 16px;
+    border-radius: 18px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.helper-message .message-content {
+    background: #ffffff;
+    color: #8068e9;
+}
+
+.user-message .message-content {
+    background: #8068e9;
+    color: white;
+    flex-direction: row-reverse;
+}
+
+.message-content i {
+    font-size: 16px
+}
+
+.message-content p {
+    margin: 0;
+    line-height: 1.4;
+}
+
+.chat-input {
+    display: flex;
+    padding: 15px;
+    background: white;
+    border-top: 1px solid #f6f4ff;
+}
+
+.chat-input input {
+    flex: 1;
+    padding: 12px 16px;
+    border: 2px solid #f4f2ff;
+    border-radius: 25px;
+    font-size: 14px;
+    outline: none;
+    tranisition: border-color 0.3s ease;
+}
+
+.chat-input input:focus {
+    border-color: #8068e9;
+}
+
+.chat-input button {
+    margin-left: 10px;
+    padding: 12px 20px;
+    border-radius: 25px;
+}
+
+.roleplay-controls {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+}
+
