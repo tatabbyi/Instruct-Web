@@ -7,6 +7,7 @@ class LifeAssistant {
         this.careerProgress = {
             'store-clerk': 0,
             'cleaner': 0,
+            'care-taker': 0,
             'data-entry': 0
         };
         this.certifications = [];
@@ -15,9 +16,10 @@ class LifeAssistant {
         this.helperMemory = {
             conversationHistory: [],
             userPerformance: {
-                'store-clerk': {difficulty: 'medium', successRate: 0.5 },
-                'cleaner': {difficulty: 'medium', successRate: 0.5 },
-                'data-entry': {difficulty: 'medium', successRate: 0.5 },
+                'store-clerk': { difficulty: 'medium', successRate: 0.5 },
+                'cleaner': { difficulty: 'medium', successRate: 0.5 },
+                'care-taker': { difficulty: 'medium', successRate: 0.5 },
+                'data-entry': { difficulty: 'medium', successRate: 0.5 },
             },
             userPreferences: {},
             sessionStats: {
@@ -26,7 +28,7 @@ class LifeAssistant {
                 escalationCount: 0
             }
         };
-        
+
         this.init();
     }
 
@@ -180,7 +182,7 @@ class LifeAssistant {
         const priority = document.getElementById('task-priority').value;
 
         const task = {
-            id : Date.now(),
+            id: Date.now(),
             title,
             description,
             priority,
@@ -245,7 +247,7 @@ class LifeAssistant {
             console.warn('Template not found:', template);
         }
     }
-    
+
     //Tasks state
     toggleTask(taskId) {
         const task = this.tasks.find(t => t.id === taskId);
@@ -257,16 +259,16 @@ class LifeAssistant {
     }
 
     deleteTask(taskId) {
-        this.tasks =this.tasks.filter(t => t.id !== taskId);
+        this.tasks = this.tasks.filter(t => t.id !== taskId);
         this.saveData();
         this.updateTasksUI();
     }
 
     updateTasksUI() {
         const container = document.getElementById('tasks-container');
-        container.innerHTML='';
+        container.innerHTML = '';
 
-        if(this.tasks.length === 0) {
+        if (this.tasks.length === 0) {
             container.innerHTML = '<p style="text-align: center; color: #6c757d; font-style: italic;">No tasks yet. Add some to get started!</p>';
             return;
         }
@@ -306,7 +308,7 @@ class LifeAssistant {
         this.saveData();
         this.updateEnergyUI();
     }
-    
+
     addEnergy(energyValue) {
         const energy = parseInt(energyValue.replace('+', ''));
         this.currentEnergy = Math.min(100, this.currentEnergy + energy);
@@ -323,7 +325,7 @@ class LifeAssistant {
         energyFill.style.width = `${this.currentEnergy}%`;
         energyValue.textContent = `${this.currentEnergy}%`;
 
-        if(this.currentEnergy < 30) {
+        if (this.currentEnergy < 30) {
             energyFill.style.background = '#ff6b6b';
         } else if (this.currentEnergy < 60) {
             energyFill.style.background = '#feca57';
@@ -336,7 +338,7 @@ class LifeAssistant {
     selectEmotion(card) {
         document.querySelectorAll('.emotion-card').forEach(c => c.classList.remove('selected'));
         card.classList.add('selected');
-        
+
         const emotion = card.dataset.emotion;
         document.getElementById('emotion-type').value = emotion;
 
@@ -393,14 +395,14 @@ class LifeAssistant {
         this.updateCopingSuggestions();
     }
 
-        updateEmotionHistory() {
+    updateEmotionHistory() {
             const container = document.getElementById('emotion-log');
             const allEntries = [...this.emotions, ...this.symptoms].sort((a, b) =>
                 new Date(b.timestamp) - new Date(a.timestamp)
             ).slice(0, 10);
 
             container.innerHTML = '';
-        
+
             if (allEntries.length === 0) {
                 container.innerHTML = '<p style="text-align: center; color: #6c757d; font-style: italic;">No emotions or symptoms logged yet.</p>';
                 return;
@@ -482,6 +484,7 @@ class LifeAssistant {
     }
 
     loadTrainingModules(jobType = 'store-clerk') {
+        this.selectedJob = jobType;
         const modules = {
             'store-clerk': [
                 {
@@ -843,6 +846,7 @@ class LifeAssistant {
             ]
         };
 
+        this.trainingModules = modules;
         this.updateTrainingModulesUI();
     };
 
@@ -1216,7 +1220,7 @@ class LifeAssistant {
                    ${scenarios.scenarios.map((scenario, index) => `
                         <div class="scenario-card" onclick="lifeAssistant.startScenario(${index}, '${jobType}', ${moduleIndex})">
                             <div class="scenario-icon">
-                                <i class="fas ${scenario.type === 'roleplay' ? 'fa-comments' : scenario.type === 'quiz' ? 'fa-question-circle' : 'fa-keyboard'}"></i>
+                                <i class="fas ${scenario.type === 'role-play' ? 'fa-comments' : scenario.type === 'quiz' ? 'fa-question-circle' : 'fa-keyboard'}"></i>
                             </div>
                             <div class="scenario-content">
                                 <h3>${scenario.title}</h3>
@@ -1270,7 +1274,7 @@ class LifeAssistant {
         const scenarios =JSON.parse(modal.dataset.scenarios);
         const scenario = scenarios.scenarios[scenarioIndex];
 
-        if (scenario.type === 'roleplay') {
+        if (scenario.type === 'role-play') {
             this.startRoleplayScenario(scenario, scenarioIndex);
         } else if (scenario.type === 'quiz') {
             this.startQuizScenario(scenario, scenarioIndex);
@@ -1385,7 +1389,7 @@ class LifeAssistant {
 
     generateHelperResponse(userMessage, scenario, messageIndex) {
         this.trackConversation(userMessage, scenario);
-        const analysis = this.analyseUserMessage(userMessage, scenario);
+        const analysis = this.analyzeUserMessage(userMessage, scenario);
         return this.createContextualResponse(analysis, scenario, messageIndex);
     }
 
@@ -1408,7 +1412,7 @@ class LifeAssistant {
         } 
     }
 
-    analyseUserMessage(message, scenario) {
+    analyzeUserMessage(message, scenario) {
         const lowerMessage = message.toLowerCase();
 
         const positiveWords = ['sorry', 'apologize', 'understand', 'help', 'please', 'thank', 'appreciate', 'good', 'great', 'excellent'];
@@ -1457,7 +1461,7 @@ class LifeAssistant {
         }else if (lowerMessage.includes('safety') || lowerMessage.includes('equipment') || lowerMessage.includes('protective')) {
             contentType ='safety_request';
         }else if (lowerMessage.includes('chemical')||  lowerMessage.includes('clean') || lowerMessage.includes('spill')) {
-            contentType = 'chemical_handaling';
+            contentType = 'chemical_handling';
         }else if (lowerMessage.includes('data') || lowerMessage.includes('accuracy') || lowerMessage.includes('verify') || lowerMessage.includes('check')) {
             contentType = 'data_accuracy';
         }else if (lowerMessage.includes('type') || lowerMessage.includes('keyboard') || lowerMessage.includes ('speed') || lowerMessage.includes('wpm')) {
@@ -1699,7 +1703,7 @@ class LifeAssistant {
         const randomIndex = Math.floor(Math.random() * sentimentResponses.length);
         let response = sentimentResponses[randomIndex];
 
-        const tip = this.generatepersonalisedTip(analysis, scenario);
+        const tip = this.generatePersonalizedTip(analysis, scenario);
         if (tip) {
             response += ` ${tip}`;
         }
@@ -1755,7 +1759,7 @@ class LifeAssistant {
         return scenarioMessages[randomIndex];
     }
 
-    generatePersonalisedTip(analysis, scenario) {
+    generatePersonalizedTip(analysis, scenario) {
         const { sentiment, contentType } = analysis;
         const jobType = this.selectedJob;
         const performance = this.helperMemory.userPerformance[jobType];
@@ -1937,20 +1941,13 @@ class LifeAssistant {
                     </div>
                 </div> 
 
-                <div class="results-feedback">
-                    ${percentage} >=80 ?
-                        '<p class="excellent">Excellent work! You have a strong understanding of this topic.<p>' :
-                        percentage >= 60?
-                        '<p class="good">good Job! You have a solid foundation, but there\'s room for improvement.</p>' :
-                        '<p class ="needs-improvement">Keep practicing! Review the material and try again.</p>'
-                    }
-                </div>
+                <div class="results-feedback" id="quiz-feedback"></div>
 
                 <div class="results-actions">
                     <button class="btn btn-secondary" onclick="lifeAssistant.resetQuiz(${scenarioIndex})">
                         <i class="fas fa-redo"></i> Try Again
                     </button>
-                    <button class="btn btn-primary" onclick="lifeAssistant.complete.Practice()">
+                    <button class="btn btn-primary" onclick="lifeAssistant.completePractice()">
                         <i class="fas fa-check"></i> Complete Practice
                     </button>
                 </div>
@@ -1958,6 +1955,12 @@ class LifeAssistant {
         `;
 
         document.getElementById('quiz-container').innerHTML = resultContent;
+        const feedback = percentage >= 80
+            ? '<p class="excellent">Excellent work! You have a strong understanding of this topic.</p>'
+            : (percentage >= 60
+                ? '<p class="good">Good Job! You have a solid foundation, but there\'s room for improvement.</p>'
+                : '<p class ="needs-improvement">Keep practicing! Review the material and try again.</p>');
+        document.getElementById('quiz-feedback').innerHTML = feedback;
     }
 
     startTypingTest(scenario, scenarioIndex) {
@@ -1985,7 +1988,7 @@ class LifeAssistant {
 
                 <div class="typing-area">
                     <div class="typing-text" id="typing-text">${scenario.text}</div>
-                    <textarea id="typing-input" placeholder="Start typing here..." disabled></textarea>.
+                    <textarea id="typing-input" placeholder="Start typing here..." disabled></textarea>
                 </div>
 
                 <div class="typing-controls">
@@ -2040,7 +2043,7 @@ class LifeAssistant {
 
         const timeElapsed = (Date.now() - startTime) / 1000;
         const wordsTyped = typedText.trim().split(/\s+/).length;
-        const wpm = Math.round((wordsTypedTyped / timeElapsed) * 60);
+        const wpm = Math.round((wordsTyped / timeElapsed) * 60);
 
         let correctChars = 0;
         const minLength = Math.min(typedText.length, originalText.length);
@@ -2087,7 +2090,7 @@ class LifeAssistant {
             
                 <button class="btn btn-primary" onclick="lifeAssistant.completePractice()">
                     <i class="fas fa-check"></i> Complete Practice
-                </button>.
+                </button>
             </div>
         `;
     
@@ -2117,7 +2120,7 @@ class LifeAssistant {
                     statusElement.textContent = 'completed';
                     statusElement.className = 'module-status status-completed';
 
-                    this.careerprogress[jobType] += 20;
+                    this.careerProgress[jobType] += 20;
                     this.updateCareerProgress();
                     this.checkCertification(jobType);    
                 }
@@ -2145,7 +2148,7 @@ class LifeAssistant {
     }
 
     analyseSessionPerformance() {
-        const stats = this.helperMemory.sessionsStats;
+        const stats = this.helperMemory.sessionStats;
         const jobType = this.selectedJob;
         const performance = this.helperMemory.userPerformance[jobType];
 
@@ -2303,7 +2306,7 @@ class LifeAssistant {
     updateUI() {
         this.updateTasksUI();
         this.updateEnergyUI();
-        this.updateEmotionsUI();
+        this.updateEmotionUI();
         this.updateCareerProgress();
         this.updateCertificationsUI();
     } 
@@ -2318,8 +2321,8 @@ style.textContent = `
     }
         
     .notification {
-        font-familt: 'Inter', sans-serif;
-        font-weigth: 500;
+        font-family: 'Inter', sans-serif;
+        font-weight: 500;
     }
 `;
-document.head.appendChild(style)
+document.head.appendChild(style);

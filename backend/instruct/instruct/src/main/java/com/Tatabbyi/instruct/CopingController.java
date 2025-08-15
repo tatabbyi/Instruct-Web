@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/api")
+@org.springframework.web.bind.annotation.CrossOrigin(origins = {"http://localhost:5500", "http://127.0.0.1:5500"})
 public class CopingController {
     @GetMapping("/coping")
     public List<String> getCopingStrategies(@RequestParam String emotion) {
