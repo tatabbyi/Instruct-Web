@@ -74,9 +74,18 @@ class LifeAssistant {
     setupEventListeners() {
         document.querySelectorAll('.nav-tab').forEach(tab => {
             tab.addEventListener('click', (e) => {
-                this.switchTab(e.target.closest('.nav-tab').dataset.tab);
+                const btn = e.currentTarget;
+                this.switchTab(btn.dataset.tab);
             });
         });
+        const navTabs = document.querySelector('.nav-tabs');
+        if (navTabs) {
+            navTabs.addEventListener('click', (e) => {
+                const btn = e.target.closest('.nav-tab');
+                if (!btn) return;
+                this.switchTab(btn.dataset.tab);
+            });
+        }
 
         //Task management
         document.getElementById('add-task-btn').addEventListener('click', () => {
@@ -2215,9 +2224,9 @@ class LifeAssistant {
                 const progressText = jobCard.querySelector('.job-progress span');
 
                 progressFill.style.width = `${this.careerProgress[job]}%`;
-                progressTexttextContent = `${this.careerProgress[job]}% Complete`;
+                progressText.textContent = `${this.careerProgress[job]}% Complete`;
             }
-        };
+        });
 
         this.saveData();
     }
