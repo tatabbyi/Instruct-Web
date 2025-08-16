@@ -916,7 +916,7 @@ class LifeAssistant {
                                     <i class="fas fa-chevron-down expand-icon"></i>
                                 </div>
                                 <div class="practice-method-content collapsed">
-                                    <p>${method}</p>
+                                    ${this.formatAsBullets(method)}
                                 </div>
                             </div>
                         `).join('')}
@@ -928,7 +928,14 @@ class LifeAssistant {
             `;
             container.appendChild(moduleElement);
             moduleElement.querySelectorAll('.practice-method-header')
-            .forEach(h => h.addEventListener('click', (e) => this.togglePracticeMethodElement(e.currentTarget)));
+                .forEach(h => h.addEventListener('click', (e) => this.togglePracticeMethodElement(e.currentTarget)));
+        });
+
+        // Also attach a single delegated handler in case dynamic elements are re-rendered later
+        container.addEventListener('click', (e) => {
+            const header = e.target.closest('.practice-method-header');
+            if (!header || !container.contains(header)) return;
+            this.togglePracticeMethodElement(header);
         });
     }
     
@@ -943,6 +950,18 @@ class LifeAssistant {
         content.classList.toggle('expanded', isCollapsed);
         header.classList.toggle('expanded', isCollapsed);
         if (icon) icon.classList.toggle('rotated', isCollapsed);
+    }
+
+    formatAsBullets(text) {
+        if (!text || typeof text !== 'string') return '';
+        const parts = text
+            .split(/\r?\n|\.\s+/)
+            .map(s => s.trim())
+            .filter(Boolean);
+        if (parts.length <= 1) {
+            return `<ul><li>${text}</li></ul>`;
+        }
+        return `<ul>${parts.map(p => `<li>${p}</li>`).join('')}</ul>`;
     }
 
 
@@ -1240,7 +1259,19 @@ class LifeAssistant {
             return;
         }
 
+        // Ensure modal exists and show scenario list
         this.showPracticeModal(moduleScenarios, jobType, moduleIndex);
+
+        // Auto-open a role-play chat if available for immediate back-and-forth practice
+        try {
+            const firstRolePlayIndex = (moduleScenarios.scenarios || []).findIndex(s => s.type === 'role-play');
+            if (firstRolePlayIndex !== -1) {
+                const rp = moduleScenarios.scenarios[firstRolePlayIndex];
+                this.startRoleplayScenario(rp, firstRolePlayIndex);
+            }
+        } catch (e) {
+            console.warn('Auto-open role-play failed:', e);
+        }
     }
 
     showPracticeModal(scenarios, jobType, moduleIndex) {

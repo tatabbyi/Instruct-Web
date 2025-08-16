@@ -1054,6 +1054,16 @@ body {
     color: #495057;
 }
 
+.practice-method-content ul {
+    margin: 0.25rem 0 0.5rem 1.25rem;
+    padding: 0;
+}
+
+.practice-method-content li {
+    margin: 0.25rem 0;
+    color: #495057;
+}
+
 .practice-method-header.expanded .expand-icon {
     transform: rotate(180deg);
 }
@@ -1910,9 +1920,4 @@ scenario-content h3 {
     max-height: 600px;
     opacity: 1;
     padding: 12px 14px 14px 14px;
-}
-
-.practice-method-header .expand-icon.rotated {
-     transform: rotate(180deg); 
-     transition: transform 0.2s ease; 
 }
