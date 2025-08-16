@@ -376,71 +376,69 @@ class LifeAssistant {
         this.showNotification(`${emotion.charAt(0).toUpperCase() + emotion.slice(1)} logged`, 'success');
     }
 
-};
 
-
-logEmotionQuick(emotion) {
-    const emotionEntry = {
-        id: Date.now(),
-        emotion,
-        intensity: 5,
-        notes: '',
-        timestamp: new Date().toISOString()
-    };
-    this.emotions.push(emotionEntry);
-    this.saveData();
-    this.updateEmotionUI();
-    this.showCopingStrategies(emotion);
-    this.showNotification(`${emotion.charAt(0).toUpperCase() + emotion.slice(1)} logged`, 'success');
-}
-
-logSymptom() {
-    const symptom = document.getElementById('symptom-select').value;
-    const intensity = parseInt(document.getElementById('symptom-intensity').value);
-
-    if (!symptom) {
-        this.showNotification('Please select a symptom', 'error');
-        return;
+    logEmotionQuick(emotion) {
+        const emotionEntry = {
+            id: Date.now(),
+            emotion,
+            intensity: 5,
+            notes: '',
+            timestamp: new Date().toISOString()
+        };
+        this.emotions.push(emotionEntry);
+        this.saveData();
+        this.updateEmotionUI();
+        this.showCopingStrategies(emotion);
+        this.showNotification(`${emotion.charAt(0).toUpperCase() + emotion.slice(1)} logged`, 'success');
     }
 
-    const symptomEntry = {
-        id: Date.now(),
-        symptom,
-        intensity,
-        timestamp: new Date().toISOString()
-    };
+    logSymptom() {
+        const symptom = document.getElementById('symptom-select').value;
+        const intensity = parseInt(document.getElementById('symptom-intensity').value);
 
-    this.symptoms.push(symptomEntry);
-    this.saveData();
-    this.updateEmotionUI();
-
-    this.showNotification('Symptom logged successfully', 'success');
-}
-
-updateEmotionUI() {
-    this.updateEmotionHistory();
-    this.updateCopingSuggestions();
-}
-
-updateEmotionHistory() {
-        const container = document.getElementById('emotion-log');
-        const allEntries = [...this.emotions, ...this.symptoms].sort((a, b) =>
-            new Date(b.timestamp) - new Date(a.timestamp)
-        ).slice(0, 10);
-
-        container.innerHTML = '';
-
-        if (allEntries.length === 0) {
-            container.innerHTML = '<p style="text-align: center; color: #6c757d; font-style: italic;">No emotions or symptoms logged yet.</p>';
+        if (!symptom) {
+            this.showNotification('Please select a symptom', 'error');
             return;
         }
 
-        allEntries.forEach(entry => {
-                    const entryElement = document.createElement('div');
-                    entryElement.className = 'emotion-entry';
+        const symptomEntry = {
+            id: Date.now(),
+            symptom,
+            intensity,
+            timestamp: new Date().toISOString()
+        };
 
-                    if (entry.emotion) {
-                        entryElement.innerHTML = `
+        this.symptoms.push(symptomEntry);
+        this.saveData();
+        this.updateEmotionUI();
+
+        this.showNotification('Symptom logged successfully', 'success');
+    }
+
+    updateEmotionUI() {
+        this.updateEmotionHistory();
+        this.updateCopingSuggestions();
+    }
+
+    updateEmotionHistory() {
+            const container = document.getElementById('emotion-log');
+            const allEntries = [...this.emotions, ...this.symptoms].sort((a, b) =>
+                new Date(b.timestamp) - new Date(a.timestamp)
+            ).slice(0, 10);
+
+            container.innerHTML = '';
+
+            if (allEntries.length === 0) {
+                container.innerHTML = '<p style="text-align: center; color: #6c757d; font-style: italic;">No emotions or symptoms logged yet.</p>';
+                return;
+            }
+
+            allEntries.forEach(entry => {
+                        const entryElement = document.createElement('div');
+                        entryElement.className = 'emotion-entry';
+
+                        if (entry.emotion) {
+                            entryElement.innerHTML = `
                     <div class="emotion-entry-header">
                         <span class="emotion-type">${entry.emotion.charAt(0).toUpperCase() + entry.emotion.slice(1)}</span>
                         <span class="emotion-time">${this.formatTime(entry.timestamp)}</span>
@@ -482,7 +480,7 @@ updateEmotionHistory() {
     showCopingStrategies(emotion) {
         const container = document.getElementById('coping-suggestions');
         container.innerHTML = '<p style="text-align: center; color:#6c757d; font-style: italic;">Loading coping strategies...</p>';
-        fetch(`http://localhost:8081/api/coping?emotion=${encodeURIComponent(emotion)}`)
+        fetch(`/api/coping?emotion=${encodeURIComponent(emotion)}`)
             .then(response => response.json())
             .then(strategies => {
                 if (strategies.length === 0) {
@@ -880,7 +878,7 @@ updateEmotionHistory() {
 
         this.trainingModules = modules;
         this.updateTrainingModulesUI();
-    };
+    }
 
     updateTrainingModulesUI() {
         const container = document.getElementById('modules-container');
