@@ -482,7 +482,7 @@ updateEmotionHistory() {
     showCopingStrategies(emotion) {
         const container = document.getElementById('coping-suggestions');
         container.innerHTML = '<p style="text-align: center; color:#6c757d; font-style: italic;">Loading coping strategies...</p>';
-        fetch(`/api/coping?emotion=${encodeURIComponent(emotion)}`)
+        fetch(`http://localhost:8081/api/coping?emotion=${encodeURIComponent(emotion)}`)
             .then(response => response.json())
             .then(strategies => {
                 if (strategies.length === 0) {

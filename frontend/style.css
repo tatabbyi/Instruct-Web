@@ -1864,3 +1864,8 @@ scenario-content h3 {
     margin-top: 20px;
     text-align: center;
 }
+
+.practice-method-header .expand-icon.rotated {
+     transform: rotate(180deg); 
+     transition: transform 0.2s ease; 
+}
