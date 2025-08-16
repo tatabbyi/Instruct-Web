@@ -130,7 +130,8 @@ class LifeAssistant {
 
         document.querySelectorAll('.emotion-card').forEach(card => {
             card.addEventListener('click', () => {
-                this.selectEmotion(card);
+                const emotion = card.dataset.emotion;
+                this.logEmotionQuick(emotion);
             });
         });
 
@@ -325,6 +326,12 @@ class LifeAssistant {
         this.updateEnergyUI();
 
         this.showNotification(`+${energy} Energy added!`, 'success');
+        // keep slider and small display in sync with currentEnergy
+        const sliderValue = Math.max(1, Math.min(10, Math.round(this.currentEnergy / 10)));
+        const sliderEl = document.getElementById('energy-level');
+        const sliderText = document.getElementById('energy-display');
+        if (sliderEl) sliderEl.value = String(sliderValue);
+        if (sliderText) sliderText.textContent = String(sliderValue);
     }
 
     updateEnergyUI() {
@@ -355,74 +362,85 @@ class LifeAssistant {
     }
 
     logEmotion() {
-        const emotion = document.getElementById('emotion-type').value;
-        const intensity = parseInt(document.getElementById('emotion-intensity').value);
-        const notes = document.getElementById('emotion-notes').value;
-
         const emotionEntry = {
             id: Date.now(),
             emotion,
-            intensity,
-            notes,
+            intensity: 5,
+            notes: '',
             timestamp: new Date().toISOString()
         };
-
         this.emotions.push(emotionEntry);
         this.saveData();
         this.updateEmotionUI();
-        this.hideModals();
-        this.clearEmotionForm();
-
-        this.showNotification('Emotion logged successfully', 'success');
+        this.showCopingStrategies(emotion);
+        this.showNotification(`${emotion.charAt(0).toUpperCase() + emotion.slice(1)} logged`, 'success');
     }
 
-    logSymptom() {
-        const symptom = document.getElementById('symptom-select').value;
-        const intensity = parseInt(document.getElementById('symptom-intensity').value);
+};
 
-        if (!symptom) {
-            this.showNotification('Please select a symptom', 'error');
+
+logEmotionQuick(emotion) {
+    const emotionEntry = {
+        id: Date.now(),
+        emotion,
+        intensity: 5,
+        notes: '',
+        timestamp: new Date().toISOString()
+    };
+    this.emotions.push(emotionEntry);
+    this.saveData();
+    this.updateEmotionUI();
+    this.showCopingStrategies(emotion);
+    this.showNotification(`${emotion.charAt(0).toUpperCase() + emotion.slice(1)} logged`, 'success');
+}
+
+logSymptom() {
+    const symptom = document.getElementById('symptom-select').value;
+    const intensity = parseInt(document.getElementById('symptom-intensity').value);
+
+    if (!symptom) {
+        this.showNotification('Please select a symptom', 'error');
+        return;
+    }
+
+    const symptomEntry = {
+        id: Date.now(),
+        symptom,
+        intensity,
+        timestamp: new Date().toISOString()
+    };
+
+    this.symptoms.push(symptomEntry);
+    this.saveData();
+    this.updateEmotionUI();
+
+    this.showNotification('Symptom logged successfully', 'success');
+}
+
+updateEmotionUI() {
+    this.updateEmotionHistory();
+    this.updateCopingSuggestions();
+}
+
+updateEmotionHistory() {
+        const container = document.getElementById('emotion-log');
+        const allEntries = [...this.emotions, ...this.symptoms].sort((a, b) =>
+            new Date(b.timestamp) - new Date(a.timestamp)
+        ).slice(0, 10);
+
+        container.innerHTML = '';
+
+        if (allEntries.length === 0) {
+            container.innerHTML = '<p style="text-align: center; color: #6c757d; font-style: italic;">No emotions or symptoms logged yet.</p>';
             return;
         }
 
-        const symptomEntry = {
-            id: Date.now(),
-            symptom,
-            intensity,
-            timestamp: new Date().toISOString()
-        };
+        allEntries.forEach(entry => {
+                    const entryElement = document.createElement('div');
+                    entryElement.className = 'emotion-entry';
 
-        this.symptoms.push(symptomEntry);
-        this.saveData();
-        this.updateEmotionUI();
-
-        this.showNotification('Symptom logged successfully', 'success');
-    }
-
-    updateEmotionUI() {
-        this.updateEmotionHistory();
-        this.updateCopingSuggestions();
-    }
-
-    updateEmotionHistory() {
-            const container = document.getElementById('emotion-log');
-            const allEntries = [...this.emotions, ...this.symptoms].sort((a, b) =>
-                new Date(b.timestamp) - new Date(a.timestamp)
-            ).slice(0, 10);
-
-            container.innerHTML = '';
-
-            if (allEntries.length === 0) {
-                container.innerHTML = '<p style="text-align: center; color: #6c757d; font-style: italic;">No emotions or symptoms logged yet.</p>';
-                return;
-            }
-
-            allEntries.forEach(entry => {
-                        const entryElement = document.createElement('div');
-                        entryElement.className = 'emotion-entry';
-
-                        if (entry.emotion) {
-                            entryElement.innerHTML = `
+                    if (entry.emotion) {
+                        entryElement.innerHTML = `
                     <div class="emotion-entry-header">
                         <span class="emotion-type">${entry.emotion.charAt(0).toUpperCase() + entry.emotion.slice(1)}</span>
                         <span class="emotion-time">${this.formatTime(entry.timestamp)}</span>
@@ -439,6 +457,11 @@ class LifeAssistant {
                     <div class="emotion-intensity">Intensity: ${entry.intensity}/10</div>
                 `;
             }
+            entryElement.addEventListener('click', () => {
+                const key = entry.emotion || entry.symptom;
+                this.switchTab('emotional-support');
+                this.showCopingStrategies(key);
+            });
             container.appendChild(entryElement);
         });
     }
@@ -875,9 +898,9 @@ class LifeAssistant {
                 </div>
                 <div class="module-progress">
                     <div class="progress-bar">
-                        <div class="progress-fill" style="width: ${module.progress}%"></div>
+                        <div class="progress-fill" style="width: ${Math.min(100, Math.max(0, module.progress))}%"></div>
                     </div>
-                    <span>${module.progress}% Complete</span>
+                    <span>${Math.min(100, Math.max(0, module.progress))}% Complete</span>
                 </div>
                 <div class="module-skills">
                     <h5>Skills:</h5>
@@ -890,7 +913,7 @@ class LifeAssistant {
                     <div class="practice-methods-container">
                         ${module.practiceMethods.map((method, methodIndex) => `
                             <div class="practice-method-item">
-                                <div class="practice-method-header" onclick="lifeAssistant.togglePracticeMethod(${index}, ${methodIndex})">
+                                <div class="practice-method-header" onclick="lifeAssistant.togglePracticeMethodElement(this)">
                                     <span class="practice-method-title">${module.skills[methodIndex] || `Practice ${methodIndex + 1}`}</span>
                                     <i class="fas fa-chevron-down expand-icon"></i>
                                 </div>
@@ -909,20 +932,14 @@ class LifeAssistant {
         });
     }
     
-    togglePracticeMethod(moduleIndex, methodIndex) {
-        const header = event.currentTarget;
+    togglePracticeMethodElement(header) {
         const content = header.nextElementSibling;
         const icon = header.querySelector('.expand-icon');
-
-        if (content.classList.contains('collapsed')) {
-            content.classList.remove('collapsed');
-            content.classList.add('expanded');
-            header.classList.add('expanded');
-        } else {
-            content.classList.remove('expanded');
-            content.classList.add('collapsed');
-            header.classList.remove('expanded');
-        }
+        const isCollapsed = content.classList.contains('collapsed');
+        content.classList.toggle('collapsed', !isCollapsed);
+        content.classList.toggle('expanded', isCollapsed);
+        header.classList.toggle('expanded', isCollapsed);
+        if (icon) icon.classList.toggle('rotated', isCollapsed);
     }
 
 
@@ -951,7 +968,13 @@ class LifeAssistant {
     }
 
     startModule(jobType, moduleIndex) {
-        console.log(`Starting module ${moduleIndex} for ${jobType}`);
+        const list = this.trainingModules[jobType] || [];
+        const module = list[moduleIndex];
+        if (!module) return;
+        module.status = 'in-progress';
+        module.progress = Math.min(100, Math.max(0, module.progress || 0));
+        this.updateTrainingModulesUI();
+        this.startPracticeSession(jobType, moduleIndex);
     }
 
     startPracticeSession(jobType, moduleIndex) {
