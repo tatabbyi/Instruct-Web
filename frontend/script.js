@@ -927,12 +927,17 @@ class LifeAssistant {
                 </button>
             `;
             container.appendChild(moduleElement);
+            moduleElement.querySelectorAll('.practice-method-header')
+            .forEach(h => h.addEventListener('click', (e) => this.togglePracticeMethodElement(e.currentTarget)));
         });
     }
     
     togglePracticeMethodElement(header) {
-        const content = header.nextElementSibling;
+        const item = header.closest('.practice-method-item');
+        const content = item ? item.querySelector('.practice-method-content') : header.nextElementSibling;
         const icon = header.querySelector('.expand-icon');
+        if (!content) return;
+
         const isCollapsed = content.classList.contains('collapsed');
         content.classList.toggle('collapsed', !isCollapsed);
         content.classList.toggle('expanded', isCollapsed);

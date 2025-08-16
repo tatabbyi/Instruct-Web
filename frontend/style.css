@@ -1866,6 +1866,53 @@ scenario-content h3 {
 }
 
 .practice-method-header .expand-icon.rotated {
+    transform: rotate(180deg);
+    transition: transform 0.2s ease;
+}
+
+
+/* Practice methods: collapsed/expanded behavior */
+
+.practice-methods-container {
+    display: grid;
+    gap: 12px;
+}
+
+.practice-method-item {
+    background: #ffffff;
+    border: 1px solid #e8e6f6;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.practice-method-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    cursor: pointer;
+    padding: 12px 14px;
+    background: #f7f6ff;
+}
+
+.practice-method-header.expanded {
+    background: #efeefe;
+}
+
+.practice-method-content {
+    max-height: 0;
+    overflow: hidden;
+    opacity: 0;
+    transition: max-height 0.3s ease, opacity 0.2s ease, padding 0.2s ease;
+    padding: 0 14px;
+}
+
+.practice-method-content.expanded {
+    max-height: 600px;
+    opacity: 1;
+    padding: 12px 14px 14px 14px;
+}
+
+.practice-method-header .expand-icon.rotated {
      transform: rotate(180deg); 
      transition: transform 0.2s ease; 
 }
