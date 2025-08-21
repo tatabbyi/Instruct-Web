@@ -1368,14 +1368,14 @@ class LifeAssistant {
                     </div>
                 </div>
 
+                <div class="roleplay-status" style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
+                    <span id="roleplay-rounds" style="font-weight:600;color:#5e479e;">Round 1/5</span>
+                    <span id="roleplay-state" style="font-weight:600;color:#e25573;">Issue: Unresolved</span>
+                </div>
+
                 <div class="chat-container">
                     <div id="chat-messages" class="chat-messages">
-                        <div class="message helper-message">
-                            <div class="message-content">
-                                <i class="fas fa-robot"></i>
-                                <p>${this.getInitialHelperMessage(scenario)}</p>
-                            </div>
-                        </div>
+                        <!-- Opening complaint will be inserted dynamically per round -->
                     </div>
 
                     <div class="chat-input">
@@ -1403,6 +1403,12 @@ class LifeAssistant {
         modal.dataset.currentScenario = JSON.stringify(scenario);
         modal.dataset.scenarioIndex = scenarioIndex;
         modal.dataset.messageIndex = 0;
+        // initialize conversation rounds state
+        modal.dataset.roleplayRoundsTotal = 5;
+        modal.dataset.roleplayRoundsCompleted = 0;
+        modal.dataset.roleplayProblemIndex = -1;
+        modal.dataset.roleplayIssueResolved = "false";
+        this._beginNextRoleplayRound();
 
         setTimeout(() => {
             const input = document.getElementById('user-input');
@@ -1416,6 +1422,129 @@ class LifeAssistant {
         }, 100);
     }
 
+    _getRoleplayProblems(jobType) {
+        if (jobType === 'store-clerk') {
+            return [
+                {
+                    id: 'stock_out',
+                    opening: "I can't believe you don't have this item in stock! I needed it today.",
+                    resolutionKeywords: {
+                        apology: ["sorry", "apologize", "apologies", "understand"],
+                        action: ["order", "similar", "alternative", "check stock", "restock", "notify", "hold", "reserve"]
+                    },
+                    followUps: [
+                        "I don't want excuses. What can you do right now?",
+                        "That doesn't help me today. Do you have an alternative?",
+                        "So what are my options then?"
+                    ]
+                },
+                {
+                    id: 'refund',
+                    opening: "This product is faulty. I want a refund.",
+                    resolutionKeywords: {
+                        apology: ["sorry", "apologize", "understand"],
+                        action: ["refund", "return", "exchange", "policy", "receipt"]
+                    },
+                    followUps: [
+                        "Are you going to process it or not?",
+                        "What's your returns policy then?",
+                        "Can you exchange it for a working one?"
+                    ]
+                },
+                {
+                    id: 'price_mismatch',
+                    opening: "The shelf said it's cheaper than what you rang up.",
+                    resolutionKeywords: {
+                        apology: ["sorry", "apologize", "understand"],
+                        action: ["check", "verify", "adjust", "honor", "match", "manager"]
+                    },
+                    followUps: [
+                        "Can you check the shelf label with me?",
+                        "So will you honor the lower price?",
+                        "Do I really need to wait for a manager?"
+                    ]
+                },
+                {
+                    id: 'rude_staff',
+                    opening: "Your staff was rude to me earlier. This is unacceptable.",
+                    resolutionKeywords: {
+                        apology: ["sorry", "apologize", "understand"],
+                        action: ["report", "speak to", "manager", "feedback", "follow up", "training"]
+                    },
+                    followUps: [
+                        "I need to know you'll actually do something.",
+                        "How will you prevent this next time?",
+                        "Who will follow up with me?"
+                    ]
+                },
+                {
+                    id: 'missing_item',
+                    opening: "I was charged for something I didn't get.",
+                    resolutionKeywords: {
+                        apology: ["sorry", "apologize", "understand"],
+                        action: ["check receipt", "check order", "provide", "refund", "investigate", "replace"]
+                    },
+                    followUps: [
+                        "Can you check the receipt with me?",
+                        "So will you give me the missing item or a refund?",
+                        "How long will this take?"
+                    ]
+                }
+            ];
+        }
+        return [
+            {
+                id: 'general',
+                opening: "I have an issue with my purchase.",
+                resolutionKeywords: { apology: ["sorry", "apologize"], action: ["help", "assist", "fix", "resolve"] },
+                followUps: ["What can you do to fix it?", "Please tell me the next step."]
+            }
+        ];
+    }
+
+    _beginNextRoleplayRound() {
+        const modal = document.getElementById('practice-modal');
+        const jobType = this.selectedJob || 'store-clerk';
+        const total = parseInt(modal.dataset.roleplayRoundsTotal);
+        const completed = parseInt(modal.dataset.roleplayRoundsCompleted);
+        const problems = this._getRoleplayProblems(jobType);
+        const nextIndex = (parseInt(modal.dataset.roleplayProblemIndex) + 1) % problems.length;
+        modal.dataset.roleplayProblemIndex = nextIndex;
+        modal.dataset.roleplayIssueResolved = "false";
+        const problem = problems[nextIndex];
+        modal.dataset.roleplayCurrentProblem = JSON.stringify(problem);
+
+        const roundsEl = document.getElementById('roleplay-rounds');
+        const stateEl = document.getElementById('roleplay-state');
+        if (roundsEl) roundsEl.textContent = `Round ${completed + 1}/${total}`;
+        if (stateEl) { stateEl.textContent = 'Issue: Unresolved'; stateEl.style.color = '#e25573'; }
+
+        const chatMessages = document.getElementById('chat-messages');
+        if (chatMessages) {
+            chatMessages.innerHTML += `
+                <div class="message helper-message">
+                    <div class="message-content">
+                        <i class="fas fa-robot"></i>
+                        <p>${problem.opening}</p>
+                    </div>
+                </div>
+            `;
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+    }
+
+    _evaluateResolution(userMessage, problem) {
+        const msg = userMessage.toLowerCase();
+        const apologyHit = (problem.resolutionKeywords.apology || []).some(k => msg.includes(k));
+        const actionHit = (problem.resolutionKeywords.action || []).some(k => msg.includes(k));
+        const resolved = apologyHit && actionHit;
+        let followUp = null;
+        if (!resolved && problem.followUps && problem.followUps.length) {
+            followUp = problem.followUps[Math.floor(Math.random() * problem.followUps.length)];
+        }
+        return { resolved, followUp };
+    }
+
     sendMessage(scenarioIndex) {
         const input = document.getElementById('user-input');
         const message = input.value.trim();
@@ -1424,6 +1553,7 @@ class LifeAssistant {
         const modal = document.getElementById('practice-modal');
         const scenario = JSON.parse(modal.dataset.currentScenario);
         const messageIndex = parseInt(modal.dataset.messageIndex);
+        const problem = JSON.parse(modal.dataset.roleplayCurrentProblem || '{}');
 
         const chatMessages = document.getElementById('chat-messages');
         chatMessages.innerHTML += `
@@ -1435,8 +1565,30 @@ class LifeAssistant {
             </div>
         `;
 
+        // Evaluate resolution for current problem
+        let resolved = false;
+        let followUp = null;
+        try {
+            const outcome = this._evaluateResolution(message, problem);
+            resolved = outcome.resolved;
+            followUp = outcome.followUp;
+        } catch (_) {}
+
+        const roundsEl = document.getElementById('roleplay-state');
+        if (resolved) {
+            modal.dataset.roleplayIssueResolved = "true";
+            if (roundsEl) { roundsEl.textContent = 'Issue: Resolved'; roundsEl.style.color = '#3aaa6f'; }
+        }
+
         setTimeout(() => {
-            const helperResponse = this.generateHelperResponse(message, scenario, messageIndex);
+            let helperResponse;
+            if (resolved) {
+                helperResponse = "Thank you for handling that. I feel this is resolved now.";
+            } else if (followUp) {
+                helperResponse = followUp;
+            } else {
+                helperResponse = this.generateHelperResponse(message, scenario, messageIndex);
+            }
             chatMessages.innerHTML += `
                 <div class="message helper-message">
                     <div class="message-content">
@@ -1447,7 +1599,25 @@ class LifeAssistant {
             `;
             modal.dataset.messageIndex = messageIndex + 1;
             chatMessages.scrollTop = chatMessages.scrollHeight;
-        }, 1000);
+
+            // If resolved, move to next round or complete after brief pause
+            if (resolved) {
+                const total = parseInt(modal.dataset.roleplayRoundsTotal);
+                let completed = parseInt(modal.dataset.roleplayRoundsCompleted);
+                completed += 1;
+                modal.dataset.roleplayRoundsCompleted = String(completed);
+
+                setTimeout(() => {
+                    if (completed >= total) {
+                        // mark module practice completion
+                        this.showNotification('All 5 customer conversations resolved! Great job!', 'success');
+                        this.completePractice();
+                    } else {
+                        this._beginNextRoleplayRound();
+                    }
+                }, 900);
+            }
+        }, 900);
 
         input.value = '';
         chatMessages.scrollTop = chatMessages.scrollHeight;
