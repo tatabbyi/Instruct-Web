@@ -892,7 +892,7 @@ class LifeAssistant {
             moduleElement.innerHTML = `
                 <div class="module-header">
                     <h4>${module.title}</h4>
-                    <span class="module-status ${module.status}">${module.status}</span>
+                    <span class="module-status status-${module.status}">${module.status}</span>
                 </div>
                 <div class="module-progress">
                     <div class="progress-bar">
@@ -2164,7 +2164,7 @@ class LifeAssistant {
     }
 
     completePractice() {
-        this.showNotification('Practice session Completed! Great Job!', 'success');
+        this.showNotification('Practice session completed! Great job!', 'success');
         this.hidePracticeModal();
 
         const modal = document.getElementById('practice-modal');
@@ -2177,8 +2177,9 @@ class LifeAssistant {
 
             if (module) {
                 const progressElement = module.querySelector('.progress-fill');
-                const currentProgress = parseInt(progressElement.style.width) || 0;
-                const newProgress = Math.min(100, currentProgress + 25);
+                const currentWidth = progressElement.style.width || '0%';
+                const numeric = parseInt(currentWidth.replace('%','')) || 0;
+                const newProgress = Math.min(100, numeric + 25);
                 progressElement.style.width = `${newProgress}%`;
 
                 if (newProgress >= 100) {
@@ -2186,34 +2187,47 @@ class LifeAssistant {
                     statusElement.textContent = 'completed';
                     statusElement.className = 'module-status status-completed';
 
-                    this.careerProgress[jobType] += 20;
+                    this.careerProgress[jobType] = Math.min(100, (this.careerProgress[jobType] || 0) + 20);
                     this.updateCareerProgress();
-                    this.checkCertification(jobType);    
+                    this.checkCertification(jobType);
+                } else {
+                    const statusElement = module.querySelector('.module-status');
+                    statusElement.textContent = 'in-progress';
+                    statusElement.className = 'module-status status-in-progress';
                 }
             }
         }, 1000);
     }
 
-    resetRoleplay(sceanrioIndex) {
-        this.startRoleplayScenario(JSON.parse(document.getElementById('practice-modal').dataset.currentScenario), scenarioIndex);
+    resetRoleplay(scenarioIndex) {
+        this.startRoleplayScenario(
+            JSON.parse(document.getElementById('practice-modal').dataset.currentScenario),
+            scenarioIndex
+        );
     }
 
     resetQuiz(scenarioIndex) {
-        this.startQuizSceanrio(JSON.parse(document.getElementById('practice-modal').dataset.currentQuiz), scenrioindex);
+        this.startQuizScenario(
+            JSON.parse(document.getElementById('practice-modal').dataset.currentQuiz),
+            scenarioIndex
+        );
     }
 
     resetTyping(scenarioIndex) {
-        this.startTypingTests(JSON.parse(document.getElementById('practice-modal').dataset.currentTypingTest), scenairoIndex);
+        this.startTypingTest(
+            JSON.parse(document.getElementById('practice-modal').dataset.currentTypingTest),
+            scenarioIndex
+        );
     }
 
     completeRoleplay(scenarioIndex) {
-        this.analyseSessionPerformance();
+        this.analyzeSessionPerformance();
 
-        this.showNotification('Roleplay Session Completed! Well Done!', 'success');
+        this.showNotification('Roleplay session completed! Well done!', 'success');
         this.completePractice();
     }
 
-    analyseSessionPerformance() {
+    analyzeSessionPerformance() {
         const stats = this.helperMemory.sessionStats;
         const jobType = this.selectedJob;
         const performance = this.helperMemory.userPerformance[jobType];
@@ -2226,7 +2240,7 @@ class LifeAssistant {
         if (successRate > 0.8 && performance.difficulty === 'medium') {
             performance.difficulty = 'hard';
             this.showNotification('Helper: I\'m increasing the difficulty - you\'re doing great!', 'info');
-        }else if (successRate < 0.3 && performance.difficulty === 'medium') {
+        } else if (successRate < 0.3 && performance.difficulty === 'medium') {
             performance.difficulty = 'easy';
             this.showNotification('Helper: I\'m making this easier -  let\'s practice the basics!', 'info');
         }
@@ -2241,31 +2255,7 @@ class LifeAssistant {
         
     }
 
-    startModule(jobType, moduleIndex) {
-        this.hideModuleModal();
-
-        const modules = document.querySelectorAll('.module-card');
-        const module = modules[moduleIndex];
-
-        if (module) {
-            const statusElement = module.querySelector('.module-status');
-            const progressElement = module.querySelector('.progress-fill');
-
-            statusElement.textContent = 'in progress';
-            statusElement.className = 'module-status status-in-progress';
-            progressElement.style.width = '50%';
-
-            setTimeout(() => {
-                statusElement.textContent = 'completed';
-                statusElement.className = 'module-status status-completed';
-                progressElement.style.width = '100%';
-
-                this.careerProgress[jobType] += 20;
-                this.updateCareerProgress();
-                this.checkCertification(jobType);
-            }, 3000);
-        }
-    }
+    
 
     updateCareerProgress() {
         const totalProgress = Object.values(this.careerProgress).reduce((sum,progress) => sum + progress, 0);
