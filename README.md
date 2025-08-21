@@ -49,6 +49,7 @@ To help build community, a messaging feature will connect support groups based o
 
 The aim of this application is to help a wide audience improve their lives. Development is expected to take about a year, with additional time required to get it running smoothly. A feedback section will be included so the application can continually improve.
 [View the Buissness Plan]https://docs.google.com/presentation/d/e/2PACX-1vQRzOcrcJBNYVItplNU8xvXvDWSfm2cLUeNxZNfOOZk-e0e4f9ZEzxDhNUN1Eh4rOL27zYysVvUA7u3/pub?start=true&loop=false&delayms=3000
+Updates: Will slow down as of 21st August 2025, most of the project is complete, and I am now focusing my time on studying material for future projects.
 
 ---
 
