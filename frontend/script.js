@@ -174,6 +174,23 @@ class LifeAssistant {
         });
 
 
+        // template modal dynamic subtasks
+        const addSubtaskBtn = document.getElementById('add-subtask-input');
+        if (addSubtaskBtn) {
+            addSubtaskBtn.addEventListener('click', () => this.addSubtaskInput());
+        }
+
+        // ensure at least one subtask input when opening modal
+        const taskModalBtn = document.getElementById('add-task-btn');
+        if (taskModalBtn) {
+            taskModalBtn.addEventListener('click', () => {
+                const list = document.getElementById('template-subtasks-list');
+                if (!list) return;
+                list.innerHTML = '';
+                this.addSubtaskInput();
+            });
+        }
+
     }
 
     //navigation updated
@@ -469,8 +486,8 @@ class LifeAssistant {
     //resetting tasks
     clearTaskForm() {
         document.getElementById('task-title').value = '';
-        const subtasksArea = document.getElementById('template-subtasks');
-        if (subtasksArea) subtasksArea.value = '';
+        const subtasksList = document.getElementById('template-subtasks-list');
+        if (subtasksList) subtasksList.innerHTML = '';
         document.getElementById('task-priority').value = 'low';
     }
 
@@ -1146,9 +1163,8 @@ class LifeAssistant {
     saveCustomTemplateFromForm() {
         const title = (document.getElementById('task-title').value || '').trim();
         const priority = (document.getElementById('task-priority').value || 'low').toLowerCase();
-        const raw = (document.getElementById('template-subtasks')?.value || '')
-            .split(/\r?\n/)
-            .map(s => s.trim())
+        const raw = Array.from(document.querySelectorAll('#template-subtasks-list .subtask-input'))
+            .map(i => i.value.trim())
             .filter(Boolean);
         if (!title) {
             this.showNotification('Template title is required', 'error');
@@ -1171,6 +1187,17 @@ class LifeAssistant {
         this.hideModals();
         this.clearTaskForm();
         this.showNotification('Template saved', 'success');
+    }
+
+    addSubtaskInput(value = '') {
+        const list = document.getElementById('template-subtasks-list');
+        if (!list) return;
+        const input = document.createElement('input');
+        input.type = 'text';
+        input.className = 'subtask-input';
+        input.placeholder = 'Enter subtask';
+        input.value = value;
+        list.appendChild(input);
     }
 
     renderCustomTemplates() {

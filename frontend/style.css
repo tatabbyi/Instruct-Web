@@ -1309,6 +1309,23 @@ body {
     min-height: 100px;
 }
 
+
+/* Subtask inputs in template modal */
+
+.subtasks-list {
+    display: grid;
+    gap: 8px;
+    margin-bottom: 12px;
+}
+
+.subtasks-list .subtask-input {
+    width: 100%;
+    padding: 0.65rem 0.75rem;
+    border: 1px solid #d6ceda;
+    border-radius: 6px;
+    font-size: 1rem;
+}
+
 @media (max-width: 768px) {
     .app-container {
         margin: 0;

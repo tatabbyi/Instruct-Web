@@ -307,8 +307,9 @@
                 <input type="text" id="task-title" required>
             </div>
             <div class="form-group">
-                <label>Subtasks (one per line):</label>
-                <textarea id="template-subtasks" placeholder="e.g. Shower&#10;Brush teeth&#10;Skincare&#10;Get dressed"></textarea>
+                <label>Subtasks:</label>
+                <div id="template-subtasks-list" class="subtasks-list"></div>
+                <button type="button" class="btn btn-secondary" id="add-subtask-input">Add subtask</button>
             </div>
             <div class="form-group">
                 <label for="task-priority">Default Priority:</label>
