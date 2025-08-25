@@ -98,8 +98,9 @@ class LifeAssistant {
         });
 
         document.querySelectorAll('.template-card').forEach(card => {
-            card.addEventListener('click', () => {
-                this.addTaskFromTemplate(card.dataset.template);
+            card.addEventListener('click', (e) => {
+                const templateKey = card.dataset.template;
+                this.openTemplateOptions(card, templateKey);
             });
         });
 
@@ -307,6 +308,139 @@ class LifeAssistant {
             `;
             container.appendChild(taskElement);
         });
+    }
+
+    // template sub-options support
+    getTemplateOptions() {
+        return {
+            'hygiene': [
+                { key: 'shower', label: 'Shower' },
+                { key: 'brush-teeth', label: 'Brush teeth' },
+                { key: 'skincare', label: 'Skincare' },
+                { key: 'get-dressed', label: 'Get dressed' }
+            ],
+            'exercise': [
+                { key: 'walk', label: 'Walk' },
+                { key: 'stretch', label: 'Stretch' },
+                { key: 'dance', label: 'Dance' }
+            ],
+            'hobby': [
+                { key: 'drawing', label: 'Drawing' },
+                { key: 'writing', label: 'Writing' },
+                { key: 'crafts', label: 'Crafts' }
+            ],
+            'learning': [
+                { key: 'read', label: 'Read' },
+                { key: 'watch-course', label: 'Watch a course/video' }
+            ],
+            'social': [
+                { key: 'call-friend', label: 'Call a friend' },
+                { key: 'text-support', label: 'Text a support line' }
+            ],
+            'self-care': [
+                { key: 'paint-nails', label: 'Paint nails' },
+                { key: 'curate-wardrobe', label: 'Curate a wardrobe' },
+                { key: 'hug-plushie', label: 'Hug a plushie' }
+            ]
+        };
+    }
+
+    getTemplateBase(templateKey) {
+        const base = {
+            'hygiene': { title: 'Hygiene', priority: 'high' },
+            'medication': { title: 'Medication', priority: 'high' },
+            'exercise': { title: 'Exercise', priority: 'medium' },
+            'social': { title: 'Social', priority: 'medium' },
+            'hobby': { title: 'Hobby', priority: 'low' },
+            'learning': { title: 'Learning', priority: 'low' },
+            'self-care': { title: 'Self-Care', priority: 'low' }
+        };
+        return base[templateKey] || { title: templateKey, priority: 'low' };
+    }
+
+    openTemplateOptions(card, templateKey) {
+            const optionsMap = this.getTemplateOptions();
+            const options = optionsMap[templateKey];
+            if (!options || options.length === 0) {
+                // fall back to simple add if no sub-options
+                this.addTaskFromTemplate(templateKey);
+                return;
+            }
+
+            // prevent duplicate panels
+            let panel = card.querySelector('.template-options');
+            if (!panel) {
+                panel = document.createElement('div');
+                panel.className = 'template-options';
+                panel.innerHTML = `
+                <div class="template-options-header">
+                    <span>Select one or more options</span>
+                    <i class="fas fa-chevron-down template-options-chevron"></i>
+                </div>
+                <div class="template-options-body">
+                    ${options.map(opt => `
+                        <label class="option-item">
+                            <input type="checkbox" value="${opt.key}">
+                            <span>${opt.label}</span>
+                        </label>
+                    `).join('')}
+                </div>
+                <div class="template-options-actions">
+                    <button class="btn btn-secondary template-options-add">Add Selected</button>
+                    <button class="btn template-options-cancel">Cancel</button>
+                </div>
+            `;
+            card.appendChild(panel);
+
+            // event wiring for panel
+            panel.addEventListener('click', (e) => e.stopPropagation());
+            const addBtn = panel.querySelector('.template-options-add');
+            const cancelBtn = panel.querySelector('.template-options-cancel');
+            const header = panel.querySelector('.template-options-header');
+            const chevron = panel.querySelector('.template-options-chevron');
+            header.addEventListener('click', () => {
+                panel.classList.toggle('open');
+                if (chevron) chevron.classList.toggle('rotated');
+            });
+            addBtn.addEventListener('click', () => {
+                const selected = Array.from(panel.querySelectorAll('input[type="checkbox"]:checked'))
+                    .map(i => i.value);
+                this.createTasksFromSelected(templateKey, selected, options);
+                panel.classList.remove('open');
+            });
+            cancelBtn.addEventListener('click', () => {
+                panel.classList.remove('open');
+            });
+        }
+
+        // toggle visibility
+        panel.classList.toggle('open');
+        const chev = panel.querySelector('.template-options-chevron');
+        if (chev) chev.classList.toggle('rotated');
+    }
+
+    createTasksFromSelected(templateKey, selectedKeys, allOptions) {
+        if (!selectedKeys || selectedKeys.length === 0) {
+            this.showNotification('Select at least one option.', 'error');
+            return;
+        }
+        const base = this.getTemplateBase(templateKey);
+        const keyToLabel = new Map(allOptions.map(o => [o.key, o.label]));
+        selectedKeys.forEach(k => {
+            const label = keyToLabel.get(k) || k;
+            const task = {
+                id: Date.now() + Math.floor(Math.random() * 1000),
+                title: `${base.title}: ${label}`,
+                description: `${label} from ${base.title.toLowerCase()} template`,
+                priority: base.priority,
+                completed: false,
+                createdAt: new Date().toISOString()
+            };
+            this.tasks.push(task);
+        });
+        this.saveData();
+        this.updateTasksUI();
+        this.showNotification(`${selectedKeys.length} task(s) added`, 'success');
     }
 
     //resetting tasks

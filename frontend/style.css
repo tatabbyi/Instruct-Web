@@ -339,6 +339,64 @@ body {
     line-height: 1.5;
 }
 
+
+/* Template sub-options dropdown */
+
+.template-options {
+    margin-top: 12px;
+    border: 1px solid #e5e7eb;
+    border-radius: 10px;
+    background: #ffffff;
+    overflow: hidden;
+    max-height: 0;
+    opacity: 0;
+    transition: max-height 0.25s ease, opacity 0.2s ease;
+}
+
+.template-options.open {
+    max-height: 400px;
+    opacity: 1;
+}
+
+.template-options-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 12px;
+    background: #f8f9fa;
+    cursor: pointer;
+}
+
+.template-options-body {
+    padding: 10px 12px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px 12px;
+}
+
+.option-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.9rem;
+    color: #374151;
+}
+
+.template-options-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 8px;
+    padding: 8px 12px 12px 12px;
+}
+
+.template-options-chevron {
+    transition: transform 0.2s ease;
+}
+
+.template-options-chevron.rotated {
+    transform: rotate(180deg);
+}
+
 .task-list {
     background: white;
     padding: 2rem;
@@ -1376,7 +1434,7 @@ textarea:focus {
     border-radius: 12px;
     border: 2px solid transparent;
     cursor: pointer;
-    transistion: all 0.3s ease;
+    transition: all 0.3s ease;
 }
 
 .scenario-card:hover {
@@ -1388,21 +1446,21 @@ textarea:focus {
 .scenario-icon {
     width: 50px;
     height: 50px;
-    backgrond: #744ecf;
+    background: #744ecf;
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
     margin-right: 15px;
     color: white;
-    font-size: 20px
+    font-size: 20px;
 }
 
 .scenario-content {
     flex: 1;
 }
 
-scenario-content h3 {
+.scenario-content h3 {
     margin: 1 1 5px 0;
     color: #5e479e;
     font-size: 16px;
@@ -1543,7 +1601,7 @@ scenario-content h3 {
     border-radius: 25px;
     font-size: 14px;
     outline: none;
-    tranisition: border-color 0.3s ease;
+    transition: border-color 0.3s ease;
 }
 
 .chat-input input:focus {
@@ -1727,8 +1785,7 @@ scenario-content h3 {
 
 .typing-header {
     text-align: center;
-    margin-bottom;
-    30px;
+    margin-bottom: 30px;
 }
 
 .typing-header h3 {
