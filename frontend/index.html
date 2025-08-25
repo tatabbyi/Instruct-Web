@@ -43,7 +43,7 @@
                     <div class="section-header">
                         <h2>Daily Tasks</h2>
                         <button class="btn btn-primary" id="add-task-btn">
-                            <i class="fas fa-plus"></i> Add Tasks
+                            <i class="fas fa-plus"></i> Add Template Task
                         </button>
                     </div>
 
@@ -92,6 +92,7 @@
                         <h4>Self-Care</h4>
                             <p>Relax and do something that makes you feel taken care of! Paint your nails, curate a new wardrobe or hug a plushie</p>
                     </div>
+                    <div id="custom-templates"></div>
                 </div>
             </div>
 
@@ -299,25 +300,25 @@
  <div id="task-modal" class="modal">
     <div class="modal-content">
         <span class="close">&times;</span>
-        <h3>Add New Task</h3>
+        <h3>Create Template Task</h3>
         <form id="task-form">
             <div class="form-group">
-                <label for="task-title">Task Title:</label>
+                <label for="task-title">Template Title:</label>
                 <input type="text" id="task-title" required>
             </div>
             <div class="form-group">
-                <label for="task-description">Description</label>
-                <textarea id="task-description"></textarea>
+                <label>Subtasks (one per line):</label>
+                <textarea id="template-subtasks" placeholder="e.g. Shower&#10;Brush teeth&#10;Skincare&#10;Get dressed"></textarea>
             </div>
             <div class="form-group">
-                <label for="task-priority">Priority:</label>
+                <label for="task-priority">Default Priority:</label>
                 <select id="task-priority">
                     <option value="low">Low</option>
-                    <option value="Medium">Medium</option>
-                    <option value="High">High</option>
+                    <option value="medium">Medium</option>
+                    <option value="high">High</option>
                 </select>
             </div>
-             <button type="submit" class="btn btn-primary">Add Task</button>
+             <button type="submit" class="btn btn-primary">Save Template</button>
         </form>
     </div>
 </div>

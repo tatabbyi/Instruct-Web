@@ -2,6 +2,7 @@ class LifeAssistant {
     constructor() {
         this.currentEnergy = 75;
         this.tasks = [];
+        this.customTemplates = [];
         this.emotions = [];
         this.symptoms = [];
         this.careerProgress = {
@@ -45,6 +46,7 @@ class LifeAssistant {
         const data = {
             currentEnergy: this.currentEnergy,
             tasks: this.tasks,
+            customTemplates: this.customTemplates,
             emotions: this.emotions,
             symptoms: this.symptoms,
             careerProgress: this.careerProgress,
@@ -59,6 +61,7 @@ class LifeAssistant {
             const data = JSON.parse(saved);
             this.currentEnergy = data.currentEnergy || 75;
             this.tasks = data.tasks || [];
+            this.customTemplates = data.customTemplates || [];
             this.emotions = data.emotions || [];
             this.symptoms = data.symptoms || [];
             this.careerProgress = data.careerProgress || {
@@ -94,7 +97,7 @@ class LifeAssistant {
 
         document.getElementById('task-form').addEventListener('submit', (e) => {
             e.preventDefault();
-            this.addTask();
+            this.saveCustomTemplateFromForm();
         });
 
         document.querySelectorAll('.template-card').forEach(card => {
@@ -281,23 +284,27 @@ class LifeAssistant {
     }
 
     updateTasksUI() {
-        const container = document.getElementById('tasks-container');
-        container.innerHTML = '';
+            const container = document.getElementById('tasks-container');
+            container.innerHTML = '';
 
-        if (this.tasks.length === 0) {
-            container.innerHTML = '<p style="text-align: center; color: #6c757d; font-style: italic;">No tasks yet. Add some to get started!</p>';
-            return;
-        }
+            if (this.tasks.length === 0) {
+                container.innerHTML = '<p style="text-align: center; color: #6c757d; font-style: italic;">No tasks yet. Add some to get started!</p>';
+                return;
+            }
 
-        this.tasks.forEach(task => {
-            const taskElement = document.createElement('div');
-            taskElement.className = 'task-item';
-            taskElement.innerHTML = `
+            this.tasks.forEach(task => {
+                        const taskElement = document.createElement('div');
+                        taskElement.className = 'task-item';
+                        taskElement.innerHTML = `
                 <input type="checkbox" class="task-checkbox" ${task.completed ? 'checked' : ''}
                         onchange="lifeAssistant.toggleTask(${task.id})">
                 <div class="task-content">
                     <div class="task-title ${task.completed ? 'completed' : ''}">${task.title}</div>
                     <div class="task-description">${task.description}</div>
+                    ${Array.isArray(task.subtasks) && task.subtasks.length ? `
+                    <ul class="task-subtasks">
+                        ${task.subtasks.map(st => `<li>${st}</li>`).join('')}
+                    </ul>` : ''}
                 </div>
                 <span class="task-priority priority-${task.priority}">${task.priority}</span>
                 <div class="task-actions">
@@ -462,7 +469,8 @@ class LifeAssistant {
     //resetting tasks
     clearTaskForm() {
         document.getElementById('task-title').value = '';
-        document.getElementById('task-description').value = '';
+        const subtasksArea = document.getElementById('template-subtasks');
+        if (subtasksArea) subtasksArea.value = '';
         document.getElementById('task-priority').value = 'low';
     }
 
@@ -1132,6 +1140,97 @@ class LifeAssistant {
 
     showNotification(message, type = 'info') {
         console.log(`${type}: ${message}`);
+    }
+
+    // Custom template builder
+    saveCustomTemplateFromForm() {
+        const title = (document.getElementById('task-title').value || '').trim();
+        const priority = (document.getElementById('task-priority').value || 'low').toLowerCase();
+        const raw = (document.getElementById('template-subtasks')?.value || '')
+            .split(/\r?\n/)
+            .map(s => s.trim())
+            .filter(Boolean);
+        if (!title) {
+            this.showNotification('Template title is required', 'error');
+            return;
+        }
+        const existing = this.customTemplates.find(t => t.title.toLowerCase() === title.toLowerCase());
+        const template = {
+            id: existing?.id || (Date.now() + Math.floor(Math.random() * 1000)),
+            title,
+            priority,
+            subtasks: raw
+        };
+        if (existing) {
+            Object.assign(existing, template);
+        } else {
+            this.customTemplates.push(template);
+        }
+        this.saveData();
+        this.renderCustomTemplates();
+        this.hideModals();
+        this.clearTaskForm();
+        this.showNotification('Template saved', 'success');
+    }
+
+    renderCustomTemplates() {
+        const container = document.getElementById('custom-templates');
+        if (!container) return;
+        container.innerHTML = '';
+        if (!this.customTemplates.length) return;
+        const wrap = document.createElement('div');
+        wrap.className = 'template-grid';
+        this.customTemplates.forEach(tpl => {
+            const card = document.createElement('div');
+            card.className = 'template-card';
+            card.dataset.template = `custom-${tpl.id}`;
+            card.innerHTML = `
+                <i class="fas fa-layer-group"></i>
+                <h4>${tpl.title}</h4>
+                <p>${tpl.subtasks && tpl.subtasks.length ? tpl.subtasks.join(', ') : 'No subtasks yet'}</p>
+                <div class="template-card-actions" style="margin-top:10px; display:flex; gap:8px; justify-content:center;">
+                    <button class="btn btn-secondary btn-sm" data-action="use">Use</button>
+                    <button class="btn btn-danger btn-sm" data-action="delete">Delete</button>
+                </div>
+            `;
+            // clicking Use opens options like built-ins
+            card.addEventListener('click', (e) => {
+                const btn = e.target.closest('button');
+                if (btn && btn.dataset.action === 'delete') {
+                    e.stopPropagation();
+                    this.deleteCustomTemplate(tpl.id);
+                    return;
+                }
+                this.openCustomTemplateOptions(card, tpl);
+            });
+            wrap.appendChild(card);
+        });
+        container.appendChild(wrap);
+    }
+
+    deleteCustomTemplate(templateId) {
+        this.customTemplates = this.customTemplates.filter(t => t.id !== templateId);
+        this.saveData();
+        this.renderCustomTemplates();
+        this.showNotification('Template deleted', 'success');
+    }
+
+    openCustomTemplateOptions(card, tpl) {
+        const options = (tpl.subtasks || []).map(label => ({ key: label.toLowerCase().replace(/\s+/g, '-'), label }));
+        // make a faux templateKey to reuse creation flow
+        const tempKey = `custom-${tpl.id}`;
+        // temporarily hook base and options for this instance
+        const originalGetOptions = this.getTemplateOptions.bind(this);
+        const originalGetBase = this.getTemplateBase.bind(this);
+        this.getTemplateOptions = () => ({ [tempKey]: options });
+        this.getTemplateBase = () => ({ title: tpl.title, priority: tpl.priority || 'low' });
+        try {
+            this.openTemplateOptions(card, tempKey);
+        } finally {
+            // restore methods to originals
+            this.getTemplateOptions = originalGetOptions;
+            this.getTemplateBase = originalGetBase;
+        }
     }
 
     formatTime(timestamp) {
