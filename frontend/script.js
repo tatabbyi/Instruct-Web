@@ -33,8 +33,36 @@ class LifeAssistant {
         // metadata holder for custom templates, keyed by temp key like 'custom-<id>'
         this.customTemplateMeta = {};
         this.templateOverrides = {};
+        this.templateBaseOverrides = {};
 
         this.init();
+    }
+
+    openTemplateForEdit(templateKey, options) {
+        // supports editing built-in and custom templates
+        if (/^custom-/.test(templateKey)) {
+            const id = templateKey.replace('custom-', '');
+            const tpl = this.customTemplates.find(t => String(t.id) === id);
+            if (!tpl) return;
+            document.getElementById('template-edit-id').value = String(tpl.id);
+            document.getElementById('task-title').value = tpl.title;
+            document.getElementById('task-priority').value = tpl.priority || 'low';
+            const list = document.getElementById('template-subtasks-list');
+            list.innerHTML = '';
+            (tpl.subtasks || []).forEach(st => this.addSubtaskInput(st));
+            if (!tpl.subtasks || tpl.subtasks.length === 0) this.addSubtaskInput();
+            this.showModal('task-modal');
+            return;
+        }
+        // built-in: editing stored overrides
+        document.getElementById('template-edit-id').value = `builtin:${templateKey}`;
+        const base = this.getTemplateBase(templateKey);
+        document.getElementById('task-title').value = base.title;
+        document.getElementById('task-priority').value = base.priority || 'low';
+        const list = document.getElementById('template-subtasks-list');
+        list.innerHTML = '';
+        options.forEach(opt => this.addSubtaskInput(opt.label));
+        this.showModal('task-modal');
     }
 
     init() {
@@ -51,6 +79,8 @@ class LifeAssistant {
             currentEnergy: this.currentEnergy,
             tasks: this.tasks,
             customTemplates: this.customTemplates,
+            templateOverrides: this.templateOverrides,
+            templateBaseOverrides: this.templateBaseOverrides,
             emotions: this.emotions,
             symptoms: this.symptoms,
             careerProgress: this.careerProgress,
@@ -66,6 +96,8 @@ class LifeAssistant {
             this.currentEnergy = data.currentEnergy || 75;
             this.tasks = data.tasks || [];
             this.customTemplates = data.customTemplates || [];
+            this.templateOverrides = data.templateOverrides || {};
+            this.templateBaseOverrides = data.templateBaseOverrides || {};
             this.emotions = data.emotions || [];
             this.symptoms = data.symptoms || [];
             this.careerProgress = data.careerProgress || {
@@ -394,7 +426,9 @@ class LifeAssistant {
             'learning': { title: 'Learning', priority: 'low' },
             'self-care': { title: 'Self-Care', priority: 'low' }
         };
-        return base[templateKey] || { title: templateKey, priority: 'low' };
+        const overridden = this.templateBaseOverrides?.[templateKey];
+        const result = overridden ? { ...base[templateKey], ...overridden } : base[templateKey];
+        return result || { title: templateKey, priority: 'low' };
     }
 
     openTemplateOptions(card, templateKey) {
@@ -455,13 +489,14 @@ class LifeAssistant {
             cancelBtn.addEventListener('click', () => {
                 panel.classList.remove('open');
             });
+            // ensure edit button exists
             if (!editBtn) {
-                // inject edit button for built panel if missing due to previous rendering
                 const actions = panel.querySelector('.template-options-actions');
                 if (actions) {
                     const btn = document.createElement('button');
-                    btn.className = 'btn template-options-edit';
-                    btn.textContent = 'Edit Template';
+                    btn.className = 'btn icon-btn template-options-edit';
+                    btn.setAttribute('aria-label', 'Edit template');
+                    btn.innerHTML = '<i class="fas fa-pen"></i>';
                     actions.insertBefore(btn, actions.firstChild.nextSibling);
                     editBtn = btn;
                 }
