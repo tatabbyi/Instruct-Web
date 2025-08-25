@@ -406,7 +406,10 @@ class LifeAssistant {
                 const selected = Array.from(panel.querySelectorAll('input[type="checkbox"]:checked'))
                     .map(i => i.value);
                 this.createTasksFromSelected(templateKey, selected, options);
+                // reset UI state so next open starts fresh
+                panel.querySelectorAll('input[type="checkbox"]').forEach(cb => { cb.checked = false; });
                 panel.classList.remove('open');
+                if (chevron) chevron.classList.remove('rotated');
             });
             cancelBtn.addEventListener('click', () => {
                 panel.classList.remove('open');
@@ -426,21 +429,34 @@ class LifeAssistant {
         }
         const base = this.getTemplateBase(templateKey);
         const keyToLabel = new Map(allOptions.map(o => [o.key, o.label]));
+        // build a Set of existing titles to avoid duplicates
+        const existingTitles = new Set(this.tasks.map(t => `${t.title}`));
+        let createdCount = 0;
         selectedKeys.forEach(k => {
             const label = keyToLabel.get(k) || k;
+            const title = `${base.title}: ${label}`;
+            if (existingTitles.has(title)) {
+                return; // skip duplicate
+            }
             const task = {
                 id: Date.now() + Math.floor(Math.random() * 1000),
-                title: `${base.title}: ${label}`,
+                title,
                 description: `${label} from ${base.title.toLowerCase()} template`,
                 priority: base.priority,
                 completed: false,
                 createdAt: new Date().toISOString()
             };
             this.tasks.push(task);
+            existingTitles.add(title);
+            createdCount += 1;
         });
         this.saveData();
         this.updateTasksUI();
-        this.showNotification(`${selectedKeys.length} task(s) added`, 'success');
+        if (createdCount > 0) {
+            this.showNotification(`${createdCount} task(s) added`, 'success');
+        } else {
+            this.showNotification('No new tasks added (duplicates skipped)', 'info');
+        }
     }
 
     //resetting tasks
