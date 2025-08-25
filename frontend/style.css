@@ -262,6 +262,30 @@ body {
     box-shadow: 0 8px 12px -3px rgba(70, 66, 17, 0.4), 0 4px 6px -2px rgba(87, 83, 26, 0.2);
 }
 
+
+/* Custom template action buttons */
+
+.template-card-actions .use-btn {
+    padding: 0.5rem 0.9rem;
+    min-width: 96px;
+    font-size: 0.875rem;
+    border-radius: 8px;
+}
+
+.template-card-actions .delete-btn {
+    width: 32px;
+    height: 32px;
+    padding: 0;
+    display: grid;
+    place-items: center;
+    line-height: 0;
+    border-radius: 8px;
+}
+
+.template-card-actions .delete-btn i {
+    font-size: 14px;
+}
+
 .task-templates {
     margin-bottom: 3rem;
     background: white;
@@ -387,6 +411,20 @@ body {
     justify-content: flex-end;
     gap: 8px;
     padding: 8px 12px 12px 12px;
+}
+
+.icon-btn {
+    width: 32px;
+    height: 32px;
+    padding: 0;
+    display: grid;
+    place-items: center;
+    line-height: 0;
+    border-radius: 8px;
+}
+
+.icon-btn i {
+    font-size: 14px;
 }
 
 .template-options-chevron {

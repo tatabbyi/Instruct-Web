@@ -30,6 +30,10 @@ class LifeAssistant {
             }
         };
 
+        // metadata holder for custom templates, keyed by temp key like 'custom-<id>'
+        this.customTemplateMeta = {};
+        this.templateOverrides = {};
+
         this.init();
     }
 
@@ -104,6 +108,7 @@ class LifeAssistant {
             card.addEventListener('click', (e) => {
                 const templateKey = card.dataset.template;
                 this.openTemplateOptions(card, templateKey);
+                // If built-in template and overrides exist, merge them into options on open
             });
         });
 
@@ -336,12 +341,17 @@ class LifeAssistant {
 
     // template sub-options support
     getTemplateOptions() {
-        return {
+        const builtIns = {
             'hygiene': [
                 { key: 'shower', label: 'Shower' },
                 { key: 'brush-teeth', label: 'Brush teeth' },
                 { key: 'skincare', label: 'Skincare' },
                 { key: 'get-dressed', label: 'Get dressed' }
+            ],
+            'medication': [
+                { key: 'take-pills', label: 'Take Pills' },
+                { key: 'set-reminder', label: 'Set Reminder' },
+                { key: 'refill-prescription', label: 'Refill Prescription' }
             ],
             'exercise': [
                 { key: 'walk', label: 'Walk' },
@@ -367,6 +377,11 @@ class LifeAssistant {
                 { key: 'hug-plushie', label: 'Hug a plushie' }
             ]
         };
+        // Apply any user overrides for built-in templates
+        Object.keys(this.templateOverrides || {}).forEach(key => {
+            if (builtIns[key]) builtIns[key] = this.templateOverrides[key];
+        });
+        return builtIns;
     }
 
     getTemplateBase(templateKey) {
@@ -410,8 +425,9 @@ class LifeAssistant {
                     `).join('')}
                 </div>
                 <div class="template-options-actions">
-                    <button class="btn btn-secondary template-options-add">Add Selected</button>
-                    <button class="btn template-options-cancel">Cancel</button>
+                    <button class="btn btn-secondary icon-btn template-options-add" aria-label="Add selected"><i class="fas fa-plus"></i></button>
+                    <button class="btn icon-btn template-options-edit" aria-label="Edit template"><i class="fas fa-pen"></i></button>
+                    <button class="btn icon-btn template-options-cancel" aria-label="Cancel"><i class="fas fa-xmark"></i></button>
                 </div>
             `;
             card.appendChild(panel);
@@ -420,6 +436,7 @@ class LifeAssistant {
             panel.addEventListener('click', (e) => e.stopPropagation());
             const addBtn = panel.querySelector('.template-options-add');
             const cancelBtn = panel.querySelector('.template-options-cancel');
+            let editBtn = panel.querySelector('.template-options-edit');
             const header = panel.querySelector('.template-options-header');
             const chevron = panel.querySelector('.template-options-chevron');
             header.addEventListener('click', () => {
@@ -438,6 +455,22 @@ class LifeAssistant {
             cancelBtn.addEventListener('click', () => {
                 panel.classList.remove('open');
             });
+            if (!editBtn) {
+                // inject edit button for built panel if missing due to previous rendering
+                const actions = panel.querySelector('.template-options-actions');
+                if (actions) {
+                    const btn = document.createElement('button');
+                    btn.className = 'btn template-options-edit';
+                    btn.textContent = 'Edit Template';
+                    actions.insertBefore(btn, actions.firstChild.nextSibling);
+                    editBtn = btn;
+                }
+            }
+            if (editBtn) {
+                editBtn.addEventListener('click', () => {
+                    this.openTemplateForEdit(templateKey, options);
+                });
+            }
         }
 
         // toggle visibility
@@ -458,14 +491,16 @@ class LifeAssistant {
         let createdCount = 0;
         selectedKeys.forEach(k => {
             const label = keyToLabel.get(k) || k;
-            const title = `${base.title}: ${label}`;
+            // If this is a custom template key (custom-<id>), title should be just the label
+            const isCustom = /^custom-/.test(templateKey);
+            const title = isCustom ? `${label}` : `${base.title}: ${label}`;
             if (existingTitles.has(title)) {
                 return; // skip duplicate
             }
             const task = {
                 id: Date.now() + Math.floor(Math.random() * 1000),
                 title,
-                description: `${label} from ${base.title.toLowerCase()} template`,
+                description: isCustom ? `${label}` : `${label} from ${base.title.toLowerCase()} template`,
                 priority: base.priority,
                 completed: false,
                 createdAt: new Date().toISOString()
@@ -1161,16 +1196,32 @@ class LifeAssistant {
 
     // Custom template builder
     saveCustomTemplateFromForm() {
-        const title = (document.getElementById('task-title').value || '').trim();
+        const title = this.toTitleCase((document.getElementById('task-title').value || '').trim());
         const priority = (document.getElementById('task-priority').value || 'low').toLowerCase();
         const raw = Array.from(document.querySelectorAll('#template-subtasks-list .subtask-input'))
-            .map(i => i.value.trim())
+            .map(i => this.toTitleCase(i.value.trim()))
             .filter(Boolean);
+        const editIdRaw = (document.getElementById('template-edit-id')?.value || '').trim();
         if (!title) {
             this.showNotification('Template title is required', 'error');
             return;
         }
-        const existing = this.customTemplates.find(t => t.title.toLowerCase() === title.toLowerCase());
+        let existing = undefined;
+        if (editIdRaw) {
+            if (editIdRaw.startsWith('builtin:')) {
+                const key = editIdRaw.replace('builtin:', '');
+                this.templateOverrides[key] = raw.map(label => ({ key: label.toLowerCase().replace(/\s+/g, '-'), label }));
+                this.saveData();
+                this.hideModals();
+                this.showNotification('Template updated', 'success');
+                document.getElementById('template-edit-id').value = '';
+                return;
+            } else {
+                existing = this.customTemplates.find(t => String(t.id) === editIdRaw);
+            }
+        } else {
+            existing = this.customTemplates.find(t => t.title.toLowerCase() === title.toLowerCase());
+        }
         const template = {
             id: existing?.id || (Date.now() + Math.floor(Math.random() * 1000)),
             title,
@@ -1187,6 +1238,8 @@ class LifeAssistant {
         this.hideModals();
         this.clearTaskForm();
         this.showNotification('Template saved', 'success');
+        const editField = document.getElementById('template-edit-id');
+        if (editField) editField.value = '';
     }
 
     addSubtaskInput(value = '') {
@@ -1196,8 +1249,13 @@ class LifeAssistant {
         input.type = 'text';
         input.className = 'subtask-input';
         input.placeholder = 'Enter subtask';
-        input.value = value;
+        input.value = this.toTitleCase(value);
         list.appendChild(input);
+    }
+
+    toTitleCase(text) {
+        if (!text) return '';
+        return text.replace(/(^\s*[a-zA-Z])|([\s-][a-zA-Z])/g, (s) => s.toUpperCase());
     }
 
     renderCustomTemplates() {
@@ -1212,12 +1270,13 @@ class LifeAssistant {
             card.className = 'template-card';
             card.dataset.template = `custom-${tpl.id}`;
             card.innerHTML = `
-                <i class="fas fa-layer-group"></i>
+                <i class=\"fas fa-layer-group\"></i>
                 <h4>${tpl.title}</h4>
                 <p>${tpl.subtasks && tpl.subtasks.length ? tpl.subtasks.join(', ') : 'No subtasks yet'}</p>
-                <div class="template-card-actions" style="margin-top:10px; display:flex; gap:8px; justify-content:center;">
-                    <button class="btn btn-secondary btn-sm" data-action="use">Use</button>
-                    <button class="btn btn-danger btn-sm" data-action="delete">Delete</button>
+                <div class=\"template-card-actions\" style=\"margin-top:10px; display:flex; gap:8px; justify-content:center;\">
+                    <button class=\"btn btn-secondary use-btn\" data-action=\"use\">Use</button>
+                    <button class=\"btn delete-btn\" data-action=\"edit\" aria-label=\"Edit template\"><i class=\"fas fa-pen\"></i></button>
+                    <button class=\"btn btn-danger delete-btn\" data-action=\"delete\" aria-label=\"Delete template\"><i class=\"fas fa-trash\"></i></button>
                 </div>
             `;
             // clicking Use opens options like built-ins
@@ -1226,6 +1285,11 @@ class LifeAssistant {
                 if (btn && btn.dataset.action === 'delete') {
                     e.stopPropagation();
                     this.deleteCustomTemplate(tpl.id);
+                    return;
+                }
+                if (btn && btn.dataset.action === 'edit') {
+                    e.stopPropagation();
+                    this.openTemplateForEdit(`custom-${tpl.id}`, (tpl.subtasks || []).map(label => ({ key: label.toLowerCase().replace(/\s+/g, '-'), label })));
                     return;
                 }
                 this.openCustomTemplateOptions(card, tpl);
