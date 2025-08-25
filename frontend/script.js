@@ -238,6 +238,11 @@ class LifeAssistant {
                 title: 'Learning Time',
                 description: 'Read or watch educational content',
                 priority: 'low'
+            },
+            'self-care': {
+                title: 'Self-Care',
+                description: 'Relax and do something caring for yourself',
+                priority: 'low'
             }
         };
 
