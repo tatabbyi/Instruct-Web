@@ -159,6 +159,26 @@
                 </div>
             </div>
         </div>
+
+        <div class="energy-custom">
+            <h3>My Energy Boosters</h3>
+            <form id="add-booster-form" class="activity-add-form">
+                <input type="text" id="booster-title" placeholder="Activity name (e.g., Stretch)" aria-label="Booster name">
+                <input type="number" id="booster-delta" min="1" max="10" value="2" aria-label="Energy amount (1-10)">
+                <button type="submit" class="btn btn-secondary"><i class="fas fa-plus"></i> Add</button>
+            </form>
+            <div id="user-boosters" class="activity-grid"></div>
+        </div>
+
+        <div class="energy-drainers">
+            <h3>Energy Depleters</h3>
+            <form id="add-drainer-form" class="activity-add-form">
+                <input type="text" id="drainer-title" placeholder="Activity name (e.g., Long Call)" aria-label="Drainer name">
+                <input type="number" id="drainer-delta" min="1" max="10" value="2" aria-label="Energy amount (1-10)">
+                <button type="submit" class="btn btn-danger"><i class="fas fa-minus"></i> Add</button>
+            </form>
+            <div id="drainers-grid" class="activity-grid"></div>
+        </div>
     </section>
 
     <section id="emotional-support" class="tab-content">

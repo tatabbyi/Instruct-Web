@@ -34,6 +34,8 @@ class LifeAssistant {
         this.customTemplateMeta = {};
         this.templateOverrides = {};
         this.templateBaseOverrides = {};
+        this.userBoosters = [];
+        this.userDrainers = [];
 
         this.init();
     }
@@ -69,6 +71,7 @@ class LifeAssistant {
         this.loadData();
         this.setupEventListeners();
         this.updateUI();
+        this.renderUserActivities();
         this.loadTrainingModules();
         this.loadCopingStrategies();
     }
@@ -81,6 +84,8 @@ class LifeAssistant {
             customTemplates: this.customTemplates,
             templateOverrides: this.templateOverrides,
             templateBaseOverrides: this.templateBaseOverrides,
+            userBoosters: this.userBoosters,
+            userDrainers: this.userDrainers,
             emotions: this.emotions,
             symptoms: this.symptoms,
             careerProgress: this.careerProgress,
@@ -98,6 +103,8 @@ class LifeAssistant {
             this.customTemplates = data.customTemplates || [];
             this.templateOverrides = data.templateOverrides || {};
             this.templateBaseOverrides = data.templateBaseOverrides || {};
+            this.userBoosters = data.userBoosters || [];
+            this.userDrainers = data.userDrainers || [];
             this.emotions = data.emotions || [];
             this.symptoms = data.symptoms || [];
             this.careerProgress = data.careerProgress || {
@@ -158,6 +165,22 @@ class LifeAssistant {
                 this.addEnergy(card.dataset.energy);
             });
         });
+
+        // custom boosters/drainers
+        const addBooster = document.getElementById('add-booster-form');
+        if (addBooster) {
+            addBooster.addEventListener('submit', (e) => {
+                e.preventDefault();
+                this.addUserActivity('booster');
+            });
+        }
+        const addDrainer = document.getElementById('add-drainer-form');
+        if (addDrainer) {
+            addDrainer.addEventListener('submit', (e) => {
+                e.preventDefault();
+                this.addUserActivity('drainer');
+            });
+        }
 
         //emotional regulation
         document.getElementById('log-emotion-btn').addEventListener('click', () => {
@@ -570,12 +593,13 @@ class LifeAssistant {
     }
 
     addEnergy(energyValue) {
-        const energy = parseInt(energyValue.replace('+', ''));
-        this.currentEnergy = Math.min(100, this.currentEnergy + energy);
+        const signAdjusted = String(energyValue).includes('-') ? -Math.abs(parseInt(String(energyValue).replace(/[^0-9]/g, ''), 10)) : Math.abs(parseInt(String(energyValue).replace(/[^0-9]/g, ''), 10));
+        this.currentEnergy = Math.max(0, Math.min(100, this.currentEnergy + signAdjusted));
         this.saveData();
         this.updateEnergyUI();
 
-        this.showNotification(`+${energy} Energy added!`, 'success');
+        const msg = signAdjusted >= 0 ? `+${signAdjusted} Energy` : `${signAdjusted} Energy`;
+        this.showNotification(`${msg}`, signAdjusted >= 0 ? 'success' : 'info');
         // keep slider and small display in sync with currentEnergy
         const sliderValue = Math.max(1, Math.min(10, Math.round(this.currentEnergy / 10)));
         const sliderEl = document.getElementById('energy-level');
@@ -598,6 +622,57 @@ class LifeAssistant {
         } else {
             energyFill.style.background = 'linear-gradient(90deg, #ff6b6b, #feca57, #48dbfb, #0abde3)';
         }
+    }
+
+    renderUserActivities() {
+        const boostersGrid = document.getElementById('user-boosters');
+        const drainersGrid = document.getElementById('drainers-grid');
+        if (boostersGrid) boostersGrid.innerHTML = '';
+        if (drainersGrid) drainersGrid.innerHTML = '';
+        (this.userBoosters || []).forEach(item => {
+            const card = document.createElement('div');
+            card.className = 'activity-card';
+            card.dataset.energy = `+${item.delta}`;
+            card.innerHTML = `<i class="fas fa-plus-circle"></i><h4>${item.title}</h4><p>+${item.delta} Energy</p>`;
+            card.addEventListener('click', () => this.addEnergy(`+${item.delta}`));
+            if (boostersGrid) boostersGrid.appendChild(card);
+        });
+        (this.userDrainers || []).forEach(item => {
+            const card = document.createElement('div');
+            card.className = 'activity-card';
+            card.dataset.energy = `-${item.delta}`;
+            card.innerHTML = `<i class="fas fa-battery-quarter"></i><h4>${item.title}</h4><p>-${item.delta} Energy</p>`;
+            card.addEventListener('click', () => this.addEnergy(`-${item.delta}`));
+            if (drainersGrid) drainersGrid.appendChild(card);
+        });
+    }
+
+    addUserActivity(kind) {
+        const isBooster = kind === 'booster';
+        const titleEl = document.getElementById(isBooster ? 'booster-title' : 'drainer-title');
+        const deltaEl = document.getElementById(isBooster ? 'booster-delta' : 'drainer-delta');
+        const titleRaw = (titleEl?.value || '').trim();
+        const deltaRaw = parseInt(deltaEl?.value || '0', 10);
+        if (!titleRaw) {
+            this.showNotification('Please enter a name', 'error');
+            return;
+        }
+        if (!(deltaRaw >= 1 && deltaRaw <= 10)) {
+            this.showNotification('Amount must be 1-10', 'error');
+            return;
+        }
+        const title = this.toTitleCase ? this.toTitleCase(titleRaw) : titleRaw;
+        const list = isBooster ? this.userBoosters : this.userDrainers;
+        if (list.some(a => a.title.toLowerCase() === title.toLowerCase())) {
+            this.showNotification('Already exists', 'info');
+            return;
+        }
+        list.push({ id: Date.now(), title, delta: deltaRaw });
+        this.saveData();
+        this.renderUserActivities();
+        if (titleEl) titleEl.value = '';
+        if (deltaEl) deltaEl.value = '2';
+        this.showNotification('Added', 'success');
     }
 
     //emotional support
