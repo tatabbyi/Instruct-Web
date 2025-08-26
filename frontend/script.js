@@ -631,18 +631,22 @@ class LifeAssistant {
         if (drainersGrid) drainersGrid.innerHTML = '';
         (this.userBoosters || []).forEach(item => {
             const card = document.createElement('div');
-            card.className = 'activity-card';
+            card.className = 'activity-card activity-card-with-actions';
             card.dataset.energy = `+${item.delta}`;
-            card.innerHTML = `<i class="fas fa-plus-circle"></i><h4>${item.title}</h4><p>+${item.delta} Energy</p>`;
+            card.innerHTML = `<button class="activity-delete" aria-label="Delete" title="Delete"><i class="fas fa-trash"></i></button><i class="fas fa-plus-circle"></i><h4>${item.title}</h4><p>+${item.delta} Energy</p>`;
             card.addEventListener('click', () => this.addEnergy(`+${item.delta}`));
+            const del = card.querySelector('.activity-delete');
+            if (del) del.addEventListener('click', (e) => { e.stopPropagation(); this.deleteUserActivity('booster', item.id); });
             if (boostersGrid) boostersGrid.appendChild(card);
         });
         (this.userDrainers || []).forEach(item => {
             const card = document.createElement('div');
-            card.className = 'activity-card';
+            card.className = 'activity-card activity-card-with-actions';
             card.dataset.energy = `-${item.delta}`;
-            card.innerHTML = `<i class="fas fa-battery-quarter"></i><h4>${item.title}</h4><p>-${item.delta} Energy</p>`;
+            card.innerHTML = `<button class="activity-delete" aria-label="Delete" title="Delete"><i class="fas fa-trash"></i></button><i class="fas fa-battery-quarter"></i><h4>${item.title}</h4><p>-${item.delta} Energy</p>`;
             card.addEventListener('click', () => this.addEnergy(`-${item.delta}`));
+            const del2 = card.querySelector('.activity-delete');
+            if (del2) del2.addEventListener('click', (e) => { e.stopPropagation(); this.deleteUserActivity('drainer', item.id); });
             if (drainersGrid) drainersGrid.appendChild(card);
         });
     }
@@ -673,6 +677,16 @@ class LifeAssistant {
         if (titleEl) titleEl.value = '';
         if (deltaEl) deltaEl.value = '2';
         this.showNotification('Added', 'success');
+    }
+
+    deleteUserActivity(kind, id) {
+        const isBooster = kind === 'booster';
+        const list = isBooster ? this.userBoosters : this.userDrainers;
+        const next = list.filter(a => a.id !== id);
+        if (isBooster) this.userBoosters = next; else this.userDrainers = next;
+        this.saveData();
+        this.renderUserActivities();
+        this.showNotification('Deleted', 'info');
     }
 
     //emotional support

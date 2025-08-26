@@ -713,6 +713,30 @@ body {
     transition: all 0.3s ease;
 }
 
+.activity-card-with-actions {
+    position: relative;
+}
+
+.activity-card .activity-delete {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    width: 28px;
+    height: 28px;
+    display: grid;
+    place-items: center;
+    border: none;
+    border-radius: 6px;
+    background: #f1f5f9;
+    color: #64748b;
+    cursor: pointer;
+}
+
+.activity-card .activity-delete:hover {
+    background: #e2e8f0;
+    color: #334155;
+}
+
 .activity-card:hover {
     border-color: #d5a6f0;
     transform: translateY(-2px);
