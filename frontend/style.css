@@ -839,6 +839,102 @@ body {
     color: #631796;
 }
 
+
+/* Inline coping strategies styling */
+
+.coping-inline {
+    margin-top: 10px;
+    background: #faf9ff;
+    border: 1px dashed #ded9ff;
+    border-radius: 8px;
+    padding: 10px 12px;
+}
+
+.coping-inline-header {
+    font-weight: 600;
+    color: #6f54ad;
+    margin-bottom: 6px;
+}
+
+.coping-inline-list {
+    margin: 0;
+    padding-left: 18px;
+    color: #6b6a7a;
+}
+
+.coping-inline-loading,
+.coping-inline-empty,
+.coping-inline-error {
+    color: #8b88a6;
+    font-style: italic;
+}
+
+
+/* Symptom calendar */
+
+.symptom-calendar-section {
+    margin-top: 20px;
+}
+
+#symptom-calendar {
+    background: #fff;
+    border: 1px solid #e8e6f6;
+    border-radius: 10px;
+    padding: 12px;
+}
+
+.cal-header {
+    text-align: center;
+    font-weight: 600;
+    color: #6f54ad;
+    margin-bottom: 10px;
+}
+
+.cal-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 8px;
+}
+
+.cal-weekday {
+    text-align: center;
+    font-size: 12px;
+    color: #8b88a6;
+}
+
+.cal-cell {
+    min-height: 70px;
+    background: #faf9ff;
+    border: 1px dashed #ded9ff;
+    border-radius: 8px;
+    padding: 6px;
+}
+
+.cal-empty {
+    background: transparent;
+    border: none;
+}
+
+.cal-day {
+    font-size: 12px;
+    color: #7a749f;
+    margin-bottom: 4px;
+}
+
+.cal-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+}
+
+.cal-pill {
+    background: #e9e6ff;
+    color: #5b4e9f;
+    border-radius: 999px;
+    padding: 2px 6px;
+    font-size: 11px;
+}
+
 .emotion-card[data-emotion="calm"] i {
     color: #48dbfb;
 }
@@ -2102,4 +2198,42 @@ textarea:focus {
     max-height: 600px;
     opacity: 1;
     padding: 12px 14px 14px 14px;
+}
+
+
+/* Symptom slider: match energy slider look */
+
+#symptom-intensity {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 100%;
+    height: 8px;
+    border-radius: 8px;
+    background: linear-gradient(90deg, #e2e8f0, #d6d3e6);
+    outline: none;
+}
+
+#symptom-intensity::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: #6f54ad;
+    border: 3px solid #efe9ff;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+}
+
+#symptom-intensity::-webkit-slider-thumb:hover {
+    transform: scale(1.1);
+}
+
+#symptom-intensity::-moz-range-thumb {
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: #6f54ad;
+    border: 3px solid #efe9ff;
+    cursor: pointer;
 }

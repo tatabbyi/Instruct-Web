@@ -36,6 +36,8 @@ class LifeAssistant {
         this.templateBaseOverrides = {};
         this.userBoosters = [];
         this.userDrainers = [];
+        this.energyOverrides = {};
+        this.energyOverrides = {};
 
         this.init();
     }
@@ -74,6 +76,11 @@ class LifeAssistant {
         this.renderUserActivities();
         this.loadTrainingModules();
         this.loadCopingStrategies();
+        // Ensure career overview starts at 0%
+        const careerFill = document.getElementById('career-progress');
+        const careerPct = document.getElementById('progress-percentage');
+        if (careerFill) careerFill.style.width = '0%';
+        if (careerPct) careerPct.textContent = '0%';
     }
 
     //Managment of data
@@ -86,6 +93,7 @@ class LifeAssistant {
             templateBaseOverrides: this.templateBaseOverrides,
             userBoosters: this.userBoosters,
             userDrainers: this.userDrainers,
+            energyOverrides: this.energyOverrides,
             emotions: this.emotions,
             symptoms: this.symptoms,
             careerProgress: this.careerProgress,
@@ -105,6 +113,7 @@ class LifeAssistant {
             this.templateBaseOverrides = data.templateBaseOverrides || {};
             this.userBoosters = data.userBoosters || [];
             this.userDrainers = data.userDrainers || [];
+            this.energyOverrides = data.energyOverrides || {};
             this.emotions = data.emotions || [];
             this.symptoms = data.symptoms || [];
             this.careerProgress = data.careerProgress || {
@@ -113,6 +122,18 @@ class LifeAssistant {
                 'data-entry': 0
             };
             this.certifications = data.certifications || [];
+            // Ensure tasks have energy metadata for completion-based energy updates
+            if (Array.isArray(this.tasks)) {
+                this.tasks.forEach(task => {
+                    if (typeof task.energyDelta !== 'number') {
+                        task.energyDelta = this.getDefaultTaskEnergyDelta(task.priority || 'low');
+                    }
+                    if (typeof task.energyApplied !== 'boolean') {
+                        // Reflect completion without double-applying on first load
+                        task.energyApplied = !!task.completed;
+                    }
+                });
+            }
         }
     }
 
@@ -161,8 +182,42 @@ class LifeAssistant {
         });
 
         document.querySelectorAll('.activity-card').forEach(card => {
-            card.addEventListener('click', () => {
-                this.addEnergy(card.dataset.energy);
+            // allow click to add energy using override if present
+            card.addEventListener('click', (e) => {
+                const el = e.currentTarget;
+                const key = el.dataset.key;
+                const base = String(el.dataset.energy || '0');
+                const baseVal = parseInt(base.replace(/[^0-9-+]/g, ''), 10) || 0;
+                const override = this.energyOverrides && Object.prototype.hasOwnProperty.call(this.energyOverrides, key) ? this.energyOverrides[key] : undefined;
+                const magnitude = typeof override === 'number' ? Math.abs(override) : Math.abs(baseVal);
+                const isNegative = base.trim().startsWith('-');
+                const signed = isNegative ? -magnitude : magnitude;
+                this.addEnergy(signed >= 0 ? `+${signed}` : `${signed}`);
+            });
+            // double-click to edit value (magnitude 1-10). Sign is taken from base card.
+            card.setAttribute('title', 'Double-click to edit energy value');
+            card.addEventListener('dblclick', (e) => {
+                e.stopPropagation();
+                const el = e.currentTarget;
+                const key = el.dataset.key;
+                if (!key) return;
+                const baseStr = String(el.dataset.energy || '0');
+                const currentMag = (this.energyOverrides && Object.prototype.hasOwnProperty.call(this.energyOverrides, key)) ? this.energyOverrides[key] : Math.abs(parseInt(baseStr.replace(/[^0-9-+]/g, ''), 10) || 0);
+                const input = prompt('Set energy amount (1-10):', String(currentMag));
+                if (input == null) return;
+                const nextMag = Math.max(1, Math.min(10, parseInt(String(input).trim(), 10) || currentMag));
+                if (!this.energyOverrides) this.energyOverrides = {};
+                this.energyOverrides[key] = nextMag;
+                this.saveData();
+                const p = el.querySelector('p');
+                if (p) {
+                    const isNeg = baseStr.trim().startsWith('-');
+                    p.textContent = `${isNeg ? '-' : '+'}${nextMag} Energy`;
+                }
+                // update any tasks linked to this key
+                (this.tasks || []).forEach(t => { if (t.energyKey === key) t.energyDelta = nextMag; });
+                this.updateTasksUI();
+                this.showNotification('Energy value updated', 'success');
             });
         });
 
@@ -194,8 +249,13 @@ class LifeAssistant {
 
         document.querySelectorAll('.emotion-card').forEach(card => {
             card.addEventListener('click', () => {
-                const emotion = card.dataset.emotion;
-                this.logEmotionQuick(emotion);
+                const symptom = card.dataset.symptom;
+                if (symptom) {
+                    this.logSymptomQuick(symptom);
+                } else {
+                    const emotion = card.dataset.emotion;
+                    if (emotion) this.logEmotionQuick(emotion);
+                }
             });
         });
 
@@ -333,6 +393,9 @@ class LifeAssistant {
                 id: Date.now(),
                 ...templateData,
                 completed: false,
+                energyDelta: template === 'hygiene' ? this.getTaskEnergyDeltaForOption('hygiene', 'shower', templateData.priority) : this.getDefaultTaskEnergyDelta(templateData.priority),
+                energyApplied: false,
+                isDepleting: template === 'hygiene',
                 createdAt: new Date().toISOString()
             };
 
@@ -348,7 +411,16 @@ class LifeAssistant {
     toggleTask(taskId) {
         const task = this.tasks.find(t => t.id === taskId);
         if (task) {
-            task.completed = !task.completed;
+            const nextCompleted = !task.completed;
+            const delta = typeof task.energyDelta === 'number' ? task.energyDelta : this.getDefaultTaskEnergyDelta(task.priority || 'low');
+            if (nextCompleted && !task.energyApplied) {
+                this.addEnergy(`+${delta}`);
+                task.energyApplied = true;
+            } else if (!nextCompleted && task.energyApplied) {
+                this.addEnergy(`-${delta}`);
+                task.energyApplied = false;
+            }
+            task.completed = nextCompleted;
             this.saveData();
             this.updateTasksUI();
         }
@@ -383,6 +455,7 @@ class LifeAssistant {
                         ${task.subtasks.map(st => `<li>${st}</li>`).join('')}
                     </ul>` : ''}
                 </div>
+                <span class="task-energy">+${typeof task.energyDelta === 'number' ? task.energyDelta : this.getDefaultTaskEnergyDelta(task.priority || 'low')}</span>
                 <span class="task-priority priority-${task.priority}">${task.priority}</span>
                 <div class="task-actions">
                     <button class="btn btn-danger" onclick="lifeAssistant.deleteTask(${task.id})">
@@ -398,7 +471,7 @@ class LifeAssistant {
     getTemplateOptions() {
         const builtIns = {
             'hygiene': [
-                { key: 'shower', label: 'Shower' },
+                { key: 'shower', label: 'Shower', energyKey: 'shower' },
                 { key: 'brush-teeth', label: 'Brush teeth' },
                 { key: 'skincare', label: 'Skincare' },
                 { key: 'get-dressed', label: 'Get dressed' }
@@ -561,6 +634,10 @@ class LifeAssistant {
                 description: isCustom ? `${label}` : `${label} from ${base.title.toLowerCase()} template`,
                 priority: base.priority,
                 completed: false,
+                energyKey: k,
+                energyDelta: this.getTaskEnergyDeltaForOption(templateKey, k, base.priority),
+                energyApplied: false,
+                isDepleting: templateKey === 'hygiene' && k === 'shower',
                 createdAt: new Date().toISOString()
             };
             this.tasks.push(task);
@@ -624,6 +701,21 @@ class LifeAssistant {
         }
     }
 
+    getDefaultTaskEnergyDelta(priority) {
+        const map = { high: 5, medium: 4, low: 3 };
+        return map[(priority || 'low').toLowerCase()] || 3;
+    }
+
+    getTaskEnergyDeltaForOption(templateKey, optionKey, priority) {
+        // If an energy key is tied to this option, prefer override
+        if (templateKey === 'hygiene' && optionKey === 'shower') {
+            const has = this.energyOverrides && Object.prototype.hasOwnProperty.call(this.energyOverrides, 'shower');
+            const override = has ? this.energyOverrides['shower'] : undefined;
+            if (typeof override === 'number') return Math.abs(override);
+        }
+        return this.getDefaultTaskEnergyDelta(priority);
+    }
+
     renderUserActivities() {
         const boostersGrid = document.getElementById('user-boosters');
         const drainersGrid = document.getElementById('drainers-grid');
@@ -675,7 +767,7 @@ class LifeAssistant {
         this.saveData();
         this.renderUserActivities();
         if (titleEl) titleEl.value = '';
-        if (deltaEl) deltaEl.value = '2';
+        if (deltaEl) deltaEl.value = '3';
         this.showNotification('Added', 'success');
     }
 
@@ -750,13 +842,30 @@ class LifeAssistant {
         this.symptoms.push(symptomEntry);
         this.saveData();
         this.updateEmotionUI();
+        this.renderSymptomCalendar();
 
         this.showNotification('Symptom logged successfully', 'success');
+    }
+
+    logSymptomQuick(symptom) {
+        const intensity = 5;
+        const symptomEntry = {
+            id: Date.now(),
+            symptom,
+            intensity,
+            timestamp: new Date().toISOString()
+        };
+        this.symptoms.push(symptomEntry);
+        this.saveData();
+        this.updateEmotionUI();
+        this.renderSymptomCalendar();
+        this.showNotification(`${symptom} logged`, 'success');
     }
 
     updateEmotionUI() {
         this.updateEmotionHistory();
         this.updateCopingSuggestions();
+        this.renderSymptomCalendar();
     }
 
     updateEmotionHistory() {
@@ -794,6 +903,26 @@ class LifeAssistant {
                     <div class="emotion-intensity">Intensity: ${entry.intensity}/10</div>
                 `;
             }
+            // inline coping strategies under each entry
+            const key = entry.emotion || entry.symptom;
+            const copingBox = document.createElement('div');
+            copingBox.className = 'coping-inline';
+            copingBox.innerHTML = '<div class="coping-inline-loading">Loading strategies...</div>';
+            entryElement.appendChild(copingBox);
+            this.fetchCopingFor(key).then(strategies => {
+                if (!Array.isArray(strategies) || strategies.length === 0) {
+                    copingBox.innerHTML = '<div class="coping-inline-empty">No strategies available.</div>';
+                    return;
+                }
+                copingBox.innerHTML = `
+                    <div class="coping-inline-header">Coping Strategies</div>
+                    <ul class="coping-inline-list">
+                        ${strategies.map(s => `<li>${s}</li>`).join('')}
+                    </ul>
+                `;
+            }).catch(() => {
+                copingBox.innerHTML = '<div class="coping-inline-error">Error loading strategies.</div>';
+            });
             entryElement.addEventListener('click', () => {
                 const key = entry.emotion || entry.symptom;
                 this.switchTab('emotional-support');
@@ -801,6 +930,46 @@ class LifeAssistant {
             });
             container.appendChild(entryElement);
         });
+    }
+
+    renderSymptomCalendar() {
+        const cal = document.getElementById('symptom-calendar');
+        if (!cal) return;
+        // build simple monthly calendar grid for current month
+        const now = new Date();
+        const year = now.getFullYear();
+        const month = now.getMonth();
+        const firstDay = new Date(year, month, 1);
+        const startDay = firstDay.getDay();
+        const daysInMonth = new Date(year, month + 1, 0).getDate();
+        const entriesByDay = {};
+        (this.symptoms || []).forEach(s => {
+            const d = new Date(s.timestamp);
+            if (d.getFullYear() === year && d.getMonth() === month) {
+                const day = d.getDate();
+                if (!entriesByDay[day]) entriesByDay[day] = [];
+                entriesByDay[day].push(s);
+            }
+        });
+        let cells = '';
+        for (let i = 0; i < startDay; i++) {
+            cells += '<div class="cal-cell cal-empty"></div>';
+        }
+        for (let day = 1; day <= daysInMonth; day++) {
+            const items = entriesByDay[day] || [];
+            const list = items.map(it => `<span class="cal-pill">${it.symptom}</span>`).join('');
+            cells += `
+                <div class="cal-cell${items.length ? ' cal-has' : ''}">
+                    <div class="cal-day">${day}</div>
+                    <div class="cal-list">${list}</div>
+                </div>`;
+        }
+        cal.innerHTML = `
+            <div class="cal-header">${now.toLocaleString(undefined, { month: 'long', year: 'numeric' })}</div>
+            <div class="cal-grid">
+                <div class="cal-weekday">Sun</div><div class="cal-weekday">Mon</div><div class="cal-weekday">Tue</div><div class="cal-weekday">Wed</div><div class="cal-weekday">Thu</div><div class="cal-weekday">Fri</div><div class="cal-weekday">Sat</div>
+                ${cells}
+            </div>`;
     }
 
 
@@ -819,14 +988,12 @@ class LifeAssistant {
     showCopingStrategies(emotion) {
         const container = document.getElementById('coping-suggestions');
         container.innerHTML = '<p style="text-align: center; color:#6c757d; font-style: italic;">Loading coping strategies...</p>';
-        fetch(`/api/coping?emotion=${encodeURIComponent(emotion)}`)
-            .then(response => response.json())
+        this.fetchCopingFor(emotion)
             .then(strategies => {
-                if (strategies.length === 0) {
+                if (!Array.isArray(strategies) || strategies.length === 0) {
                     container.innerHTML = '<p style="text-align: center; color: #6c757d; font-style: italic;">No strategies available for this emotion.</p>';
                     return;
                 }
-
                 container.innerHTML = strategies.map(strategy => `
                     <div class="coping-strategy">
                         <p>${strategy}</p>
@@ -837,6 +1004,11 @@ class LifeAssistant {
                 console.error('Error fetching coping strategies:', error);
                 container.innerHTML =  '<p style="text-align: center; color: #dc3545; font-style: italic;">Error loading coping strategies. Please try again.</p>';
             });
+    }
+
+    fetchCopingFor(key) {
+        const url = `http://localhost:8081/api/coping?emotion=${encodeURIComponent(key)}`;
+        return fetch(url).then(r => r.json()).catch(() => []);
     }
 
     updateCopingSuggestions() {

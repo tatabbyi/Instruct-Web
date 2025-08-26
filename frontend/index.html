@@ -128,34 +128,71 @@
         <div class="Energy-activities">
             <h3>Rejuvenating Activities</h3>
             <div class="activity-grid">
-                <div class="activity-card" data-energy="+2">
+                <div class="activity-card" data-key="music" data-energy="+3">
                     <i class="fas fa-music"></i>
                     <h4>Listen to Music</h4>
-                    <p>+2 Energy</p>
+                    <p>+3 Energy</p>
                 </div>
-                <div class="activity-card" data-energy="+3">
+                <div class="activity-card" data-key="go-outside" data-energy="+4">
                     <i class="fas fa-sun"></i>
                     <h4>Go Outside</h4>
-                    <p>+3 Energy</p>
+                    <p>+4 Energy</p>
                 </div>
-                <div class="activity-card" data-energy="+2">
+                <div class="activity-card" data-key="snack" data-energy="+3">
                     <i class="fas fa-cookie-bite"></i>
                     <h4>Enjoy a Snack</h4>
-                    <p>+2 Energy</p>
-                </div>
-                <div class ="activity-card" data-energy="+1">
-                    <i class="fas fa-hand-holding-heart"></i>
-                    <h4>Practice Gratitude</h4>
-                    <p>+1 Enerrgy</p>
-                </div>
-                <div class="activity-card" data-energy="+3">
-                    <i class="fas fa-laugh"></i>
-                    <h4>Watch Funny Videos</h4>
                     <p>+3 Energy</p>
                 </div>
-                <div class="activity-card" data-energy="+4">
+                <div class ="activity-card" data-key="gratitude" data-energy="+2">
+                    <i class="fas fa-hand-holding-heart"></i>
+                    <h4>Practice Gratitude</h4>
+                    <p>+2 Energy</p>
+                </div>
+                <div class="activity-card" data-key="funny-videos" data-energy="+4">
+                    <i class="fas fa-laugh"></i>
+                    <h4>Watch Funny Videos</h4>
+                    <p>+4 Energy</p>
+                </div>
+                <div class="activity-card" data-key="nap" data-energy="+5">
                     <i class="fas fa-bed"></i>
                     <h4>Quick Nap</h4>
+                    <p>+5 Energy</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="Energy-activities">
+            <h3>Depleting Activities</h3>
+            <div class="activity-grid">
+                <div class="activity-card" data-key="shower" data-energy="-3">
+                    <i class="fas fa-shower"></i>
+                    <h4>Shower</h4>
+                    <p>-3 Energy</p>
+                </div>
+                <div class="activity-card" data-key="cleaning" data-energy="-4">
+                    <i class="fas fa-broom"></i>
+                    <h4>Cleaning</h4>
+                    <p>-4 Energy</p>
+                </div>
+                <div class="activity-card" data-key="laundry" data-energy="-3">
+                    <i class="fas fa-tshirt"></i>
+                    <h4>Laundry</h4>
+                    <p>-3 Energy</p>
+                </div>
+                <div class ="activity-card" data-key="long-call" data-energy="-3">
+                    <i class="fas fa-phone"></i>
+                    <h4>Long Call</h4>
+                    <p>-3 Energy</p>
+                </div>
+                <div class="activity-card" data-key="grocery-trip" data-energy="-4">
+                    <i class="fas fa-shopping-basket"></i>
+                    <h4>Grocery Trip</h4>
+                    <p>-4 Energy</p>
+                </div>
+                <div class="activity-card" data-key="cooking" data-energy="-2">
+                    <i class="fas fa-utensils"></i>
+                    <h4>Cooking</h4>
+                    <p>-2 Energy</p>
                 </div>
             </div>
         </div>
@@ -165,7 +202,7 @@
                 <h3>Energy Boosters</h3>
                 <form id="add-booster-form" class="activity-add-form">
                     <input type="text" id="booster-title" placeholder="Activity name (e.g., Stretch)" aria-label="Booster name">
-                    <input type="number" id="booster-delta" min="1" max="10" value="2" aria-label="Energy amount (1-10)">
+                    <input type="number" id="booster-delta" min="1" max="10" value="3" aria-label="Energy amount (1-10)">
                     <button type="submit" class="btn btn-primary"><i class="fas fa-plus"></i> Add</button>
                 </form>
                 <div id="user-boosters" class="activity-grid"></div>
@@ -175,7 +212,7 @@
                 <h3>Energy Depleters</h3>
                 <form id="add-drainer-form" class="activity-add-form">
                     <input type="text" id="drainer-title" placeholder="Activity name (e.g., Long Call)" aria-label="Drainer name">
-                    <input type="number" id="drainer-delta" min="1" max="10" value="2" aria-label="Energy amount (1-10)">
+                    <input type="number" id="drainer-delta" min="1" max="10" value="3" aria-label="Energy amount (1-10)">
                     <button type="submit" class="btn btn-primary"><i class="fas fa-plus"></i> Add</button>
                 </form>
                 <div id="drainers-grid" class="activity-grid"></div>
@@ -192,53 +229,59 @@
         </div>
 
         <div class="emotion-logging">
-            <h3>How are you right now?</h3>
+            <h3>Quick Symptom Log</h3>
             <div class="emotion-grid">
-                <div class="emotion-card" data-emotion="Happy">
-                    <i class="fas fa-smile"></i>
-                    <span>Happy</span>
+                <div class="emotion-card" data-symptom="anxiety">
+                    <i class="fas fa-exclamation-circle"></i>
+                    <span>Anxiety</span>
                 </div>
-                <div class="emotion-card" data-emotion="sad">
-                  <i class="fas fa-frown"></i>
-                  <span>Sad</span>
+                <div class="emotion-card" data-symptom="hopelessness">
+                  <i class="fas fa-meh"></i>
+                  <span>Hopelessness</span>
                 </div>
-                <div class="emotion-card" data-emotion="anxious">
-                  <i class="fas fa-exclamation-triangle"></i>
-                  <span>Anxious</span>
+                <div class="emotion-card" data-symptom="fatigue">
+                  <i class="fas fa-battery-quarter"></i>
+                  <span>Fatigue</span>
                 </div>
-                <div class="emotion-card" data-emotion="angry">
-                  <i class="fas fa-angry"></i>
-                  <span>Angry</span>
+                <div class="emotion-card" data-symptom="irritability">
+                  <i class="fas fa-bolt"></i>
+                  <span>Irritability</span>
                 </div>
-                <div class="emotion-card" data-emotion="tired">
-                  <i class="fas fa-bed"></i>
-                  <span>Tired</span>
+                <div class="emotion-card" data-symptom="nausea">
+                  <i class="fas fa-notes-medical"></i>
+                  <span>Nausea</span>
                 </div>
-                <div class="emotion-card" data-emotion="calm">
-                  <i class="fas fa-leaf"></i>
-                  <span>Calm</span>
+                <div class="emotion-card" data-symptom="restlessness">
+                  <i class="fas fa-running"></i>
+                  <span>Restlessness</span>
+                </div>
+                <div class="emotion-card" data-symptom="headache">
+                  <i class="fas fa-head-side-virus"></i>
+                  <span>Headache</span>
+                </div>
+                <div class="emotion-card" data-symptom="Brain Fog">
+                  <i class="fas fa-cloud"></i>
+                  <span>Brain Fog</span>
                 </div>
             </div>
         </div>
 
         <div class="symptom-tracking">
-            <h3>Symptom Tracker</h3>
+            <h3>Emotion Tracker</h3>
             <div class="symptom-input">
-                <label for="symptom-select">Select Symptom:</label>
+                <label for="symptom-select">Select Emotion:</label>
                 <select id="symptom-select">
-                    <option value="anxiety">Anxiety</option>
-                    <option value="hopelessness">Hopelessness</option>
-                    <option value="fatigue">Fatigue</option>
-                    <option value="irritability">Irritability</option>
-                    <option value="nausea">Nausea</option>
-                    <option value="restlessness">Restlessness</option>
-                    <option value="headache">Headache</option>
-                    <option value="Brain Fog">Brain Fog</option>
+                    <option value="happy">Happy</option>
+                    <option value="sad">Sad</option>
+                    <option value="anxious">Anxious</option>
+                    <option value="angry">Angry</option>
+                    <option value="tired">Tired</option>
+                    <option value="calm">Calm</option>
                 </select>
                 <label for="symptom-intensity">Intensity (1-10):</label>
                 <input type="range" id="symptom-intensity" min="1" max="10" value="5">
                 <span id="intensity-display">5</span>
-                <button class="btn btn-secondary" id="log-symptom">Log Symptom</button>
+                <button class="btn btn-secondary" id="log-symptom">Log Emotion</button>
             </div>
         </div>
 
@@ -252,6 +295,11 @@
             <h3>Recent Emotions & Symptoms</h3>
             <div id="emotion-log">
             </div>
+        </div>
+
+        <div class="symptom-calendar-section">
+            <h3>Symptom Calendar</h3>
+            <div id="symptom-calendar"></div>
         </div>
     </section>
 
