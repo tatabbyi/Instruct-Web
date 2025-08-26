@@ -615,6 +615,12 @@ body {
     box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
 }
 
+.energy-duo {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.25rem;
+}
+
 .energy-tracking h3 {
     color: #2d235e;
     margin-bottom: 1.5rem;
@@ -701,6 +707,27 @@ body {
     border-radius: 16px;
     padding: 1.25rem;
     margin-top: 1.25rem;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.04);
+}
+
+.energy-custom h3,
+.energy-drainers h3 {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: #2d235e;
+}
+
+.activity-add-form input[type="text"],
+.activity-add-form input[type="number"] {
+    border: 1px solid #d6ceda;
+    border-radius: 8px;
+}
+
+@media (max-width: 900px) {
+    .energy-duo {
+        grid-template-columns: 1fr;
+    }
 }
 
 .activity-card {
