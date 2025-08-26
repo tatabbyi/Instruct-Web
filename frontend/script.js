@@ -1538,6 +1538,33 @@ class LifeAssistant {
         if (editField) editField.value = '';
     }
 
+    // Overall career overview (top progress bar)
+    updateCareerOverview() {
+        const careerFill = document.getElementById('career-progress');
+        const careerPct = document.getElementById('progress-percentage');
+        const modules = this.trainingModules?.[this.selectedJob] || [];
+        if (!modules.length) {
+            if (careerFill) careerFill.style.width = '0%';
+            if (careerPct) careerPct.textContent = '0%';
+            return;
+        }
+        const sum = modules.reduce((acc, m) => acc + (Number.isFinite(m.progress) ? Math.max(0, Math.min(100, m.progress)) : 0), 0);
+        const avg = Math.round(sum / modules.length);
+        const clamped = Math.max(0, Math.min(100, avg));
+        if (careerFill) careerFill.style.width = `${clamped}%`;
+        if (careerPct) careerPct.textContent = `${clamped}%`;
+    }
+
+    setModuleProgress(jobType, moduleIndex, percent) {
+        const list = this.trainingModules?.[jobType] || [];
+        if (!list[moduleIndex]) return;
+        list[moduleIndex].progress = Math.max(0, Math.min(100, Math.round(percent)));
+        if (list[moduleIndex].progress >= 100) list[moduleIndex].status = 'completed';
+        this.updateTrainingModulesUI();
+        this.updateCareerOverview();
+        this.saveData();
+    }
+
     addSubtaskInput(value = '') {
         const list = document.getElementById('template-subtasks-list');
         if (!list) return;
@@ -1987,6 +2014,12 @@ class LifeAssistant {
             this.startQuizScenario(scenario, scenarioIndex);
         } else if (scenario.type === 'typing-test') {
             this.startTypingTest(scenario, scenarioIndex);
+        } else if (scenario.type === 'cash-box') {
+            this.startCashBoxScenario(scenario, scenarioIndex);
+        } else if (scenario.type === 'inventory') {
+            this.startInventoryScenario(scenario, scenarioIndex);
+        } else if (scenario.type === 'stress-quiz') {
+            this.startStressQuizScenario(scenario, scenarioIndex);
         }
     }
 
@@ -3191,5 +3224,7 @@ style.textContent = `
         font-family: 'Inter', sans-serif;
         font-weight: 500;
     }
+`;
+document.head.appendChild(style);
 `;
 document.head.appendChild(style);

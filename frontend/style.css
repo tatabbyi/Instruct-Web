@@ -80,7 +80,7 @@ body {
 
 .nav-tabs {
     display: flex;
-    background: rgb(190, 186, 247);
+    background: rgb(221, 219, 240);
     border-bottom: 1px solid #e2e8f0;
     overflow-x: auto;
     box-shadow: 0 1px 3px 0 rgba(26, 26, 58, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
@@ -103,13 +103,13 @@ body {
 
 .nav-tab:hover {
     background: #dbd6f8;
-    color: #2d2941;
+    color: #645c8a;
 }
 
 .nav-tab.active {
     background: white;
-    color: #41316b;
-    border-bottom: 3px solid #3c2c57;
+    color: #635192;
+    border-bottom: 3px solid #6c5791;
     font-weight: 600;
 }
 
