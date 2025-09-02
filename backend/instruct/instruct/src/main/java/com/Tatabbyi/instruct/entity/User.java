@@ -47,5 +47,26 @@ public class User {
 
     public String getUsername() { return username; }
     public void setUsername(String username) { this.username = username;}
+
+    public String getAvatarUrl() { return avatarUrl; }
+    public void setAvatarUrl(String avatarURL) { this.avatarUrl = avatarUrl; }
+
+    public LocalDateTime getCreatedAt() { return createdAt; }
+    public void setCreatedAt(LocalDateTime createdAt) {this.createdAt = createdAt; }
+
+    public LocalDateTime getLastLoginAt() { return LastLoginAt; }
+    public void setLastLoginAt(LastLoginAt) { this.LastLoginAt = LastLoginAt; }
+
+    public String getUserData() { return userData; }
+    public void setUserData(String userData) { this.userData = userData; }
+
+    public String getGmailAccessToken() { return GmailAccessToken; }
+    public void setGmailAccessToken(String gmailAccessToken) {this.gmailAccessToken = gmailAccessToken; }
+
+    public String getGmailRefreshToken() { return gmailRefreshToken; }
+    public void setGmailRefreshToken(String gmailRefreshToken) {this.gmailRefreshToken = gmailRefreshToken; }
+
+    public LocalDateTime getTokenExpiry() { return tokenExpiry; }
+    public void setTokenExpiry(LocalDateTime tokenExpiry) {this.tokenExpiry = tokenExpiry; }
     
 }
