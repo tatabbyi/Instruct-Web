@@ -29,5 +29,19 @@ public class UserService {
     public User saveUser(User user) {
         return userRepository.save(user);
     }
+
+    public void updateUserData(Long userId, String userData) {
+        userRepository.findById(userId).ifPresent(user -> {
+            user.setUserData(userData);
+            user.Repository.save(user);
+        });
+    }
+
+    public void updateLastLogin(long userId) {
+        userRepository.findById(userId).ifPresent(user -> {
+            user.setLastLoginAt(LocalDateTime.now());
+            userRepository.save(user);
+        });
+    }
     
 }
